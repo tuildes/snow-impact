@@ -3,15 +3,15 @@
 OBJS	= src/main.c
 SOURCE	= src/main.c
 # HEADER	= 
-OUT	= SPACE_IMPACT
+OUT	= SNOW_IMPACT
 CC	 = gcc
 FLAGS	 = -g -c -Wall -Wextra -Werror -Wpedantic -Walloc-zero -Wconversion -Wduplicated-branches -Wduplicated-cond -Wformat=2 -Wshadow
 LFLAGS	 = -lm
 LDFLAGS = -lallegro -lallegro_font -lallegro_image -lallegro_ttf
 
-all: SPACE_IMPACT
+all: SNOW_IMPACT
 
-SPACE_IMPACT: $(OBJS)
+SNOW_IMPACT: $(OBJS)
 	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS) $(LDFLAGS)
 
 src/main.o: src/main.c
@@ -20,11 +20,11 @@ src/main.o: src/main.c
 clean:
 	rm -f $(OBJS) $(OUT)
 
-valgrind: SPACE_IMPACT
-	valgrind ./SPACE_IMPACT
+valgrind: SNOW_IMPACT
+	valgrind ./SNOW_IMPACT
 
-valgrind_leakcheck: SPACE_IMPACT
-	valgrind --leak-check=full ./SPACE_IMPACT
+valgrind_leakcheck: SNOW_IMPACT
+	valgrind --leak-check=full ./SNOW_IMPACT
 
-valgrind_extreme: SPACE_IMPACT
-	valgrind --leak-check=full --show-leak-kinds=all --leak-resolution=high --track-origins=yes --vgdb=yes ./SPACE_IMPACT
+valgrind_extreme: SNOW_IMPACT
+	valgrind --leak-check=full --show-leak-kinds=all --leak-resolution=high --track-origins=yes --vgdb=yes ./SNOW_IMPACT
