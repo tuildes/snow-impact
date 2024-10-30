@@ -1,7 +1,7 @@
 # Makefile to LBP IMAGE COMPARATION
 
-OBJS	= src/main.o
-SOURCE	= src/main.c
+OBJS	= src/main.o src/auxiliar.o
+SOURCE	= src/main.c src/auxiliar.c
 # HEADER	= 
 OUT	= SNOW_IMPACT
 CC	 = gcc
@@ -16,6 +16,9 @@ SNOW_IMPACT: $(OBJS)
 
 src/main.o: src/main.c
 	$(CC) $(FLAGS) src/main.c -o src/main.o
+
+src/auxiliar.o: src/auxiliar.c
+	$(CC) $(FLAGS) src/auxiliar.c -o src/auxiliar.o
 
 clean:
 	rm -f $(OBJS) $(OUT)
