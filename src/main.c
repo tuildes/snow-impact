@@ -7,43 +7,47 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define X_SCREEN 600
-#define Y_SCREEN 450
+#define X_SCREEN 960 // 16 * 60
+#define Y_SCREEN 540 // 9 * 60
 
 // https://github.com/liballeg/allegro_wiki/wiki/Allegro-Vivace-%E2%80%93-Basic-game-structure
+void init_test(bool b, const char *n) {
+    if(b) return;
 
-int main(void) {
+    printf("Não foi possivel inicializar %s.\n", n);
+    exit(1);
+}
 
-    al_init(); // Display inicial do allego
-    al_install_keyboard(); // Instalacao e uso do teclado
-    al_init_font_addon(); //WE NEED TO INIT FONT FIRST!
-    al_init_ttf_addon(); //THEN WE NEED TO INIT TTF FONTS
+ALLEGRO_BITMAP* init_bitmap(const char *local) {
+
+    ALLEGRO_BITMAP* bm = al_load_bitmap(local);
+
+    if (!bm) {
+        printf("Não foi possível inicializar imagem: (%s)\n", local);
+        exit(1);
+    }
+
+    return bm;
+}
+
+int main(void) {   
+
+    init_test(al_init(), "Allegro"); // Inicializacao do allegro
+    init_test(al_install_keyboard(), "teclado");
+    init_test(al_init_font_addon(), "addon de font");
+    init_test(al_init_ttf_addon(), "addon de ttf");
+    init_test(al_init_image_addon(), "addon de imagens");
 
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 5.0); // Tempo de atualizacao - FPS (Frames por segundo)
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue(); 
-
-    al_init_font_addon(); //WE NEED TO INIT FONT FIRST!
-    al_init_ttf_addon(); //THEN WE NEED TO INIT TTF FONTS
     ALLEGRO_FONT* font = al_load_ttf_font("assets/font/25_Sydnie.ttf", 25, ALLEGRO_ALIGN_LEFT); //NOW WE CAN CHOOSE SIZE
+    ALLEGRO_DISPLAY* disp = al_create_display(X_SCREEN, Y_SCREEN); // Tamanho da janelas
+    
+    // Inicializar sprites principais
+    ALLEGRO_BITMAP* player = init_bitmap("assets/sprite/player_idle.png");
+    ALLEGRO_BITMAP* icon = init_bitmap("assets/favicon.png");
 
-    // ALLEGRO_FONT* font = al_create_builtin_font(); // Fonte do sistema
-    ALLEGRO_DISPLAY* disp = al_create_display(X_SCREEN, Y_SCREEN); // Tamanho da janela
-
-    // Frequencia de dados e uma frequencia de tela
-
-    // Inicializar sprite
-    if(!al_init_image_addon()) {
-        printf("couldn't initialize image addon\n");
-        return 1;
-    }
-
-    ALLEGRO_BITMAP* player = al_load_bitmap("assets/sprite/player_idle.png");
-    if(!player) {
-        printf("couldn't load player\n");
-        return 1;
-    }
-
-    al_set_display_icon(disp, player);
+    al_set_display_icon(disp, icon);
 
     // Registrar fonte de eventos (teclado, tela e tempo de atualizacao)
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -73,7 +77,9 @@ int main(void) {
     al_destroy_display(disp);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
+    
     al_destroy_bitmap(player);
+    al_destroy_bitmap(icon);
 
     return 0;
 }
