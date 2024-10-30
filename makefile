@@ -1,6 +1,6 @@
 # Makefile to LBP IMAGE COMPARATION
 
-OBJS	= src/main.c
+OBJS	= src/main.o
 SOURCE	= src/main.c
 # HEADER	= 
 OUT	= SNOW_IMPACT
