@@ -7,7 +7,7 @@ OUT	= SPACE_IMPACT
 CC	 = gcc
 FLAGS	 = -g -c -Wall -Wextra -Werror -Wpedantic -Walloc-zero -Wconversion -Wduplicated-branches -Wduplicated-cond -Wformat=2 -Wshadow
 LFLAGS	 = -lm
-LDFLAGS = -lallegro -lallegro_font
+LDFLAGS = -lallegro -lallegro_font -lallegro_image -lallegro_ttf
 
 all: SPACE_IMPACT
 
@@ -23,8 +23,8 @@ clean:
 valgrind: SPACE_IMPACT
 	valgrind ./SPACE_IMPACT
 
-valgrind_leakcheck: ./LBP
+valgrind_leakcheck: SPACE_IMPACT
 	valgrind --leak-check=full ./SPACE_IMPACT
 
-valgrind_extreme: LBP
+valgrind_extreme: SPACE_IMPACT
 	valgrind --leak-check=full --show-leak-kinds=all --leak-resolution=high --track-origins=yes --vgdb=yes ./SPACE_IMPACT
