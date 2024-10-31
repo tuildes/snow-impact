@@ -7,5 +7,6 @@
 
 void init_test(bool b, const char *n);
 ALLEGRO_BITMAP* init_bitmap(const char *local);
+void init_all();
 
 #endif // __AUXILIAR_H__
