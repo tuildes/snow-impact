@@ -16,6 +16,8 @@ O projeto **LBP IMAGE COMPARISON** é um software feito na linguagem `Clang`, pr
 * GRR20235087
 * Informática Biomédica
 
+<!-- https://ansimuz.itch.io/gothicvania-patreon-collection -->
+
 ## Funcionalidades
 
 <br />
