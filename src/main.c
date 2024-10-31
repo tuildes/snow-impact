@@ -1,10 +1,3 @@
-#include <allegro5/allegro5.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_ttf.h>
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_acodec.h>
-
 #include "auxiliar.h"
 #include "player.h"
 
@@ -19,6 +12,11 @@ int main(void) {
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue(); 
     ALLEGRO_FONT* font = al_load_ttf_font("assets/font/25_Sydnie.ttf", 15, ALLEGRO_ALIGN_LEFT); //NOW WE CAN CHOOSE SIZE
     ALLEGRO_DISPLAY* disp = al_create_display(X_SCREEN, Y_SCREEN); // Tamanho da janelas
+
+    // Eventos e teclados
+    ALLEGRO_EVENT event; // Eento atual
+    unsigned char key[ALLEGRO_KEY_MAX]; // Teclas
+    memset(key, 0, sizeof(key));
     
     // Inicializar sprites principais
     Player player = create_player(50.0, 50.0);
@@ -34,17 +32,13 @@ int main(void) {
     al_set_display_icon(disp, icon);
     al_set_window_title(disp, "Snow Impact");
 
-    // Variaveis de ambiente
-    ALLEGRO_EVENT event; // Eento atual
-    unsigned char key[ALLEGRO_KEY_MAX]; // Teclas
-    memset(key, 0, sizeof(key));
-
     // Registrar fonte de eventos (teclado, tela e tempo de atualizacao)
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
 
     bool finished = false; // Diz se a execucao finalizou
+    long frames = 0;
 
     al_start_timer(timer); // Inicio do timer do jogo
     while(!finished) { // Loop de jogo
@@ -66,7 +60,9 @@ int main(void) {
                     movement_player(&player, -1.0, 0.0);
 
                 draw_player(player);
-                al_draw_textf(font, al_map_rgb(120, 120, 120), 0, 0, 0, "x: %.2f, Y: %.2f", player.x, player.y);
+
+                frames++;
+                al_draw_textf(font, al_map_rgb(120, 120, 120), 0, 0, 0, "x: %.2f, Y: %.2f, frames: %ld", player.x, player.y, frames);
 
                 al_flip_display(); // Flipar para nova tela
                 for(int i = 0; i < ALLEGRO_KEY_MAX; i++)
