@@ -45,7 +45,7 @@ void draw_status_bar(Player player, ALLEGRO_FONT* font) {
     frames++; // Atualizar o valor dos frames
 
     // Fundo do status transparente
-    al_draw_filled_rectangle(0, (BUFFER_H - BUFFER_STATUS_H), 
+    al_draw_filled_rectangle(0, (BUFFER_STATUS_Y), 
                             BUFFER_W, BUFFER_H, 
                             al_map_rgba_f((float)0.015, 
                                         (float)0.015, 
@@ -53,7 +53,7 @@ void draw_status_bar(Player player, ALLEGRO_FONT* font) {
 
     // // Vidas do jogador
     // for(unsigned int i = 0; i < player.lifes; i++)
-    //     al_draw_bitmap(player.lifeSpr, (float)(25 + (i * 20)), (BUFFER_H - BUFFER_STATUS_H), 0);
+    //     al_draw_bitmap(player.lifeSpr, (float)(25 + (i * 20)), (BUFFER_STATUS_Y), 0);
 
     // Nome da fase
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
@@ -64,7 +64,7 @@ void draw_status_bar(Player player, ALLEGRO_FONT* font) {
 
     // Texto de depuracao
     al_draw_textf(font, al_map_rgb(50, 50, 50), 
-                  (BUFFER_W - MARGIN_BORDER), ((BUFFER_H - BUFFER_STATUS_H) + MARGIN_BORDER), 
+                  (BUFFER_W - MARGIN_BORDER), ((BUFFER_STATUS_Y) + MARGIN_BORDER), 
                   ALLEGRO_ALIGN_RIGHT,
                   "x: %.2f, Y: %.2f, frames: %ld", player.x, player.y, frames);
     // Versao do projeto

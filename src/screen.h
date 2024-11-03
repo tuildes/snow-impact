@@ -13,6 +13,7 @@
 #define BUFFER_W 640
 #define BUFFER_H 360
 #define BUFFER_STATUS_H 60
+#define BUFFER_STATUS_Y (BUFFER_H - BUFFER_STATUS_H)
 
 #define DISP_SCALE  2                       // Escala da janela pelo buffer
 #define DISP_W      (BUFFER_W * DISP_SCALE) // Largura da janela
