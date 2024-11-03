@@ -8,11 +8,11 @@ int main(void) {
 
     init_all();
 
-    ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0); // Tempo de atualizacao - FPS (Frames por segundo)
+    display_init();
+
+    ALLEGRO_TIMER* timer = al_create_timer(1.0 / FRAMERATE); // Tempo de atualizacao - FPS (Frames por segundo)
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue(); 
-    ALLEGRO_FONT* font = al_load_ttf_font("assets/font/25_Sydnie.ttf", 15, ALLEGRO_ALIGN_LEFT); //NOW WE CAN CHOOSE SIZE
-    ALLEGRO_FONT* bold = al_load_ttf_font("assets/font/25_Sydnie.ttf", 20, ALLEGRO_ALIGN_LEFT); //NOW WE CAN CHOOSE SIZE
-    ALLEGRO_DISPLAY* disp = al_create_display(X_SCREEN, Y_SCREEN); // Tamanho da janelas
+    ALLEGRO_FONT* font = al_load_ttf_font("assets/font/25_Sydnie.ttf", FONT_SIZE, ALLEGRO_ALIGN_LEFT); //NOW WE CAN CHOOSE SIZE
 
     // Eventos e teclados
     ALLEGRO_EVENT event; // Eento atual
@@ -26,12 +26,6 @@ int main(void) {
     al_set_audio_stream_playmode(music, ALLEGRO_PLAYMODE_LOOP);
     al_set_audio_stream_gain(music, ((float) 0.01)); // Volume da musica
     al_attach_audio_stream_to_mixer(music, al_get_default_mixer());
-
-    // Setar o nome e icone da janela
-    ALLEGRO_BITMAP* icon = init_bitmap("assets/favicon.png");
-    init_test(icon, "icone da janela");
-    al_set_display_icon(disp, icon);
-    al_set_window_title(disp, "Snow Impact");
 
     // Registrar fonte de eventos (teclado, tela e tempo de atualizacao)
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -48,6 +42,8 @@ int main(void) {
 
             // Atualizacao de FRAME
             case ALLEGRO_EVENT_TIMER:
+
+                display_pre_draw();
                 al_clear_to_color(al_map_rgb(1, 20, 48));
 
                 //  Uso do teclado
@@ -59,11 +55,14 @@ int main(void) {
                     movement_player(&player, 0.0, 1.0);
                 if(key[ALLEGRO_KEY_LEFT])
                     movement_player(&player, -1.0, 0.0);
+                if(key[ALLEGRO_KEY_SPACE])
+                    printf("Espaco clicado");
 
                 draw_player(player);
-                draw_status_bar(player, font, bold);
+                draw_status_bar(player, font);
 
-                al_flip_display(); // Flipar para nova tela
+                display_post_draw();
+
                 for(int i = 0; i < ALLEGRO_KEY_MAX; i++)
                     key[i] &= KEY_SEEN;
 
@@ -82,15 +81,14 @@ int main(void) {
         }
     }
 
+    display_destroy();
+
     al_destroy_font(font);
-    al_destroy_font(bold);
-    al_destroy_display(disp);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
 
     al_destroy_audio_stream(music);
     destroy_player(&player);
-    al_destroy_bitmap(icon);
 
     return 0;
 }
