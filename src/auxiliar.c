@@ -28,4 +28,5 @@ void init_all() {
     init_test(al_install_audio(), "audio");
     init_test(al_init_acodec_addon(), "codecs de audio");
     init_test(al_reserve_samples(16), "reserve samples");
+    init_test(al_init_primitives_addon(), "primitives");
 }
