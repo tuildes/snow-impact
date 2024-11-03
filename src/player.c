@@ -31,11 +31,10 @@ void draw_player(Player p) {
 }
 
 void movement_player(Player *p, float x, float y) {
-    #define PLAYER_MARGIN 5
-    #define LEFT_COLLISION (0 + PLAYER_MARGIN)
-    #define RIGHT_COLISSION (X_SCREEN - 25 - PLAYER_MARGIN)
-    #define UP_COLLISION (0 + PLAYER_MARGIN)
-    #define DOWN_COLLISION (Y_STATUS - 57 - PLAYER_MARGIN)
+    #define LEFT_COLLISION (0)
+    #define RIGHT_COLISSION (BUFFER_W - 25)
+    #define UP_COLLISION (0)
+    #define DOWN_COLLISION (BUFFER_H - BUFFER_STATUS_H - 57)
 
     // Fazer a movimentacao
     p->x += (p->speed * x);

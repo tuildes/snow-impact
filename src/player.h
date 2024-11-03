@@ -19,4 +19,7 @@ void draw_player(Player p);
 
 void destroy_player(Player *p);
 
+bool collide(float ax1, float ay1, float ax2, float ay2,
+             float bx1, float by1, float bx2, float by2);
+
 #endif // __PLAYER_H__
