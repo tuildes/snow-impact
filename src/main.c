@@ -1,5 +1,5 @@
 #include "auxiliar.h"
-#include "player.h"
+#include "screen.h"
 
 #define KEY_SEEN     1
 #define KEY_RELEASED 2
@@ -11,6 +11,7 @@ int main(void) {
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 30.0); // Tempo de atualizacao - FPS (Frames por segundo)
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue(); 
     ALLEGRO_FONT* font = al_load_ttf_font("assets/font/25_Sydnie.ttf", 15, ALLEGRO_ALIGN_LEFT); //NOW WE CAN CHOOSE SIZE
+    ALLEGRO_FONT* bold = al_load_ttf_font("assets/font/25_Sydnie.ttf", 20, ALLEGRO_ALIGN_LEFT); //NOW WE CAN CHOOSE SIZE
     ALLEGRO_DISPLAY* disp = al_create_display(X_SCREEN, Y_SCREEN); // Tamanho da janelas
 
     // Eventos e teclados
@@ -38,7 +39,6 @@ int main(void) {
     al_register_event_source(queue, al_get_timer_event_source(timer));
 
     bool finished = false; // Diz se a execucao finalizou
-    long frames = 0;
 
     al_start_timer(timer); // Inicio do timer do jogo
     while(!finished) { // Loop de jogo
@@ -48,8 +48,9 @@ int main(void) {
 
             // Atualizacao de FRAME
             case ALLEGRO_EVENT_TIMER:
-                al_clear_to_color(al_map_rgb(0, 0, 0));
+                al_clear_to_color(al_map_rgb(1, 20, 48));
 
+                //  Uso do teclado
                 if(key[ALLEGRO_KEY_UP])
                     movement_player(&player, 0.0, -1.0);
                 if(key[ALLEGRO_KEY_RIGHT])
@@ -60,9 +61,7 @@ int main(void) {
                     movement_player(&player, -1.0, 0.0);
 
                 draw_player(player);
-
-                frames++;
-                al_draw_textf(font, al_map_rgb(120, 120, 120), 0, 0, 0, "x: %.2f, Y: %.2f, frames: %ld", player.x, player.y, frames);
+                draw_status_bar(player, font, bold);
 
                 al_flip_display(); // Flipar para nova tela
                 for(int i = 0; i < ALLEGRO_KEY_MAX; i++)
@@ -84,12 +83,13 @@ int main(void) {
     }
 
     al_destroy_font(font);
+    al_destroy_font(bold);
     al_destroy_display(disp);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
 
     al_destroy_audio_stream(music);
-    destroy_player(player);
+    destroy_player(&player);
     al_destroy_bitmap(icon);
 
     return 0;
