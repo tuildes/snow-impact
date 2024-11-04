@@ -1,8 +1,8 @@
 # Makefile to LBP IMAGE COMPARATION
 
-OBJS	= src/main.o src/auxiliar.o src/player.o src/screen.o
-SOURCE	= src/main.c src/auxiliar.c src/player.c src/screen.c
-HEADER	= src/auxiliar.h src/screen.h src/player.h
+OBJS	= src/main.o src/auxiliar.o src/player.o src/screen.o src/bullet.o
+SOURCE	= src/main.c src/auxiliar.c src/player.c src/screen.c src/bullet.c
+HEADER	= src/auxiliar.h src/screen.h src/player.h src/bullet.h
 OUT	= SNOW_IMPACT
 CC	 = gcc
 FLAGS	 = -g -c -Wall -Wextra -Werror -Wpedantic -Walloc-zero -Wconversion -Wduplicated-branches -Wduplicated-cond -Wformat=2 -Wshadow
@@ -22,6 +22,9 @@ src/auxiliar.o: src/auxiliar.c
 
 src/player.o: src/player.c
 	$(CC) $(FLAGS) src/player.c -o src/player.o
+
+src/bullet.o: src/bullet.c
+	$(CC) $(FLAGS) src/bullet.c -o src/bullet.o
 
 src/screen.o: src/screen.c
 	$(CC) $(FLAGS) src/screen.c -o src/screen.o
