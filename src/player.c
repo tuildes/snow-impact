@@ -1,5 +1,6 @@
 #include "player.h"
 #include "screen.h"
+#include "bullet.h"
 
 Player create_player(float x, float y) {
     Player p;
@@ -26,23 +27,40 @@ void destroy_player(Player *p) {
     al_destroy_bitmap(p->lifeSpr);
 }
 
-void draw_player(Player p) {
-    al_draw_bitmap(p.sprite, p.x, p.y, 0);
-}
-
-void movement_player(Player *p, float x, float y) {
-    #define LEFT_COLLISION (0)
-    #define RIGHT_COLISSION (BUFFER_W - 25)
-    #define UP_COLLISION (0)
-    #define DOWN_COLLISION (BUFFER_H - BUFFER_STATUS_H - 57)
-
+void __movement_player(Player *p, float x, float y) {
     // Fazer a movimentacao
     p->x += (p->speed * x);
     p->y += (p->speed * y);
 
     // Arrumar colissoes de parede
+    // Impedir o jogador de passar para fora da tela
     if(p->x <= LEFT_COLLISION) p->x = LEFT_COLLISION; // Colisao da parede esquerda
     if(p->x >= RIGHT_COLISSION) p->x = RIGHT_COLISSION;
     if(p->y <= UP_COLLISION) p->y = UP_COLLISION;
     if(p->y >= DOWN_COLLISION) p->y = DOWN_COLLISION;
+}
+
+void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_shot) {
+    if (player->lifes == 0) return; // Jogador sem vidas
+
+    // Movimentacao do jogador
+    if(key[ALLEGRO_KEY_UP])
+        __movement_player(player, 0.0, -1.0);
+    if(key[ALLEGRO_KEY_RIGHT])
+        __movement_player(player, 1.0, 0.0);
+    if(key[ALLEGRO_KEY_DOWN])
+        __movement_player(player, 0.0, 1.0);
+    if(key[ALLEGRO_KEY_LEFT])
+        __movement_player(player, -1.0, 0.0);
+    if(key[ALLEGRO_KEY_SPACE]) {
+        if(delay >= BULLET_DELAY) {
+            shots_add(player->x, player->y, sample_shot);
+            delay = 0;
+        }
+    }    
+
+    if (delay < BULLET_DELAY) delay++;
+
+    // Desenhar os sprites do jogador
+    al_draw_bitmap(player->sprite, player->x, player->y, 0);
 }

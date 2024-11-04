@@ -3,7 +3,18 @@
 
 #include "auxiliar.h"
 
-#define PLAYER_DEFAULT_SPEED 10
+// Variaveis de ambiente
+#define PLAYER_DEFAULT_SPEED 3
+
+// Sprites do jogador
+#define PLAYER_W 24
+#define PLAYER_H 56
+
+// Colisoes de tela
+#define LEFT_COLLISION 0
+#define RIGHT_COLISSION (BUFFER_W - PLAYER_W)
+#define UP_COLLISION 0
+#define DOWN_COLLISION (BUFFER_H - BUFFER_STATUS_H - PLAYER_H)
 
 typedef struct {
     float x, y, speed;
@@ -13,13 +24,8 @@ typedef struct {
 
 Player create_player(float x, float y);
 
-void movement_player(Player *p, float x, float y);
-
-void draw_player(Player p);
+void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_shot);
 
 void destroy_player(Player *p);
-
-bool collide(float ax1, float ay1, float ax2, float ay2,
-             float bx1, float by1, float bx2, float by2);
 
 #endif // __PLAYER_H__
