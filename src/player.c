@@ -32,12 +32,17 @@ void __movement_player(Player *p, float x, float y) {
     p->x += (p->speed * x);
     p->y += (p->speed * y);
 
+    const float left_colission  = 0, 
+                right_colission = (BUFFER_W - PLAYER_W),
+                up_collision    = 0, 
+                down_collision  = (BUFFER_H - BUFFER_STATUS_H - PLAYER_H);
+
     // Arrumar colissoes de parede
     // Impedir o jogador de passar para fora da tela
-    if(p->x <= LEFT_COLLISION) p->x = LEFT_COLLISION; // Colisao da parede esquerda
-    if(p->x >= RIGHT_COLISSION) p->x = RIGHT_COLISSION;
-    if(p->y <= UP_COLLISION) p->y = UP_COLLISION;
-    if(p->y >= DOWN_COLLISION) p->y = DOWN_COLLISION;
+    if(p->x <= left_colission) p->x = left_colission; // Colisao da parede esquerda
+    if(p->x >= right_colission) p->x = right_colission;
+    if(p->y <= up_collision) p->y = up_collision;
+    if(p->y >= down_collision) p->y = down_collision;
 }
 
 void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_shot) {

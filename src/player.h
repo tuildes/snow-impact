@@ -10,12 +10,6 @@
 #define PLAYER_W 24
 #define PLAYER_H 56
 
-// Colisoes de tela
-#define LEFT_COLLISION 0
-#define RIGHT_COLISSION (BUFFER_W - PLAYER_W)
-#define UP_COLLISION 0
-#define DOWN_COLLISION (BUFFER_H - BUFFER_STATUS_H - PLAYER_H)
-
 typedef struct {
     float x, y, speed;
     unsigned int lifes:2;

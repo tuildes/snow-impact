@@ -20,7 +20,7 @@
 #define DISP_H      (BUFFER_H * DISP_SCALE) // Altura da janela
 
 #define DISP_STATUS_H (DISP_H - (BUFFER_STATUS_H * DISP_SCALE))
-#define VERSION_PROJECT "Versao 0.1"
+#define VERSION_PROJECT "Versao 0.2"
 
 extern long frames; // Variavel global de frames
 extern ALLEGRO_DISPLAY *disp;
