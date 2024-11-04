@@ -1,5 +1,7 @@
 #include "auxiliar.h"
 #include "screen.h"
+#include "bullet.h"
+#include "player.h"
 
 #define KEY_SEEN     1
 #define KEY_RELEASED 2
@@ -8,7 +10,15 @@ int main(void) {
 
     init_all();
 
-    display_init();
+    al_reserve_samples(128);
+    ALLEGRO_SAMPLE* sample_shot = al_load_sample("assets/sound/5_sound_shoot.opus");
+    init_test(sample_shot, "som dos tiros");
+
+    ALLEGRO_AUDIO_STREAM* music = al_load_audio_stream("assets/sound/0_music.opus", 2, 2048);
+    init_test(music, "musica de fundo");
+    al_set_audio_stream_playmode(music, ALLEGRO_PLAYMODE_LOOP);
+    al_set_audio_stream_gain(music, ((float) 0.01)); // Volume da musica
+    al_attach_audio_stream_to_mixer(music, al_get_default_mixer());
 
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / FRAMERATE); // Tempo de atualizacao - FPS (Frames por segundo)
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue(); 
@@ -21,11 +31,10 @@ int main(void) {
     
     // Inicializar sprites principais
     Player player = create_player(50.0, 50.0);
-    ALLEGRO_AUDIO_STREAM* music = al_load_audio_stream("assets/sound/0_music.opus", 2, 2048);
-    init_test(music, "musica de fundo");
-    al_set_audio_stream_playmode(music, ALLEGRO_PLAYMODE_LOOP);
-    al_set_audio_stream_gain(music, ((float) 0.01)); // Volume da musica
-    al_attach_audio_stream_to_mixer(music, al_get_default_mixer());
+
+    shots_init();
+
+    display_init();
 
     // Registrar fonte de eventos (teclado, tela e tempo de atualizacao)
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -46,19 +55,9 @@ int main(void) {
                 display_pre_draw();
                 al_clear_to_color(al_map_rgb(1, 20, 48));
 
-                //  Uso do teclado
-                if(key[ALLEGRO_KEY_UP])
-                    movement_player(&player, 0.0, -1.0);
-                if(key[ALLEGRO_KEY_RIGHT])
-                    movement_player(&player, 1.0, 0.0);
-                if(key[ALLEGRO_KEY_DOWN])
-                    movement_player(&player, 0.0, 1.0);
-                if(key[ALLEGRO_KEY_LEFT])
-                    movement_player(&player, -1.0, 0.0);
-                if(key[ALLEGRO_KEY_SPACE])
-                    printf("Espaco clicado");
+                update_player(&player, key, sample_shot);
+                shots_update();
 
-                draw_player(player);
                 draw_status_bar(player, font);
 
                 display_post_draw();
@@ -86,6 +85,7 @@ int main(void) {
     al_destroy_font(font);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
+    al_destroy_sample(sample_shot);
 
     al_destroy_audio_stream(music);
     destroy_player(&player);
