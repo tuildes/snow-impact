@@ -1,7 +1,8 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
-#include "auxiliar.h"
+#include "utils.h"
+#include "init.h"
 
 // Variaveis de ambiente
 #define PLAYER_DEFAULT_SPEED 3

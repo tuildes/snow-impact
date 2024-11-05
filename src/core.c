@@ -1,10 +1,9 @@
-#include "auxiliar.h"
+#include "init.h"
 #include "screen.h"
 #include "bullet.h"
 #include "player.h"
 
-#define KEY_SEEN     1
-#define KEY_RELEASED 2
+#include "keyboard.h"
 
 int main(void) {   
 
@@ -80,13 +79,12 @@ int main(void) {
         }
     }
 
+    // Destruir tudo alocado
     display_destroy();
-
     al_destroy_font(font);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
     al_destroy_sample(sample_shot);
-
     al_destroy_audio_stream(music);
     destroy_player(&player);
 
