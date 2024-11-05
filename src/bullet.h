@@ -1,7 +1,9 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
-#include "auxiliar.h"
+#include "utils.h"
+#include "init.h"
+
 #include "screen.h"
 #include "player.h"
 
@@ -12,6 +14,8 @@ typedef struct {
 
 #define BULLET_SPEED (PLAYER_DEFAULT_SPEED << 1)  // Velocidade dos tiros na tela
 #define BULLET_DELAY 20 // Delay entre cada tiro do jogador
+
+#define BULLET_H 9
 
 #define SHOTS_MAX 128
 

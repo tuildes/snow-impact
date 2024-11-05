@@ -2,6 +2,8 @@
 #define __SCREEN_H__
 
 #include "player.h"
+#include "utils.h"
+#include "init.h"
 
 #define X_SCREEN 960 // Largura da janela
 #define Y_SCREEN 540 // Altura da janela
@@ -15,7 +17,7 @@
 #define BUFFER_STATUS_H 60
 #define BUFFER_STATUS_Y (BUFFER_H - BUFFER_STATUS_H)
 
-#define DISP_SCALE  2                       // Escala da janela pelo buffer
+#define DISP_SCALE  1                       // Escala da janela pelo buffer
 #define DISP_W      (BUFFER_W * DISP_SCALE) // Largura da janela
 #define DISP_H      (BUFFER_H * DISP_SCALE) // Altura da janela
 
