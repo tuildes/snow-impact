@@ -1,8 +1,11 @@
 #include "screen.h"
+#include "levels.h"
 
 long frames = 0;
 ALLEGRO_DISPLAY *disp;
 ALLEGRO_BITMAP *buffer, *icon;
+bool debug = false;
+bool paused = false;
 
 void display_init() {
 
@@ -39,37 +42,50 @@ void display_post_draw() {
     al_flip_display(); // Desenhar na tela
 }
 
-void draw_status_bar(Player player, ALLEGRO_FONT* font) {
+void update_status(Player player, ALLEGRO_FONT* font) {
 
     #define MARGIN_BORDER 10 
     frames++; // Atualizar o valor dos frames
 
-    // Fundo do status transparente
-    al_draw_filled_rectangle(0, (BUFFER_STATUS_Y), 
-                            BUFFER_W, BUFFER_H, 
-                            al_map_rgba_f((float)0.015, 
-                                        (float)0.015, 
-                                        (float)0.015, 0.75));
-
-    // // Vidas do jogador
-    // for(unsigned int i = 0; i < player.lifes; i++)
-    //     al_draw_bitmap(player.lifeSpr, (float)(25 + (i * 20)), (BUFFER_STATUS_Y), 0);
-
     // Nome da fase
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
-                (BUFFER_W - MARGIN_BORDER), 
-                (BUFFER_H - ((BUFFER_STATUS_H + FONT_SIZE) >> 1) + 3), 
-                ALLEGRO_ALIGN_RIGHT,
-                "Fase 1: resolvendo carangueijos");
+                (MARGIN_BORDER), 
+                (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                ALLEGRO_ALIGN_LEFT,
+                LEVEL_01_INTRODUCTION_TEXT);
 
-    // Texto de depuracao
-    al_draw_textf(font, al_map_rgb(50, 50, 50), 
-                  (BUFFER_W - MARGIN_BORDER), ((BUFFER_STATUS_Y) + MARGIN_BORDER), 
-                  ALLEGRO_ALIGN_RIGHT,
-                  "x: %.2f, Y: %.2f, frames: %ld", player.x, player.y, frames);
-    // Versao do projeto
-    al_draw_text(font, al_map_rgb(50, 50, 50), 
-                 (BUFFER_W - MARGIN_BORDER), (BUFFER_H - MARGIN_BORDER - (FONT_SIZE >> 1)), 
-                 ALLEGRO_ALIGN_RIGHT,
-                 VERSION_PROJECT);
+    // Textos de depuracao
+    if(debug) {
+        // Frames e posicao do player
+        al_draw_textf(font, al_map_rgb(150, 150, 150), 
+                    (BUFFER_W - MARGIN_BORDER), MARGIN_BORDER, 
+                    ALLEGRO_ALIGN_RIGHT,
+                    "x: %.2f, Y: %.2f, frames: %ld", player.x, player.y, frames);
+        
+        // Versao do projeto
+        al_draw_text(font, al_map_rgb(150, 150, 150), 
+                    (BUFFER_W - MARGIN_BORDER), (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                    ALLEGRO_ALIGN_RIGHT,
+                    VERSION_PROJECT);
+    }
+}
+
+void draw_pause(ALLEGRO_FONT* font) {
+    // Fundo preto
+    al_draw_filled_rectangle(0, 0, 
+                        BUFFER_W, BUFFER_H, 
+                        al_map_rgba_f((float)0.015, 
+                                    (float)0.015, 
+                                    (float)0.015, 0.75));
+
+    // Texto
+    al_draw_text(font, al_map_rgb(255, 255, 255), 
+            (BUFFER_W >> 1), (BUFFER_H >> 1), 
+            ALLEGRO_ALIGN_CENTER,
+            "SNOW IMPACT PAUSADO!");
+
+    al_draw_text(font, al_map_rgb(255, 255, 255), 
+        (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE), 
+        ALLEGRO_ALIGN_CENTER,
+        "Clique P para retomar partida");
 }

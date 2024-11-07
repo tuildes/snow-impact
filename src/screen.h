@@ -14,17 +14,16 @@
 
 #define BUFFER_W 640
 #define BUFFER_H 360
-#define BUFFER_STATUS_H 60
-#define BUFFER_STATUS_Y (BUFFER_H - BUFFER_STATUS_H)
 
-#define DISP_SCALE  1                       // Escala da janela pelo buffer
+#define DISP_SCALE  2                       // Escala da janela pelo buffer
 #define DISP_W      (BUFFER_W * DISP_SCALE) // Largura da janela
 #define DISP_H      (BUFFER_H * DISP_SCALE) // Altura da janela
 
-#define DISP_STATUS_H (DISP_H - (BUFFER_STATUS_H * DISP_SCALE))
 #define VERSION_PROJECT "Versao 0.2"
 
 extern long frames; // Variavel global de frames
+extern bool debug;
+extern bool paused;
 extern ALLEGRO_DISPLAY *disp;
 extern ALLEGRO_BITMAP *buffer, *icon;
 
@@ -34,6 +33,8 @@ void display_destroy();
 void display_pre_draw();
 void display_post_draw();
 
-void draw_status_bar(Player player, ALLEGRO_FONT* font);
+void update_status(Player player, ALLEGRO_FONT* font);
+
+void draw_pause(ALLEGRO_FONT* font);
 
 #endif // __SCREEN_H__

@@ -52,12 +52,23 @@ int main(void) {
             case ALLEGRO_EVENT_TIMER:
 
                 display_pre_draw();
-                al_clear_to_color(al_map_rgb(1, 20, 48));
 
-                update_player(&player, key, sample_shot);
-                shots_update();
+                al_clear_to_color(al_map_rgb(0, 0, 0));
 
-                draw_status_bar(player, font);
+                if(key[ALLEGRO_KEY_D]) debug = (!debug);
+                if(key[ALLEGRO_KEY_P]) paused = (!paused);
+
+                // Apenas atualiza o jogo quando nao tiver pausado
+                if (!paused) {
+                    update_player(&player, key, sample_shot);
+                    shots_update();
+                    update_status(player, font);
+                } 
+
+                draw_player(player);
+
+                // Jogo pausado, desenha tela de pause
+                if (paused) draw_pause(font);
 
                 display_post_draw();
 
