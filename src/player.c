@@ -35,7 +35,7 @@ void __movement_player(Player *p, float x, float y) {
     const float left_colission  = 0, 
                 right_colission = (BUFFER_W - PLAYER_W),
                 up_collision    = 0, 
-                down_collision  = (BUFFER_H - BUFFER_STATUS_H - PLAYER_H);
+                down_collision  = (BUFFER_H - PLAYER_H);
 
     // Arrumar colissoes de parede
     // Impedir o jogador de passar para fora da tela
@@ -65,7 +65,6 @@ void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_sh
     }    
 
     if (delay < BULLET_DELAY) delay++;
-
-    // Desenhar os sprites do jogador
-    al_draw_bitmap(player->sprite, player->x, player->y, 0);
 }
+
+void draw_player(Player player) { al_draw_bitmap(player.sprite, player.x, player.y, 0); }

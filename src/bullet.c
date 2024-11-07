@@ -26,7 +26,7 @@ bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot) {
     al_play_sample(sample_shot, (float)0.3, 0, (float)1.5, ALLEGRO_PLAYMODE_ONCE, NULL);
     
     // Colocar o tiro na nave
-    shots[newBullet].x = (x + PLAYER_W);
+    shots[newBullet].x = (x + (PLAYER_W >> 1) - BULLET_W);
     shots[newBullet].y = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
 
     shots[newBullet].used = true;

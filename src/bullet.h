@@ -15,7 +15,8 @@ typedef struct {
 #define BULLET_SPEED (PLAYER_DEFAULT_SPEED << 1)  // Velocidade dos tiros na tela
 #define BULLET_DELAY 20 // Delay entre cada tiro do jogador
 
-#define BULLET_H 9
+#define BULLET_H 6
+#define BULLET_W 12
 
 #define SHOTS_MAX 128
 

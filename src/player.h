@@ -23,4 +23,6 @@ void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_sh
 
 void destroy_player(Player *p);
 
+void draw_player(Player player);
+
 #endif // __PLAYER_H__
