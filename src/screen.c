@@ -34,7 +34,12 @@ void display_destroy() {
     al_destroy_display(disp);
 }
 
-void display_pre_draw() { al_set_target_bitmap(buffer); }
+void display_pre_draw() { 
+    unsigned char c = ((unsigned char)frames % 30);
+
+    al_set_target_bitmap(buffer); 
+    al_clear_to_color(al_map_rgb(c, c, c));
+}
 
 void display_post_draw() {
     al_set_target_backbuffer(disp); // Onde vai ser "desenhado"
@@ -51,9 +56,12 @@ void update_status() {
 void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
 
     #define MARGIN_BORDER 10 
+    #define DEBUG_COLOR al_map_rgb(100, 100, 100)
 
     // Nome da fase
-    al_draw_textf(font, al_map_rgb(255, 255, 255), 
+    al_draw_textf(font, al_map_rgba(255, 
+                                    255, 
+                                    255, 0), 
                 (MARGIN_BORDER), 
                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                 ALLEGRO_ALIGN_LEFT,
@@ -62,13 +70,13 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
     // Textos de depuracao
     if(debug) {
         // Frames e posicao do player
-        al_draw_textf(font, al_map_rgb(150, 150, 150), 
+        al_draw_textf(font, DEBUG_COLOR, 
                     (BUFFER_W - MARGIN_BORDER), MARGIN_BORDER, 
                     ALLEGRO_ALIGN_RIGHT,
-                    "x: %.2f, Y: %.2f, frames: %ld", player.x, player.y, frames);
+                    "x: %.0f, Y: %.0f, frames: %06ld", player.x, player.y, frames);
         
         // Versao do projeto
-        al_draw_text(font, al_map_rgb(150, 150, 150), 
+        al_draw_text(font, DEBUG_COLOR, 
                     (BUFFER_W - MARGIN_BORDER), (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                     ALLEGRO_ALIGN_RIGHT,
                     VERSION_PROJECT);

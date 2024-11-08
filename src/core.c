@@ -42,8 +42,6 @@ int main(void) {
         if(event.type == ALLEGRO_EVENT_TIMER) {
             display_pre_draw();
 
-            al_clear_to_color(al_map_rgb(0, 0, 0));
-
             keyboard_options(key, &paused, &debug);
 
             // Apenas atualiza o jogo quando nao tiver pausado
@@ -53,8 +51,8 @@ int main(void) {
                 update_shots();
             } 
 
-            draw_player(player);
             draw_shots();
+            draw_player(player);
             draw_status(player, font, debug);
             if (paused) draw_pause(fontAlt);
 
