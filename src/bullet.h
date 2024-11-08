@@ -31,4 +31,8 @@ bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot);
 
 void shots_update();
 
+void update_shots();
+
+void draw_shots();
+
 #endif // __BULLET_H__

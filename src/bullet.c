@@ -37,7 +37,7 @@ bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot) {
     return true;
 }
 
-void shots_update() {
+void update_shots() {
     for(size_t i = 1; i <= SHOTS_MAX; i++) {
         if(!shots[i].used) continue; // Se nao usado, nao renderiza
         
@@ -50,7 +50,12 @@ void shots_update() {
             shots[i].used = false; 
             continue;
         }
+    }
+}
 
+void draw_shots() {
+    for(size_t i = 1; i <= SHOTS_MAX; i++) {
+        if(!shots[i].used) continue; // Se nao usado, nao renderiza
         al_draw_bitmap(bullet_sprite, shots[i].x, shots[i].y, 0);
     }
 }
