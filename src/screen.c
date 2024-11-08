@@ -1,13 +1,11 @@
 #include "screen.h"
 #include "levels.h"
 
-long frames = 0;
+long frames;
 ALLEGRO_DISPLAY *disp;
 ALLEGRO_BITMAP *buffer, *icon;
-bool debug = false;
-bool paused = false;
 
-void display_init() {
+void display_init(ALLEGRO_EVENT_QUEUE* queue) {
 
     al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST);
     al_set_new_display_option(ALLEGRO_SAMPLES, 8, ALLEGRO_SUGGEST);
@@ -25,6 +23,10 @@ void display_init() {
     init_test(icon, "bitmap: icone da janela");
     al_set_display_icon(disp, icon);
     al_set_window_title(disp, "Snow Impact");
+
+    al_register_event_source(queue, al_get_display_event_source(disp));
+
+    frames = 0;
 }
 
 void display_destroy() {
@@ -42,10 +44,13 @@ void display_post_draw() {
     al_flip_display(); // Desenhar na tela
 }
 
-void update_status(Player player, ALLEGRO_FONT* font) {
+void update_status() {
+    frames++; // Atualizar o valor dos frames
+}
+
+void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
 
     #define MARGIN_BORDER 10 
-    frames++; // Atualizar o valor dos frames
 
     // Nome da fase
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
@@ -85,7 +90,7 @@ void draw_pause(ALLEGRO_FONT* font) {
             "SNOW IMPACT PAUSADO!");
 
     al_draw_text(font, al_map_rgb(255, 255, 255), 
-        (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE), 
+        (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE_TITLE), 
         ALLEGRO_ALIGN_CENTER,
         "Clique P para retomar partida");
 }
