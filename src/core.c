@@ -2,6 +2,7 @@
 #include "screen.h"
 #include "bullet.h"
 #include "player.h"
+#include "levels.h"
 
 #include "keyboard.h"
 
@@ -19,6 +20,7 @@ int main(void) {
     ALLEGRO_AUDIO_STREAM* music;    // Musica de fundo
     ALLEGRO_FONT *fontAlt, *font;   // Fontes
     Player player;                  // Jogador
+    Background bg[PARALLAX_SIZE];   // Background do jogo
 
     init_all();
 
@@ -31,6 +33,7 @@ int main(void) {
     // Inicializar sprites principais
     player = create_player(50.0, 50.0);
 
+    init_background(bg);
     shots_init();
     display_init(queue);
     keyboard_init(key, queue);
@@ -49,8 +52,10 @@ int main(void) {
                 update_player(&player, key, sample_shot);
                 update_status();
                 update_shots();
+                update_background(bg);
             } 
 
+            draw_background(bg);
             draw_shots();
             draw_player(player);
             draw_status(player, font, debug);
@@ -71,6 +76,7 @@ int main(void) {
     al_destroy_event_queue(queue);
     al_destroy_sample(sample_shot);
     al_destroy_audio_stream(music);
+    destroy_backround(bg);
     destroy_player(&player);
 
     return 0;
