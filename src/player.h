@@ -14,7 +14,7 @@
 typedef struct {
     float x, y, speed;
     unsigned int lifes:2;
-    ALLEGRO_BITMAP *sprite, *lifeSpr;
+    ALLEGRO_BITMAP *sprite;
 } Player;
 
 Player create_player(float x, float y);

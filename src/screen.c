@@ -35,7 +35,7 @@ void display_destroy() {
 }
 
 void display_pre_draw() { 
-    unsigned char c = ((unsigned char)frames % 30);
+    const unsigned char c = 0;
 
     al_set_target_bitmap(buffer); 
     al_clear_to_color(al_map_rgb(c, c, c));
@@ -57,6 +57,24 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
 
     #define MARGIN_BORDER 10 
     #define DEBUG_COLOR al_map_rgb(100, 100, 100)
+
+    // Vida
+    al_draw_textf(font, al_map_rgba(255, 
+                                    255, 
+                                    255, 0), 
+                (MARGIN_BORDER), 
+                (MARGIN_BORDER), 
+                ALLEGRO_ALIGN_LEFT,
+                "Vidas: %1hd", player.lifes);
+
+    // Pontos
+    al_draw_textf(font, al_map_rgba(255, 
+                                    255, 
+                                    255, 0), 
+                (MARGIN_BORDER), 
+                (MARGIN_BORDER + FONT_SIZE), 
+                ALLEGRO_ALIGN_LEFT,
+                "Pontos: %1hd", player.lifes);
 
     // Nome da fase
     al_draw_textf(font, al_map_rgba(255, 
@@ -93,12 +111,12 @@ void draw_pause(ALLEGRO_FONT* font) {
 
     // Texto
     al_draw_text(font, al_map_rgb(255, 255, 255), 
-            (BUFFER_W >> 1), (BUFFER_H >> 1), 
+            (BUFFER_W >> 1), ((BUFFER_H >> 1) - 20), 
             ALLEGRO_ALIGN_CENTER,
             "SNOW IMPACT PAUSADO!");
 
     al_draw_text(font, al_map_rgb(255, 255, 255), 
-        (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE_TITLE), 
+        (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE_TITLE - 20), 
         ALLEGRO_ALIGN_CENTER,
-        "Clique P para retomar partida");
+        "Clique P ou ESC para retomar partida");
 }

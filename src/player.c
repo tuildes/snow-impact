@@ -10,21 +10,15 @@ Player create_player(float x, float y) {
     p.lifes = 3;
 
     p.sprite = NULL;
-    p.lifeSpr = NULL;
 
     // Criar e guardar imagens
-    p.sprite = al_load_bitmap("assets/sprite/player/default.png");
-    p.lifeSpr = al_load_bitmap("assets/sprite/hp.png");
-
-    init_test(p.sprite, "sprite de jogador");
-    init_test(p.lifeSpr, "sprite de hp");
+    p.sprite = init_bitmap("assets/sprite/player/default.png");
 
     return p;
 }
 
 void destroy_player(Player *p) {
     al_destroy_bitmap(p->sprite);
-    al_destroy_bitmap(p->lifeSpr);
 }
 
 void __movement_player(Player *p, float x, float y) {
