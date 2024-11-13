@@ -21,6 +21,7 @@ int main(void) {
     ALLEGRO_FONT *fontAlt, *font;   // Fontes
     Player player;                  // Jogador
     Background bg[PARALLAX_SIZE];   // Background do jogo
+    ALLEGRO_BITMAP *temp = NULL, *temp2 = NULL;
 
     init_all();
 
@@ -31,12 +32,15 @@ int main(void) {
     font = init_font("assets/font/sydnie.ttf", FONT_SIZE);
     
     // Inicializar sprites principais
-    player = create_player(50.0, 50.0);
+    player = create_player(-50.0, (BUFFER_H >> 1));
 
     init_background(bg);
     shots_init();
     display_init(queue);
     keyboard_init(key, queue);
+
+    init_select_level(&temp, &temp2);
+    unsigned char choose = 0;
 
     timer = init_timer(FRAMERATE, queue);
     while(!finished) { // Loop de jogo
@@ -45,21 +49,35 @@ int main(void) {
         if(event.type == ALLEGRO_EVENT_TIMER) {
             display_pre_draw();
 
-            keyboard_options(key, &paused, &debug);
+            keyboard_options(key, &paused, &debug, &choose);
 
-            // Apenas atualiza o jogo quando nao tiver pausado
-            if (!paused) {
-                update_player(&player, key, sample_shot);
-                update_status();
-                update_shots();
-                update_background(bg);
-            } 
+            switch(actualScreen) {
+                // Tela de inicio
+                case 0: {
+                    draw_select_level(font, fontAlt, bg, temp, temp2, choose);
+                    update_select_level(key, &finished, choose);
+                    break;
+                }
 
-            draw_background(bg);
-            draw_shots();
-            draw_player(player);
-            draw_status(player, font, debug);
-            if (paused) draw_pause(fontAlt);
+                // Level 01 do jogo
+                case 2:
+                    // Apenas atualiza o jogo quando nao tiver pausado
+                    if (!paused) {
+                        update_shots();
+                        update_player(&player, key, sample_shot);
+                        update_status();
+                        update_background(bg);
+                    } 
+
+                    draw_background(bg);
+                    draw_shots();
+                    draw_player(player);
+                    draw_status(player, font, debug);
+                    if (paused) draw_pause(fontAlt);
+                    break;
+                default:
+                    break;
+            }
 
             display_post_draw();
             keyboard_mapping(key);
@@ -76,7 +94,8 @@ int main(void) {
     al_destroy_event_queue(queue);
     al_destroy_sample(sample_shot);
     al_destroy_audio_stream(music);
-    destroy_backround(bg);
+    al_destroy_bitmap(temp);
+    destroy_background(bg);
     destroy_player(&player);
 
     return 0;

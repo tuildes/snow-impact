@@ -24,16 +24,39 @@ void keyboard_update(unsigned char *key, ALLEGRO_EVENT event, bool *finished) {
     }
 }
 
-void keyboard_options(unsigned char *key, bool *pause, bool *debug) {
+void keyboard_options(unsigned char *key, bool *pause, bool *debug,
+                      unsigned char *choose) {
     if(keyboardDelay < KEYBOARD_DELAY) { 
         keyboardDelay++;
         return;
     }
 
-    keyboardDelay = 0;
-
-    if(key[ALLEGRO_KEY_P] || (key[ALLEGRO_KEY_ESCAPE])) *pause = (!(*pause));
-    else if ((key[ALLEGRO_KEY_D])) *debug = (!(*debug));
+    switch(actualScreen) {
+        case 0:
+            if((*choose != 0) && key[ALLEGRO_KEY_UP]) {
+                keyboardDelay = 0;
+                (*choose)--;
+            }
+            else if((*choose != 2) && key[ALLEGRO_KEY_DOWN]) {
+                keyboardDelay = 0;
+                (*choose)++;
+            } 
+            break;
+        case 2:
+            if(key[ALLEGRO_KEY_P] || (key[ALLEGRO_KEY_ESCAPE])) {
+                keyboardDelay = 0;
+                *pause = (!(*pause));
+            }
+            else if ((key[ALLEGRO_KEY_D])) {
+                keyboardDelay = 0;
+                *debug = (!(*debug));
+            }
+            break;
+        default:
+            printf("Tela nao encontrada!\n");
+            exit(1);
+            break;
+    }
 }
 
 void keyboard_mapping(unsigned char *key) {

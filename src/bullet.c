@@ -17,16 +17,17 @@ void shots_init() {
         shots[i].used = false;
         shots[i].dx = BULLET_SPEED;
         shots[i].dy = 0;
-        shots[i].x = -100;
-        shots[i].y = -100;
+        shots[i].x = 0;
+        shots[i].y = 0;
     }
 }
 
 bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot) {
-    al_play_sample(sample_shot, (float)0.3, 0, (float)1.5, ALLEGRO_PLAYMODE_ONCE, NULL);
+    al_play_sample(sample_shot, (float)0.3, 0, (float)1.5, 
+                   ALLEGRO_PLAYMODE_ONCE, NULL);
     
     // Colocar o tiro na nave
-    shots[newBullet].x = (x + (PLAYER_W >> 1) - BULLET_W);
+    shots[newBullet].x = (x + (PLAYER_W >> 1) - (BULLET_W >> 1));
     shots[newBullet].y = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
 
     shots[newBullet].used = true;

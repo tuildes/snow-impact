@@ -9,6 +9,8 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_primitives.h>
 
+#include <time.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 void init_all();

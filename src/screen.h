@@ -19,13 +19,13 @@
 #define DISP_W      (BUFFER_W * DISP_SCALE) // Largura da janela
 #define DISP_H      (BUFFER_H * DISP_SCALE) // Altura da janela
 
-#define VERSION_PROJECT "Versao 0.2"
+#define VERSION_PROJECT "Versao 0.3"
 
 extern long frames; // Variavel global de frames
 extern ALLEGRO_DISPLAY *disp;
 extern ALLEGRO_BITMAP *buffer, *icon;
 
-void display_init();
+void display_init(ALLEGRO_EVENT_QUEUE* queue);
 void display_destroy();
 
 void display_pre_draw();

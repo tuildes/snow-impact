@@ -20,6 +20,8 @@ ALLEGRO_BITMAP* init_bitmap(const char *local) {
 }
 
 void init_all() {
+    srand((unsigned int)time(NULL));
+
     init_test(al_init(), "Allegro");
     init_test(al_install_keyboard(), "teclado");
     init_test(al_init_font_addon(), "addon de font");
