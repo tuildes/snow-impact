@@ -32,8 +32,8 @@ void keyboard_options(unsigned char *key, bool *pause, bool *debug) {
 
     keyboardDelay = 0;
 
-    if(key[ALLEGRO_KEY_P]) *pause = (!(*pause));
-    else if (key[ALLEGRO_KEY_D]) *debug = (!(*debug));
+    if(key[ALLEGRO_KEY_P] || (key[ALLEGRO_KEY_ESCAPE])) *pause = (!(*pause));
+    else if ((key[ALLEGRO_KEY_D])) *debug = (!(*debug));
 }
 
 void keyboard_mapping(unsigned char *key) {
