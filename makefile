@@ -1,8 +1,8 @@
 # Makefile to LBP IMAGE COMPARATION
 
-OBJS	= src/core.o src/init.o src/utils.o src/player.o src/screen.o src/bullet.o src/keyboard.o # src/enemie.o src/levels.o
-SOURCE	= src/core.c src/init.c src/utils.o src/player.c src/screen.c src/bullet.c src/keyboard.c # src/enemie.c src/levels.c
-HEADER	= src/init.h src/utils.o src/screen.h src/player.h src/bullet.h src/keyboard.h src/levels.h # src/enemie.h src/levels.h
+OBJS	= src/core.o src/init.o src/utils.o src/player.o src/screen.o src/bullet.o src/keyboard.o src/levels.o 		# src/enemie.o
+SOURCE	= src/core.c src/init.c src/utils.o src/player.c src/screen.c src/bullet.c src/keyboard.c src/levels.c 		# src/enemie.c
+HEADER	= src/init.h src/utils.o src/screen.h src/player.h src/bullet.h src/keyboard.h src/levels.h src/levels.h	# src/enemie.h
 OUT	= SNOW_IMPACT
 CC	 = gcc
 FLAGS	 = -g -c -Wall -Wextra -Werror -Wpedantic -Walloc-zero -Wconversion -Wduplicated-branches -Wduplicated-cond -Wformat=2 -Wshadow
@@ -35,8 +35,8 @@ src/bullet.o: src/bullet.c
 src/keyboard.o: src/keyboard.c
 	$(CC) $(FLAGS) src/keyboard.c -o src/keyboard.o
 
-# src/levels.o: src/levels.c
-# 	$(CC) $(FLAGS) src/levels.c -o src/levels.o
+src/levels.o: src/levels.c
+	$(CC) $(FLAGS) src/levels.c -o src/levels.o
 
 src/screen.o: src/screen.c
 	$(CC) $(FLAGS) src/screen.c -o src/screen.o
