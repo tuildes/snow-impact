@@ -54,7 +54,6 @@ void keyboard_options(unsigned char *key, bool *pause, bool *debug,
             break;
         default:
             printf("Tela nao encontrada!\n");
-            exit(1);
             break;
     }
 }

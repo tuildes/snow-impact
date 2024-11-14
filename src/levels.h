@@ -22,18 +22,13 @@ typedef struct {
 } Background;
 
 void init_background(Background *b);
-
 void update_background(Background *b);
-
 void draw_background(Background *b);
-
 void destroy_background(Background *b);
 
 void init_select_level(ALLEGRO_BITMAP **temp, ALLEGRO_BITMAP **temp2);
-
 void update_select_level(unsigned char *key, bool *finished, 
                         unsigned char choose);
-
 void draw_select_level( ALLEGRO_FONT* font, 
                         ALLEGRO_FONT* bold,
                         Background *b, 
@@ -41,6 +36,9 @@ void draw_select_level( ALLEGRO_FONT* font,
                         ALLEGRO_BITMAP *showcase,
                         unsigned char choose);
 
+void init_level_one();
+
+void loading_screen();
 void switch_level(unsigned int l);
 
 #endif // __LEVELS_H__

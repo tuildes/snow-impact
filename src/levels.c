@@ -43,7 +43,7 @@ void destroy_background(Background *b) {
 }
 
 void init_select_level(ALLEGRO_BITMAP **temp, ALLEGRO_BITMAP **temp2) {
-    actualScreen = 0;
+    actualScreen = 1;
     *temp = init_bitmap("assets/title.png");
     *temp2 = init_bitmap("assets/start.png");
 }

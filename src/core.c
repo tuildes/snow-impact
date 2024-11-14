@@ -21,7 +21,8 @@ int main(void) {
     ALLEGRO_FONT *fontAlt, *font;   // Fontes
     Player player;                  // Jogador
     Background bg[PARALLAX_SIZE];   // Background do jogo
-    ALLEGRO_BITMAP *temp = NULL, *temp2 = NULL;
+    ALLEGRO_BITMAP *temp = NULL, 
+                   *temp2 = NULL;
 
     init_all();
 
@@ -74,8 +75,10 @@ int main(void) {
                     draw_player(player);
                     draw_status(player, font, debug);
                     if (paused) draw_pause(fontAlt);
+
                     break;
                 default:
+                    finished = true;
                     break;
             }
 
@@ -95,6 +98,7 @@ int main(void) {
     al_destroy_sample(sample_shot);
     al_destroy_audio_stream(music);
     al_destroy_bitmap(temp);
+    al_destroy_bitmap(temp2);
     destroy_background(bg);
     destroy_player(&player);
 
