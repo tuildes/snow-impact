@@ -53,13 +53,13 @@ ALLEGRO_SAMPLE* init_sample(const char *local) {
 }
 
 ALLEGRO_AUDIO_STREAM* init_music() {
-    #define MUSIC_PATH "assets/sound/0_music.opus"
+    #define MUSIC_PATH "assets/sound/the-nightclub.opus"
 
     ALLEGRO_AUDIO_STREAM* music;
     music = al_load_audio_stream(MUSIC_PATH, 2, 2048);
     init_test(music, "musica de fundo");
     al_set_audio_stream_playmode(music, ALLEGRO_PLAYMODE_LOOP);
-    al_set_audio_stream_gain(music, ((float) 0.02)); // Volume da musica
+    al_set_audio_stream_gain(music, ((float) 0.1)); // Volume da musica
     al_attach_audio_stream_to_mixer(music, al_get_default_mixer());
 
     return music;
