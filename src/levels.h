@@ -28,16 +28,18 @@ void destroy_background(Background *b);
 
 void init_select_level(ALLEGRO_BITMAP **temp, ALLEGRO_BITMAP **temp2);
 void update_select_level(unsigned char *key, bool *finished, 
-                        unsigned char choose);
+                        unsigned char choose,
+                        Player *player,
+                        Background *background);
 void draw_select_level( ALLEGRO_FONT* font, 
                         ALLEGRO_FONT* bold,
                         Background *b, 
                         ALLEGRO_BITMAP *title,
                         unsigned char choose);
 
-void init_level_one();
+void init_level_one(Player *player, Background *b);
 
 void loading_screen();
-void switch_level(unsigned int l);
+void switch_level(unsigned int l, Player *player, Background *b);
 
 #endif // __LEVELS_H__

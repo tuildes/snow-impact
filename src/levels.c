@@ -4,13 +4,13 @@ unsigned int actualScreen;
 
 void init_background(Background *b) {
 
-    b[0].image = init_bitmap("assets/background/level1-1.png");
+    b[0].image = init_bitmap("assets/background/menu-1.png");
     b[0].velX = 0.5;
 
-    b[1].image = init_bitmap("assets/background/level1-2.png");
+    b[1].image = init_bitmap("assets/background/menu-2.png");
     b[1].velX = 2;
 
-    b[2].image = init_bitmap("assets/background/level1-3.png");
+    b[2].image = init_bitmap("assets/background/menu-3.png");
     b[2].velX = 3;
 
     for(size_t i = 0; i < PARALLAX_SIZE; i++) {
@@ -30,10 +30,15 @@ void update_background(Background *b) {
 }
 
 void draw_background(Background *b) {
+    // Background
     for(size_t i = 0; i < PARALLAX_SIZE; i++) {
         al_draw_bitmap(b[i].image, b[i].x, b[i].y, 0);
-        al_draw_bitmap(b[i].image, (b[i].x + (float)b[i].width), b[i].y, 0);
-        al_draw_bitmap(b[i].image, (b[i].x - (float)b[i].width), b[i].y, 0);
+        al_draw_bitmap(b[i].image, 
+                       (b[i].x + (float)b[i].width), b[i].y, 
+                       ALLEGRO_FLIP_HORIZONTAL);
+        al_draw_bitmap(b[i].image, 
+                       (b[i].x - (float)b[i].width), b[i].y, 
+                       ALLEGRO_FLIP_HORIZONTAL);
     }
 }
 
@@ -43,18 +48,20 @@ void destroy_background(Background *b) {
 }
 
 void init_select_level(ALLEGRO_BITMAP **temp, ALLEGRO_BITMAP **temp2) {
-    actualScreen = 1;
+    actualScreen = 0;
     *temp = init_bitmap("assets/title.png");
     *temp2 = init_bitmap("assets/start.png");
 }
 
 void update_select_level(unsigned char *key, bool *finished, 
-                        unsigned char choose) {
+                        unsigned char choose,
+                        Player *player,
+                        Background *background) {
     if(!key[ALLEGRO_KEY_SPACE]) return;
 
     switch (choose){
         case 0:
-            switch_level(2);
+            switch_level(2, player, background);
             break;
         case 2:
             *finished = true;
@@ -140,10 +147,31 @@ void draw_select_level( ALLEGRO_FONT* font,
                 VERSION_PROJECT);
 }
 
-void switch_level(unsigned int l) {
+void init_level_one(Player *player, Background *b) {
+    destroy_background(b); // Desalocar memoria
+
+    // Trocar background
+    b[0].image = init_bitmap("assets/background/menu-1.png");
+    b[1].image = init_bitmap("assets/background/menu-2.png");
+    b[2].image = init_bitmap("assets/background/menu-3.png");
+
+    // Setar posicao do jogador
+    player->x = 50;
+    player->y = (BUFFER_H >> 1);
+}
+
+void switch_level(unsigned int l, Player *player, Background *b) {
     if(l == actualScreen) return; // Evitar trocas desnecessarias
 
     // Loading screen
+
+    switch(l) {
+        case 2: 
+            init_level_one(player, b);
+            break;
+        default:
+            break;
+    }
 
     actualScreen = l;
 }
