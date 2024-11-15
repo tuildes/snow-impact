@@ -13,7 +13,7 @@ void shots_init() {
     newBullet = 0;
     delay = BULLET_DELAY;
 
-    for(size_t i = 1; i <= SHOTS_MAX; i++) {
+    for(size_t i = 0; i < SHOTS_MAX; i++) {
         shots[i].used = false;
         shots[i].dx = BULLET_SPEED;
         shots[i].dy = 0;
@@ -39,7 +39,7 @@ bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot) {
 }
 
 void update_shots() {
-    for(size_t i = 1; i <= SHOTS_MAX; i++) {
+    for(size_t i = 0; i < SHOTS_MAX; i++) {
         if(!shots[i].used) continue; // Se nao usado, nao renderiza
         
         // Arrumar posicao do tiro
@@ -55,7 +55,7 @@ void update_shots() {
 }
 
 void draw_shots() {
-    for(size_t i = 1; i <= SHOTS_MAX; i++) {
+    for(size_t i = 0; i < SHOTS_MAX; i++) {
         if(!shots[i].used) continue; // Se nao usado, nao renderiza
         al_draw_bitmap(bullet_sprite, shots[i].x, shots[i].y, 0);
     }
