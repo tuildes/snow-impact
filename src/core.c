@@ -54,7 +54,7 @@ int main(void) {
             switch(actualScreen) {
                 // Tela de inicio
                 case 0: {
-                    draw_select_level(font, fontAlt, bg, temp, temp2, choose);
+                    draw_select_level(font, fontAlt, bg, temp, choose);
                     update_select_level(key, &finished, choose);
                     break;
                 }

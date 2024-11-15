@@ -68,7 +68,6 @@ void draw_select_level( ALLEGRO_FONT* font,
                         ALLEGRO_FONT* bold,
                         Background *b, 
                         ALLEGRO_BITMAP *title,
-                        ALLEGRO_BITMAP *showcase,
                         unsigned char choose) {
     #define MARGIN_BORDER 10
     unsigned char actual;
@@ -78,9 +77,7 @@ void draw_select_level( ALLEGRO_FONT* font,
     draw_background(b);
         
     // Titulo do jogo
-    al_draw_bitmap(title, ((BUFFER_W >> 1) - 200), 10, 0);
-    al_draw_bitmap(showcase, 50,  180, 1);
-    al_draw_bitmap(showcase, (BUFFER_W - 170),  180, 0);
+    al_draw_bitmap(title, ((BUFFER_W >> 1) - 200), 50, 0);
 
     // Botao de level 01
     if (choose == 0) actual = 255;
@@ -145,6 +142,8 @@ void draw_select_level( ALLEGRO_FONT* font,
 
 void switch_level(unsigned int l) {
     if(l == actualScreen) return; // Evitar trocas desnecessarias
+
+    // Loading screen
 
     actualScreen = l;
 }

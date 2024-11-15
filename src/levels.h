@@ -38,7 +38,6 @@ void draw_select_level( ALLEGRO_FONT* font,
                         ALLEGRO_FONT* bold,
                         Background *b, 
                         ALLEGRO_BITMAP *title,
-                        ALLEGRO_BITMAP *showcase,
                         unsigned char choose);
 
 void switch_level(unsigned int l);
