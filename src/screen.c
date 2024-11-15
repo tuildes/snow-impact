@@ -1,5 +1,6 @@
 #include "screen.h"
 #include "levels.h"
+#include <math.h>
 
 long frames;
 ALLEGRO_DISPLAY *disp;
@@ -56,30 +57,24 @@ void update_status() {
 void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
 
     #define MARGIN_BORDER 10 
-    #define DEBUG_COLOR al_map_rgb(100, 100, 100)
+    #define DEBUG_COLOR al_map_rgb(150, 150, 150)
 
     // Vida
-    al_draw_textf(font, al_map_rgba(255, 
-                                    255, 
-                                    255, 0), 
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
                 (MARGIN_BORDER), 
                 (MARGIN_BORDER), 
                 ALLEGRO_ALIGN_LEFT,
                 "Vidas: %1hd", player.lifes);
 
     // Pontos
-    al_draw_textf(font, al_map_rgba(255, 
-                                    255, 
-                                    255, 0), 
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
                 (MARGIN_BORDER), 
                 (MARGIN_BORDER + FONT_SIZE), 
                 ALLEGRO_ALIGN_LEFT,
-                "Pontos: %1hd", player.lifes);
+                "Tempo: %.0lfs", floor(player.time));
 
     // Nome da fase
-    al_draw_textf(font, al_map_rgba(255, 
-                                    255, 
-                                    255, 0), 
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
                 (MARGIN_BORDER), 
                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                 ALLEGRO_ALIGN_LEFT,
