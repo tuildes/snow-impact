@@ -8,6 +8,7 @@ Player create_player(float x, float y) {
     p.y = y;
     p.speed = PLAYER_DEFAULT_SPEED;
     p.lifes = 3;
+    p.time = 0;
 
     p.sprite = NULL;
 
@@ -41,6 +42,9 @@ void __movement_player(Player *p, float x, float y) {
 
 void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_shot) {
     if (player->lifes == 0) return; // Jogador sem vidas
+
+    // Atualizar o tempo de jogo
+    player->time += (1.0 / FRAMERATE);
 
     // Movimentacao do jogador
     if(key[ALLEGRO_KEY_UP])
