@@ -1,5 +1,20 @@
 #include "init.h"
 
+void init_all() {
+    srand((unsigned int)time(NULL));
+
+    init_test(al_init(), "Allegro");
+    init_test(al_install_keyboard(), "teclado");
+    init_test(al_init_font_addon(), "addon de font");
+    init_test(al_init_ttf_addon(), "addon de ttf");
+    init_test(al_init_image_addon(), "addon de imagens");
+    init_test(al_install_audio(), "audio");
+    init_test(al_init_acodec_addon(), "codecs de audio");
+    init_test(al_reserve_samples(16), "reserve samples");
+    init_test(al_init_primitives_addon(), "primitives");
+    init_test(al_reserve_samples(128), "reservas de samples");
+}
+
 void init_test(bool b, const char *n) {
     if(b) return;
 
@@ -17,21 +32,6 @@ ALLEGRO_BITMAP* init_bitmap(const char *local) {
     }
 
     return bm;
-}
-
-void init_all() {
-    srand((unsigned int)time(NULL));
-
-    init_test(al_init(), "Allegro");
-    init_test(al_install_keyboard(), "teclado");
-    init_test(al_init_font_addon(), "addon de font");
-    init_test(al_init_ttf_addon(), "addon de ttf");
-    init_test(al_init_image_addon(), "addon de imagens");
-    init_test(al_install_audio(), "audio");
-    init_test(al_init_acodec_addon(), "codecs de audio");
-    init_test(al_reserve_samples(16), "reserve samples");
-    init_test(al_init_primitives_addon(), "primitives");
-    init_test(al_reserve_samples(128), "reservas de samples");
 }
 
 ALLEGRO_FONT* init_font(const char *local, int fontSize) {

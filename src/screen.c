@@ -3,6 +3,8 @@
 #include <math.h>
 
 long frames;
+float mult;
+
 ALLEGRO_DISPLAY *disp;
 ALLEGRO_BITMAP *buffer, *icon;
 
@@ -28,6 +30,7 @@ void display_init(ALLEGRO_EVENT_QUEUE* queue) {
     al_register_event_source(queue, al_get_display_event_source(disp));
 
     frames = 0;
+    mult = 1.0;
 }
 
 void display_destroy() {
@@ -52,6 +55,10 @@ void display_post_draw() {
 
 void update_status() {
     frames++; // Atualizar o valor dos frames
+
+    // A cada X frames atualiza a velocidade do jogo
+    if((mult <= 2.0) && (frames % 50 == 0)) mult += (float)0.01; 
+
 }
 
 void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
@@ -86,7 +93,7 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
         al_draw_textf(font, DEBUG_COLOR, 
                     (BUFFER_W - MARGIN_BORDER), MARGIN_BORDER, 
                     ALLEGRO_ALIGN_RIGHT,
-                    "x: %.0f, Y: %.0f, frames: %06ld", player.x, player.y, frames);
+                    "x: %.0f, Y: %.0f, frames: %06ld, mult: %.2f", player.x, player.y, frames, mult);
         
         // Versao do projeto
         al_draw_text(font, DEBUG_COLOR, 

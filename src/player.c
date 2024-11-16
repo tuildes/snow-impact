@@ -7,7 +7,10 @@ Player create_player(float x, float y) {
     p.x = x;
     p.y = y;
     p.speed = PLAYER_DEFAULT_SPEED;
+    p.invincibility = 0;
     p.lifes = 3;
+
+    p.kills = 0;
     p.time = 0;
 
     p.sprite = NULL;
@@ -62,7 +65,15 @@ void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_sh
         }
     }    
 
+    // Invencibilidade do personagem
+    if(player->invincibility > 0) (player->invincibility)--;
+
     if (delay < BULLET_DELAY) delay++;
 }
 
-void draw_player(Player player) { al_draw_bitmap(player.sprite, player.x, player.y, 0); }
+void draw_player(Player player) { 
+    if (player.lifes == 0) return; // Jogador sem vidas
+    if ((player.invincibility) % 10 <= 5) // Frames de invencibilidade
+
+    al_draw_bitmap(player.sprite, player.x, player.y, 0); 
+}

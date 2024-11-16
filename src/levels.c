@@ -8,7 +8,7 @@ void init_background(Background *b) {
     b[0].velX = 0.5;
 
     b[1].image = init_bitmap("assets/background/menu-2.png");
-    b[1].velX = 2;
+    b[1].velX = 1.5;
 
     b[2].image = init_bitmap("assets/background/menu-3.png");
     b[2].velX = 3;
@@ -24,7 +24,7 @@ void init_background(Background *b) {
 
 void update_background(Background *b) {
     for(size_t i = 0; i < PARALLAX_SIZE; i++) {
-        b[i].x -= b[i].velX;
+        b[i].x -= (b[i].velX * mult);
         if((b[i].x + (float)b[i].width) <= 0) b[i].x = BUFFER_W;
     }
 }

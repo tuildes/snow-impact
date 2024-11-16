@@ -3,6 +3,7 @@
 #include "bullet.h"
 #include "player.h"
 #include "levels.h"
+#include "enemie.h"
 
 #include "keyboard.h"
 
@@ -37,6 +38,7 @@ int main(void) {
 
     init_background(bg);
     shots_init();
+    init_enemies();
     display_init(queue);
     keyboard_init(key, queue);
 
@@ -64,8 +66,9 @@ int main(void) {
                 case 2:
                     // Apenas atualiza o jogo quando nao tiver pausado
                     if (!paused) {
-                        update_shots();
+                        update_shots(&player);
                         update_player(&player, key, sample_shot);
+                        enemies_update(&player);
                         update_status();
                         update_background(bg);
                     } 
@@ -73,6 +76,7 @@ int main(void) {
                     draw_background(bg);
                     draw_shots();
                     draw_player(player);
+                    enemies_draw();
                     draw_status(player, font, debug);
                     if (paused) draw_pause(fontAlt);
 
@@ -101,6 +105,7 @@ int main(void) {
     al_destroy_bitmap(temp2);
     destroy_background(bg);
     destroy_player(&player);
+    enemies_destroy();
 
     return 0;
 }

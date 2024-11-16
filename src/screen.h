@@ -22,6 +22,8 @@
 #define VERSION_PROJECT "Versao 0.3"
 
 extern long frames; // Variavel global de frames
+extern float mult;
+
 extern ALLEGRO_DISPLAY *disp;
 extern ALLEGRO_BITMAP *buffer, *icon;
 
