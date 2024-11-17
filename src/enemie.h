@@ -19,9 +19,11 @@ typedef struct {
     float x, y, dx, dy,
           width, height;
     int hp;
+    bool iced;
     unsigned int sprite:3,  // Valor do sprite no array
                  delay,     // Valor de delay para cada tiro
                  time;      // Valor de delay para o tiro
+
 } Enemy;
 
 extern ALLEGRO_BITMAP *enemy_sprite[6];
@@ -36,5 +38,7 @@ void enemies_update(Player *player);
 void enemies_draw(bool debug, ALLEGRO_FONT* font);
 
 void enemies_destroy();
+
+void draw_boss_warning(ALLEGRO_FONT* font, const char *boss);
 
 #endif // __ENEMIE_H_

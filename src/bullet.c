@@ -1,15 +1,23 @@
 #include "bullet.h"
 
-ALLEGRO_BITMAP *bullet_sprite[3];
+ALLEGRO_BITMAP *bullet_sprite[5];
 Bullet shots[SHOTS_MAX];
 unsigned int newBullet;
 unsigned int delay;
+Special special;
 
 void shots_init() {
 
-    bullet_sprite[0] = init_bitmap("assets/sprite/bullet/player_normal.png");
-    bullet_sprite[1] = init_bitmap("assets/sprite/bullet/enemy_snowball_02.png");
-    bullet_sprite[2] = init_bitmap("assets/sprite/bullet/enemy_snowball_01.png");
+    const char *paths[] = {
+        "assets/sprite/bullet/player_normal.png",
+        "assets/sprite/bullet/player_explosion.png",
+        "assets/sprite/bullet/player_ice.png",
+        "assets/sprite/bullet/enemy_snowball_01.png",
+        "assets/sprite/bullet/enemy_snowball_02.png"
+    };
+
+    for(size_t i = 0; i < 5; i++)
+        bullet_sprite[i] = init_bitmap(paths[i]);
     
     newBullet = 0;
     delay = 0;
@@ -22,6 +30,13 @@ void shots_init() {
         shots[i].x = 0;
         shots[i].y = 0;
     }
+
+    // Inicializar poderes
+    special.actived = false;
+    special.get = false;
+    special.dx = 4;
+    special.height = 30;
+    special.width = 30;
 }
 
 bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot) {
@@ -33,7 +48,8 @@ bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot) {
     shots[newBullet].y = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
     shots[newBullet].dx = (BULLET_SPEED);
 
-    shots[newBullet].sprite = 0;
+    if(special.get) shots[newBullet].sprite = (special.sprite + 1);
+    else shots[newBullet].sprite = 0;
 
     shots[newBullet].used = true;
     shots[newBullet].enemy = false;
@@ -102,7 +118,17 @@ void update_shots(Player *player) {
                             (enemies[j].x + enemies[j].width), 
                             (enemies[j].y + enemies[j].height))) {
                     
-                    enemies[j].hp -= PLAYER_DAMAGE;
+                    if (shots[i].sprite == 1)
+                        enemies[j].hp -= (PLAYER_DAMAGE << 1);
+                    else if ((!enemies[j].iced) && (shots[i].sprite == 2)) {
+                        enemies[j].iced = true;
+                        enemies[j].dx /= 2;
+                        enemies[j].dy /= 2;
+                        enemies[j].delay *= 2;
+                        enemies[j].hp -= (PLAYER_DAMAGE);
+                    }
+                    else
+                        enemies[j].hp -= (PLAYER_DAMAGE);
                     shots[i].used = false;
                 }  
             }
@@ -115,4 +141,62 @@ void draw_shots() {
         if(!shots[i].used) continue; // Se nao usado, nao renderiza
         al_draw_bitmap(bullet_sprite[shots[i].sprite], shots[i].x, shots[i].y, 0);
     }
+}
+
+void update_special(Player player) {
+
+    // Especial no mapa
+    if(special.actived) {
+        special.x -= special.dx;
+        if((special.x + special.width) <= 0) special.actived = false;
+
+        if(collide( special.x, special.y, 
+                    (special.x + special.width), (special.y + special.height),
+                    player.x, player.y,
+                    (player.x + PLAYER_W), (player.y + PLAYER_H))) {
+            special.get = true;
+            special.actived = false;
+        }
+
+        return;
+    }
+
+    // Especial coletado
+    if(special.get) {
+        special.time -= (float)(1.0 / FRAMERATE);
+
+        if(special.time <= 0) special.get = false;
+
+        return;
+    }
+
+    // Especial para ser colocado no mapa
+
+    if((frames % SPECIAL_DELAY) != 0) return;
+
+    special.actived = true;
+    special.get = false;
+
+    special.x = (BUFFER_W);
+    special.y = (float)(20 + (rand() % (BUFFER_H - 20)));
+
+    if((rand() % 2) == 0) { // Explosivo
+        special.sprite = 0;
+        special.time = 2.0;
+    }
+    else {
+        special.sprite = 1;
+        special.time = 3.0;
+    }
+
+    special.sprite = (unsigned char)((unsigned char)rand() % 2);
+}
+
+void draw_special() {
+    if(!special.actived) return;
+    al_draw_bitmap(bullet_sprite[(special.sprite + 1)], special.x, special.y, 0);
+}
+
+void destroy_shots() {
+    for(size_t i = 0; i < 5; i++) al_destroy_bitmap(bullet_sprite[i]);
 }

@@ -71,13 +71,16 @@ int main(void) {
                         enemies_update(&player);
                         update_status();
                         update_background(bg);
+                        update_special(player);
                     } 
 
                     draw_background(bg);
                     enemies_draw(debug, font);
                     draw_shots();
                     draw_player(player);
+                    draw_special();
                     draw_status(player, font, debug);
+                    draw_boss_warning(font, "Hebert");
                     if (paused) draw_pause(fontAlt);
                     
                     break;
@@ -91,13 +94,16 @@ int main(void) {
                         enemies_update(&player);
                         update_status();
                         update_background(bg);
+                        update_special(player);
                     } 
 
                     draw_background(bg);
                     enemies_draw(debug, font);
                     draw_shots();
                     draw_player(player);
+                    draw_special();
                     draw_status(player, font, debug);
+                    draw_boss_warning(font, "Hebert");
                     if (paused) draw_pause(fontAlt);
 
                     break;
@@ -125,6 +131,7 @@ int main(void) {
     al_destroy_bitmap(temp2);
     destroy_background(bg);
     destroy_player(&player);
+    destroy_shots();
     enemies_destroy();
 
     return 0;

@@ -24,7 +24,7 @@ void init_background(Background *b) {
 
 void update_background(Background *b) {
     for(size_t i = 0; i < PARALLAX_SIZE; i++) {
-        b[i].x -= (b[i].velX * mult);
+        b[i].x -= (b[i].velX * (mult * 2));
         if((b[i].x + (float)b[i].width) <= 0) b[i].x = BUFFER_W;
     }
 }

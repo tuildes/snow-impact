@@ -57,7 +57,7 @@ void update_status() {
     frames++; // Atualizar o valor dos frames
 
     // A cada X frames atualiza a velocidade do jogo
-    if((mult <= 2.0) && (frames % 25 == 0)) mult += (float)0.01; 
+    if((mult <= 2.25) && (frames % 20 == 0)) mult += (float)0.01; 
 
 }
 

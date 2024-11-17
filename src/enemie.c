@@ -87,6 +87,7 @@ bool add_enemy(int e) {
 
         enemies[i].x = (BUFFER_W + enemies[i].width);
         enemies[i].y = (float)(rand() % (BUFFER_H - (int)enemies[i].height));
+        enemies[i].iced = false;
         enemies[i].time = 0;
         enemies[i].actived = true;
 
@@ -98,12 +99,12 @@ bool add_enemy(int e) {
 
 void enemies_update(Player *player) {
 
-    unsigned int EMEMY_FRAMES_DELAY = (unsigned int)(200 / mult);
+    unsigned int EMEMY_FRAMES_DELAY = (unsigned int)(150 / mult);
 
     // Colocar mais inimigos na tela
-    if((frames % EMEMY_FRAMES_DELAY) == 0) {
-        if(actualScreen == 4) add_enemy(4 + (rand() % 3));
-        else add_enemy(rand() % 3);
+    if(actualScreen == 4) {
+        if((frames % EMEMY_FRAMES_DELAY) == 0)
+            add_enemy(4 + (rand() % 3));
     }
 
     for(size_t i = 0; i < MAX_ENEMIE_IN_SCREEN; i++) {
@@ -160,9 +161,9 @@ void enemies_update(Player *player) {
             if(enemies[i].time < enemies[i].delay) enemies[i].time++;
             else {
                 if(enemies[i].sprite == 5)
-                    enemy_shots_add(enemies[i].x, enemies[i].y, 2);
+                    enemy_shots_add(enemies[i].x, enemies[i].y, 3);
                 else
-                    enemy_shots_add(enemies[i].x, enemies[i].y, 1);
+                    enemy_shots_add(enemies[i].x, enemies[i].y, 4);
                 enemies[i].time = 0;
             }
         }
@@ -186,4 +187,13 @@ void enemies_draw(bool debug, ALLEGRO_FONT* font) {
 
 void enemies_destroy() {
     for(size_t i = 0; i < 6; i++) al_destroy_bitmap(enemy_sprite[i]);
+}
+
+void draw_boss_warning(ALLEGRO_FONT* font, const char *boss) {
+    if((mult >= 1.8) && ((mult <= 1.95))) {
+        al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                        0, (BUFFER_H >> 1), 
+                        ALLEGRO_ALIGN_LEFT,
+                        "Se prepare! %s esta chegando!", boss);
+    }
 }
