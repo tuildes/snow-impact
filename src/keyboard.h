@@ -2,7 +2,6 @@
 #define __KEYBOARD_H__
 
 #include "init.h"
-#include "utils.h"
 #include "levels.h"
 
 #define KEY_SEEN     1
@@ -12,9 +11,9 @@
 
 extern unsigned int keyboardDelay;
 
-void keyboard_init(unsigned char *key, ALLEGRO_EVENT_QUEUE* queue);
+void init_keyboard(unsigned char *key, ALLEGRO_EVENT_QUEUE* queue);
 
-void keyboard_update(unsigned char *key, ALLEGRO_EVENT event, bool *finished);
+void update_keyboard(unsigned char *key, ALLEGRO_EVENT event, bool *finished);
 
 void keyboard_mapping(unsigned char *key);
 

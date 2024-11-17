@@ -1,9 +1,8 @@
 #ifndef __SCREEN_H__
 #define __SCREEN_H__
 
-#include "player.h"
-#include "utils.h"
 #include "init.h"
+#include "player.h"
 
 #define X_SCREEN 960 // Largura da janela
 #define Y_SCREEN 540 // Altura da janela
@@ -27,15 +26,14 @@ extern float mult;
 extern ALLEGRO_DISPLAY *disp;
 extern ALLEGRO_BITMAP *buffer, *icon;
 
-void display_init(ALLEGRO_EVENT_QUEUE* queue);
-void display_destroy();
+void init_display(ALLEGRO_EVENT_QUEUE* queue);
+void destroy_display();
 
-void display_pre_draw();
-void display_post_draw();
+void pre_draw_display();
+void post_draw_display();
 
 void update_status();
 void draw_status(Player player, ALLEGRO_FONT* font, bool debug);
-
 void draw_pause(ALLEGRO_FONT* font);
 
 #endif // __SCREEN_H__

@@ -97,13 +97,14 @@ bool add_enemy(int e) {
     return false; // Sem inimigo disponivel para ser colocado
 }
 
-void enemies_update(Player *player) {
+void update_enemies(Player *player, ALLEGRO_SAMPLE* sample_shot) {
 
     unsigned int EMEMY_FRAMES_DELAY = (unsigned int)(150 / mult);
 
     // Colocar mais inimigos na tela
     if(actualScreen == 4) {
-        if((frames % EMEMY_FRAMES_DELAY) == 0)
+        // APenas coloca em frames e tempos especificos
+        if((mult < 2.0) && ((frames % EMEMY_FRAMES_DELAY) == 0))
             add_enemy(4 + (rand() % 3));
     }
 
@@ -123,8 +124,7 @@ void enemies_update(Player *player) {
                     enemies[i].x, enemies[i].y,
                     (enemies[i].x + enemies[i].width), 
                     (enemies[i].y + enemies[i].height))) {
-            (player->lifes)--;
-            (player->invincibility) = 60;
+            damage_player(player);
             enemies[i].actived = false;
         }
 
@@ -161,16 +161,18 @@ void enemies_update(Player *player) {
             if(enemies[i].time < enemies[i].delay) enemies[i].time++;
             else {
                 if(enemies[i].sprite == 5)
-                    enemy_shots_add(enemies[i].x, enemies[i].y, 3);
+                    add_bullet( enemies[i].x, enemies[i].y, 
+                                sample_shot, 3, true);
                 else
-                    enemy_shots_add(enemies[i].x, enemies[i].y, 4);
+                    add_bullet( enemies[i].x, enemies[i].y, 
+                                sample_shot, 4, true);
                 enemies[i].time = 0;
             }
         }
     }
 }
 
-void enemies_draw(bool debug, ALLEGRO_FONT* font) {
+void draw_enemies(bool debug, ALLEGRO_FONT* font) {
     for(size_t i = 0; i < MAX_ENEMIE_IN_SCREEN; i++) {
         if(!enemies[i].actived) continue;
         al_draw_bitmap(enemy_sprite[(enemies[i].sprite)], 
@@ -185,15 +187,6 @@ void enemies_draw(bool debug, ALLEGRO_FONT* font) {
     }
 }
 
-void enemies_destroy() {
+void destroy_enemies() {
     for(size_t i = 0; i < 6; i++) al_destroy_bitmap(enemy_sprite[i]);
-}
-
-void draw_boss_warning(ALLEGRO_FONT* font, const char *boss) {
-    if((mult >= 1.8) && ((mult <= 1.95))) {
-        al_draw_textf(font, al_map_rgb(255, 255, 255), 
-                        0, (BUFFER_H >> 1), 
-                        ALLEGRO_ALIGN_LEFT,
-                        "Se prepare! %s esta chegando!", boss);
-    }
 }

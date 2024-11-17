@@ -1,16 +1,13 @@
 #ifndef __BOSS_H__
 #define __BOSS_H__
 
-#include "utils.h"
 #include "init.h"
-
 #include "screen.h"
 #include "player.h"
-#include "enemie.h"
 
 typedef struct {
     bool active;
-    unsigned int hp, delay;
+    unsigned int hp, actualHp, delay;
     ALLEGRO_BITMAP *sprite[3];
     float x, y, dy, 
           width, height;

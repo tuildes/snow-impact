@@ -4,6 +4,7 @@
 #include "player.h"
 #include "levels.h"
 #include "enemie.h"
+#include "boss.h"
 
 #include "keyboard.h"
 
@@ -21,9 +22,11 @@ int main(void) {
     ALLEGRO_AUDIO_STREAM* music;    // Musica de fundo
     ALLEGRO_FONT *fontAlt, *font;   // Fontes
     Player player;                  // Jogador
+    Boss boss;                      // Chefao de cada fase
     Background bg[PARALLAX_SIZE];   // Background do jogo
     ALLEGRO_BITMAP *temp = NULL, 
                    *temp2 = NULL;
+    unsigned char choose = 0;
 
     init_all();
 
@@ -32,26 +35,24 @@ int main(void) {
     queue = al_create_event_queue(); 
     fontAlt = init_font("assets/font/minecraft.ttf", FONT_SIZE_TITLE);
     font = init_font("assets/font/sydnie.ttf", FONT_SIZE);
-    
-    // Inicializar sprites principais
     player = create_player(-50.0, (BUFFER_H >> 1));
 
+    boss = init_boss(0);
+
     init_background(bg);
-    shots_init();
+    init_bullets();
     init_enemies();
-    display_init(queue);
-    keyboard_init(key, queue);
+    init_display(queue);
+    init_keyboard(key, queue);
 
     init_select_level(&temp, &temp2);
-    unsigned char choose = 0;
-
     timer = init_timer(FRAMERATE, queue);
+
     while(!finished) { // Loop de jogo
         al_wait_for_event(queue, &event);
 
         if(event.type == ALLEGRO_EVENT_TIMER) {
-            display_pre_draw();
-
+            pre_draw_display();
             keyboard_options(key, &paused, &debug, &choose);
 
             switch(actualScreen) {
@@ -63,47 +64,29 @@ int main(void) {
                 }
 
                 // Level 01 do jogo
-                case 2: 
-                    // Apenas atualiza o jogo quando nao tiver pausado
-                    if (!paused) {
-                        update_shots(&player);
-                        update_player(&player, key, sample_shot);
-                        enemies_update(&player);
-                        update_status();
-                        update_background(bg);
-                        update_special(player);
-                    } 
-
-                    draw_background(bg);
-                    enemies_draw(debug, font);
-                    draw_shots();
-                    draw_player(player);
-                    draw_special();
-                    draw_status(player, font, debug);
-                    draw_boss_warning(font, "Hebert");
-                    if (paused) draw_pause(fontAlt);
-                    
+                case 2:   
                     break;
 
                 // Level 02 do jogo
                 case 4:
                     // Apenas atualiza o jogo quando nao tiver pausado
                     if (!paused) {
-                        update_shots(&player);
+                        update_bullets(&player, &boss);
                         update_player(&player, key, sample_shot);
-                        enemies_update(&player);
+                        update_enemies(&player, sample_shot);
                         update_status();
                         update_background(bg);
-                        update_special(player);
+                        update_special_bullets(player);
+                        update_boss(&boss);
                     } 
 
                     draw_background(bg);
-                    enemies_draw(debug, font);
-                    draw_shots();
+                    draw_enemies(debug, font);
+                    draw_bullets();
                     draw_player(player);
+                    draw_boss(boss);
                     draw_special();
                     draw_status(player, font, debug);
-                    draw_boss_warning(font, "Hebert");
                     if (paused) draw_pause(fontAlt);
 
                     break;
@@ -112,15 +95,14 @@ int main(void) {
                     break;
             }
 
-            display_post_draw();
+            post_draw_display();
             keyboard_mapping(key);
         }
 
-        keyboard_update(key, event, &finished);
+        update_keyboard(key, event, &finished);
     }
 
     // Destruir tudo alocado
-    display_destroy();
     al_destroy_font(font);
     al_destroy_font(fontAlt);
     al_destroy_timer(timer);
@@ -129,10 +111,12 @@ int main(void) {
     al_destroy_audio_stream(music);
     al_destroy_bitmap(temp);
     al_destroy_bitmap(temp2);
+
+    destroy_display();
     destroy_background(bg);
     destroy_player(&player);
-    destroy_shots();
-    enemies_destroy();
+    destroy_bullets();
+    destroy_enemies();
 
     return 0;
 }

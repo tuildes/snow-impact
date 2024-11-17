@@ -1,7 +1,6 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
-#include "utils.h"
 #include "init.h"
 
 // Variaveis de ambiente
@@ -24,8 +23,13 @@ Player create_player(float x, float y);
 
 void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_shot);
 
+void draw_player(Player player);
+
 void destroy_player(Player *p);
 
-void draw_player(Player player);
+void damage_player(Player *player);
+
+bool collide(float ax1, float ay1, float ax2, float ay2,
+             float bx1, float by1, float bx2, float by2);
 
 #endif // __PLAYER_H__

@@ -60,7 +60,7 @@ void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_sh
         __movement_player(player, -1.0, 0.0);
     if(key[ALLEGRO_KEY_SPACE]) {
         if(delay >= BULLET_DELAY) {
-            shots_add(player->x, player->y, sample_shot);
+            add_bullet(player->x, player->y, sample_shot, 0, false);
             delay = 0;
         }
     }    
@@ -76,4 +76,24 @@ void draw_player(Player player) {
     if ((player.invincibility) % 10 <= 5) // Frames de invencibilidade
 
     al_draw_bitmap(player.sprite, player.x, player.y, 0); 
+}
+
+void damage_player(Player *player) {
+    (player->lifes)--;
+    (player->invincibility) = 60;
+
+    // Volta o multiplicador
+    if(mult < 2.0) mult -= (float)0.1;
+}
+
+bool collide(float ax1, float ay1, float ax2, float ay2,
+             float bx1, float by1, float bx2, float by2) {
+
+    // Possiveis situacoes de nao colisao
+    if(ax1 > bx2) return false;
+    if(ax2 < bx1) return false;
+    if(ay1 > by2) return false;
+    if(ay2 < by1) return false;
+
+    return true;
 }

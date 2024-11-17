@@ -1,23 +1,20 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
-#include "utils.h"
 #include "init.h"
-
 #include "screen.h"
 #include "player.h"
 #include "enemie.h"
+#include "boss.h"
 
 typedef struct {
-    bool used;
-    bool enemy;
+    bool used, enemy;
     size_t sprite;
     float x, y, dx, dy;
 } Bullet;
 
 typedef struct {
-    bool actived;
-    bool get;
+    bool actived, get;
     float time;
     float x, y, dx, width, height;
     unsigned int sprite:1;
@@ -34,28 +31,21 @@ typedef struct {
 
 #define SHOTS_MAX 128
 
-#define SPECIAL_DELAY 500
+#define SPECIAL_DELAY 500 // A cada X frames, um especial aparece na tela.
 
 extern ALLEGRO_BITMAP *bullet_sprite[5];
 extern Bullet shots[SHOTS_MAX];
-extern unsigned int newBullet;
 extern unsigned int delay;
 extern Special special;
 
-void shots_init();
+void init_bullets();
+void add_bullet(float x, float y, ALLEGRO_SAMPLE* sample_shot, 
+                size_t sprite, bool enemy);
+void update_bullets(Player *player, Boss *boss);
+void draw_bullets();
+void destroy_bullets();
 
-bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot);
-
-void enemy_shots_add(float x, float y, size_t sprite);
-
-void update_shots(Player *player);
-
-void draw_shots();
-
-void destroy_shots();
-
-void update_special(Player player);
-
+void update_special_bullets(Player player);
 void draw_special();
 
 #endif // __BULLET_H__

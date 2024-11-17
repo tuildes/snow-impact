@@ -2,7 +2,6 @@
 #define __LEVELS_H__
 
 #include "init.h"
-#include "utils.h"
 #include "screen.h"
 #include "keyboard.h"
 

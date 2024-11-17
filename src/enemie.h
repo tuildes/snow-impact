@@ -1,9 +1,7 @@
 #ifndef __ENEMIE_H_
 #define __ENEMIE_H_
 
-#include "utils.h"
 #include "init.h"
-
 #include "screen.h"
 #include "player.h"
 #include "bullet.h"
@@ -33,12 +31,10 @@ void init_enemies();
 
 bool add_enemy(int e);
 
-void enemies_update(Player *player);
+void update_enemies(Player *player, ALLEGRO_SAMPLE* sample_shot);
 
-void enemies_draw(bool debug, ALLEGRO_FONT* font);
+void draw_enemies(bool debug, ALLEGRO_FONT* font);
 
-void enemies_destroy();
-
-void draw_boss_warning(ALLEGRO_FONT* font, const char *boss);
+void destroy_enemies();
 
 #endif // __ENEMIE_H_

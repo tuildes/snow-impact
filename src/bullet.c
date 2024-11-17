@@ -6,32 +6,35 @@ unsigned int newBullet;
 unsigned int delay;
 Special special;
 
-void shots_init() {
+void init_bullets() {
 
+    // Pathfiles dos sprites dos tiros
     const char *paths[] = {
+        // Tiros do proprio jogador
         "assets/sprite/bullet/player_normal.png",
         "assets/sprite/bullet/player_explosion.png",
         "assets/sprite/bullet/player_ice.png",
+
+        // Tiros do inimigo
         "assets/sprite/bullet/enemy_snowball_01.png",
         "assets/sprite/bullet/enemy_snowball_02.png"
     };
 
-    for(size_t i = 0; i < 5; i++)
-        bullet_sprite[i] = init_bitmap(paths[i]);
+    // Inicializar os bitmaps dos tiros
+    for(size_t i = 0; i < 5; i++) bullet_sprite[i] = init_bitmap(paths[i]);
     
     newBullet = 0;
     delay = 0;
 
+    // Inicializar os principais valores
     for(size_t i = 0; i < SHOTS_MAX; i++) {
         shots[i].used = false;
+        shots[i].enemy = false;
         shots[i].dx = BULLET_SPEED;
         shots[i].dy = 0;
-        shots[i].enemy = false;
-        shots[i].x = 0;
-        shots[i].y = 0;
     }
 
-    // Inicializar poderes
+    // Inicializar poderes e valores padrao
     special.actived = false;
     special.get = false;
     special.dx = 4;
@@ -39,43 +42,45 @@ void shots_init() {
     special.width = 30;
 }
 
-bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot) {
-    al_play_sample(sample_shot, (float)0.3, 0, (float)1.5, 
-                   ALLEGRO_PLAYMODE_ONCE, NULL);
-    
-    // Colocar o tiro na nave
-    shots[newBullet].x = (x + (PLAYER_W >> 1) - (BULLET_W >> 1));
-    shots[newBullet].y = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
-    shots[newBullet].dx = (BULLET_SPEED);
+void add_bullet(float x, float y, ALLEGRO_SAMPLE* sample_shot, 
+                size_t sprite, bool enemy) {
 
-    if(special.get) shots[newBullet].sprite = (special.sprite + 1);
-    else shots[newBullet].sprite = 0;
+    // Tocar som de tiro
+    if(sample_shot != NULL)
+        al_play_sample(sample_shot, (float)0.3, 0, (float)1.5, 
+                    ALLEGRO_PLAYMODE_ONCE, NULL);
 
     shots[newBullet].used = true;
-    shots[newBullet].enemy = false;
+
+    // Tiro dos inimigos
+    if(enemy) {
+        // Colocar o tiro na nave
+        shots[newBullet].x = (x + (ENEMY_BULLET_W >> 1));
+        shots[newBullet].y = (y + (ENEMY_BULLET_H >> 1));
+
+        shots[newBullet].sprite = sprite;
+
+        shots[newBullet].enemy = true;
+        shots[newBullet].dx = (-BULLET_SPEED);
+
+    // Tiro do jogador
+    } else {
+        // Colocar o tiro na nave
+        shots[newBullet].x = (x + (PLAYER_W >> 1) - (BULLET_W >> 1));
+        shots[newBullet].y = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
+        shots[newBullet].dx = (BULLET_SPEED);
+
+        if(special.get) shots[newBullet].sprite = (special.sprite + 1);
+        else shots[newBullet].sprite = 0;
+
+        shots[newBullet].enemy = false;
+    }
 
     newBullet++;
     if (newBullet >= 128) newBullet = 0;
-
-    return true;
 }
 
-void enemy_shots_add(float x, float y, size_t sprite) {
-    // Colocar o tiro na nave
-    shots[newBullet].x = (x + (ENEMY_BULLET_W >> 1));
-    shots[newBullet].y = (y + (ENEMY_BULLET_H >> 1));
-
-    shots[newBullet].sprite = sprite;
-
-    shots[newBullet].used = true;
-    shots[newBullet].enemy = true;
-    shots[newBullet].dx = (-BULLET_SPEED);
-
-    newBullet++;
-    if (newBullet >= 128) newBullet = 0;
-}
-
-void update_shots(Player *player) {
+void update_bullets(Player *player, Boss *boss) {
     for(size_t i = 0; i < SHOTS_MAX; i++) {
         if(!shots[i].used) continue; // Se nao usado, nao renderiza
         
@@ -83,7 +88,7 @@ void update_shots(Player *player) {
         shots[i].x += shots[i].dx;
         shots[i].y += shots[i].dy;
 
-        // Verifica se eh de aliado ou inimigo
+        // Tiro de inimigo
         if(shots[i].enemy) {
             // Se chegar ao fim da tela (some)
             if(shots[i].x <= (-ENEMY_BULLET_W)) { 
@@ -96,11 +101,11 @@ void update_shots(Player *player) {
                         (shots[i].x + ENEMY_BULLET_W), (shots[i].y + ENEMY_BULLET_H),
                         player->x, player->y, 
                         (player->x + PLAYER_W), (player->y + PLAYER_H))) {
-                (player->lifes)--;
+                damage_player(player);
                 shots[i].used = false;
-                (player->invincibility) = 60;
             }
 
+        // Tiro do jogador
         } else {
             // Se chegar ao fim da tela (some)
             if(shots[i].x >= BUFFER_W) { 
@@ -132,18 +137,35 @@ void update_shots(Player *player) {
                     shots[i].used = false;
                 }  
             }
+
+            // Colisao com o chefe
+            // Tira PLAYER_DAMAGE da vida do chefe
+            if((boss->actualHp > 0) && 
+                collide( boss->x, boss->y, 
+                        (boss->x + boss->width), (boss->y + boss->height),
+                        shots[i].x, shots[i].y, 
+                        (shots[i].x + BULLET_W), (shots[i].y + BULLET_H))) {
+                shots[i].used = false;
+
+                if (shots[i].sprite == 1) 
+                    (boss->actualHp) -= (2 * PLAYER_DAMAGE);
+                else (boss->actualHp) -= PLAYER_DAMAGE;
+            }
         }
     }
 }
 
-void draw_shots() {
+void draw_bullets() {
     for(size_t i = 0; i < SHOTS_MAX; i++) {
         if(!shots[i].used) continue; // Se nao usado, nao renderiza
         al_draw_bitmap(bullet_sprite[shots[i].sprite], shots[i].x, shots[i].y, 0);
     }
 }
+void destroy_bullets() {
+    for(size_t i = 0; i < 5; i++) al_destroy_bitmap(bullet_sprite[i]);
+}
 
-void update_special(Player player) {
+void update_special_bullets(Player player) {
 
     // Especial no mapa
     if(special.actived) {
@@ -194,9 +216,8 @@ void update_special(Player player) {
 
 void draw_special() {
     if(!special.actived) return;
-    al_draw_bitmap(bullet_sprite[(special.sprite + 1)], special.x, special.y, 0);
-}
-
-void destroy_shots() {
-    for(size_t i = 0; i < 5; i++) al_destroy_bitmap(bullet_sprite[i]);
+    al_draw_filled_rectangle(special.x, special.y, 
+                            (special.x + special.width),
+                            (special.y + special.height),
+                            al_map_rgb(0, 0, 255));
 }
