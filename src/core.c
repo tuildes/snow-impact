@@ -63,7 +63,7 @@ int main(void) {
                 }
 
                 // Level 01 do jogo
-                case 2:
+                case 2: 
                     // Apenas atualiza o jogo quando nao tiver pausado
                     if (!paused) {
                         update_shots(&player);
@@ -74,9 +74,29 @@ int main(void) {
                     } 
 
                     draw_background(bg);
+                    enemies_draw(debug, font);
                     draw_shots();
                     draw_player(player);
-                    enemies_draw();
+                    draw_status(player, font, debug);
+                    if (paused) draw_pause(fontAlt);
+                    
+                    break;
+
+                // Level 02 do jogo
+                case 4:
+                    // Apenas atualiza o jogo quando nao tiver pausado
+                    if (!paused) {
+                        update_shots(&player);
+                        update_player(&player, key, sample_shot);
+                        enemies_update(&player);
+                        update_status();
+                        update_background(bg);
+                    } 
+
+                    draw_background(bg);
+                    enemies_draw(debug, font);
+                    draw_shots();
+                    draw_player(player);
                     draw_status(player, font, debug);
                     if (paused) draw_pause(fontAlt);
 

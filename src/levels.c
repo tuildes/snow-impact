@@ -63,6 +63,9 @@ void update_select_level(unsigned char *key, bool *finished,
         case 0:
             switch_level(2, player, background);
             break;
+        case 1:
+            switch_level(4, player, background);
+            break;
         case 2:
             *finished = true;
             break;
@@ -82,6 +85,12 @@ void draw_select_level( ALLEGRO_FONT* font,
     // Background
     update_background(b);
     draw_background(b);
+
+    al_draw_filled_rectangle(0, 0, 
+                        BUFFER_W, BUFFER_H, 
+                        al_map_rgba_f((float)0.015, 
+                                    (float)0.015, 
+                                    (float)0.015, 0.5));
         
     // Titulo do jogo
     al_draw_bitmap(title, ((BUFFER_W >> 1) - 200), 50, 0);
@@ -158,6 +167,21 @@ void init_level_one(Player *player, Background *b) {
     // Setar posicao do jogador
     player->x = 50;
     player->y = (BUFFER_H >> 1);
+    player->lifes = 3;
+}
+
+void init_level_two(Player *player, Background *b) {
+    destroy_background(b); // Desalocar memoria
+
+    // Trocar background
+    b[0].image = init_bitmap("assets/background/level2-1.png");
+    b[1].image = init_bitmap("assets/background/level2-2.png");
+    b[2].image = init_bitmap("assets/background/level2-3.png");
+
+    // Setar posicao do jogador
+    player->x = 50;
+    player->y = (BUFFER_H >> 1);
+    player->lifes = 3;
 }
 
 void switch_level(unsigned int l, Player *player, Background *b) {
@@ -168,6 +192,9 @@ void switch_level(unsigned int l, Player *player, Background *b) {
     switch(l) {
         case 2: 
             init_level_one(player, b);
+            break;
+        case 4:
+            init_level_two(player, b);
             break;
         default:
             break;

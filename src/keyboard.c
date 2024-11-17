@@ -43,6 +43,7 @@ void keyboard_options(unsigned char *key, bool *pause, bool *debug,
             } 
             break;
         case 2:
+        case 4:
             if(key[ALLEGRO_KEY_P] || (key[ALLEGRO_KEY_ESCAPE])) {
                 keyboardDelay = 0;
                 *pause = (!(*pause));

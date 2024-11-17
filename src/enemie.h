@@ -7,6 +7,7 @@
 #include "screen.h"
 #include "player.h"
 #include "bullet.h"
+#include "levels.h"
 
 #define MAX_ENEMIE_IN_SCREEN 20
 
@@ -32,7 +33,7 @@ bool add_enemy(int e);
 
 void enemies_update(Player *player);
 
-void enemies_draw();
+void enemies_draw(bool debug, ALLEGRO_FONT* font);
 
 void enemies_destroy();
 

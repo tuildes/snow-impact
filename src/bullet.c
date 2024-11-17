@@ -31,6 +31,7 @@ bool shots_add(float x, float y, ALLEGRO_SAMPLE* sample_shot) {
     // Colocar o tiro na nave
     shots[newBullet].x = (x + (PLAYER_W >> 1) - (BULLET_W >> 1));
     shots[newBullet].y = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
+    shots[newBullet].dx = (BULLET_SPEED);
 
     shots[newBullet].sprite = 0;
 
@@ -74,7 +75,8 @@ void update_shots(Player *player) {
                 continue;
             }
 
-            if(collide( shots[i].x, shots[i].y, 
+            if((player->invincibility == 0) && 
+                collide(shots[i].x, shots[i].y, 
                         (shots[i].x + ENEMY_BULLET_W), (shots[i].y + ENEMY_BULLET_H),
                         player->x, player->y, 
                         (player->x + PLAYER_W), (player->y + PLAYER_H))) {

@@ -59,24 +59,24 @@ bool add_enemy(int e) {
                 enemies[i].sprite = 2;
                 break;
             case 4: // Inimigo: tank
-                enemies[i].dx = 1.0;
-                enemies[i].dy = 0.5;
-                enemies[i].hp = (ENEMIE_HP << 1);
+                enemies[i].dx = 0.75;
+                enemies[i].dy = 0.25;
+                enemies[i].hp = (ENEMIE_HP + 2);
                 enemies[i].delay = 0;
                 enemies[i].sprite = 3;
                 break;
             case 5: // Inimigo: sly
                 enemies[i].dx = 0.5;
                 enemies[i].dy = 1.5;
-                enemies[i].hp = ENEMIE_HP;
-                enemies[i].delay = 60;
+                enemies[i].hp = (ENEMIE_HP);
+                enemies[i].delay = 50;
                 enemies[i].sprite = 4;
                 enemies[i].width = 92;
                 break;
             case 6: // Inimigo: Scrap
                 enemies[i].dx = (float)0.1;
-                enemies[i].dy = 0.25;
-                enemies[i].hp = (ENEMIE_HP >> 1);
+                enemies[i].dy = (float)(3 + rand() % 2);
+                enemies[i].hp = (ENEMIE_HP - 2);
                 enemies[i].delay = 30;
                 enemies[i].sprite = 5;
                 enemies[i].width = 80;
@@ -98,10 +98,13 @@ bool add_enemy(int e) {
 
 void enemies_update(Player *player) {
 
-    #define EMEMY_FRAMES_DELAY 150
+    unsigned int EMEMY_FRAMES_DELAY = (unsigned int)(200 / mult);
 
     // Colocar mais inimigos na tela
-    if((frames % EMEMY_FRAMES_DELAY) == 0) add_enemy(4 + (rand() % 3));
+    if((frames % EMEMY_FRAMES_DELAY) == 0) {
+        if(actualScreen == 4) add_enemy(4 + (rand() % 3));
+        else add_enemy(rand() % 3);
+    }
 
     for(size_t i = 0; i < MAX_ENEMIE_IN_SCREEN; i++) {
         if(!enemies[i].actived) continue;
@@ -133,10 +136,24 @@ void enemies_update(Player *player) {
         }
         else enemies[i].x += (enemies[i].dx * mult);
 
-        if((enemies[i].y + (enemies[i].height / 2) - 1) > (player->y + (PLAYER_H >> 1))) 
-            enemies[i].y -= (enemies[i].dy * mult);
-        else if ((enemies[i].y + (enemies[i].height / 2) + 1) < (player->y + (PLAYER_H >> 1))) 
+        // Tipo especial de movimentacao
+        if(enemies[i].sprite == 5) { 
             enemies[i].y += (enemies[i].dy * mult);
+
+            if(enemies[i].y <= 0) {
+                enemies[i].y = 0;
+                enemies[i].dy *= (-1);
+            } else if ((enemies[i].y + enemies[i].height) >= BUFFER_H) {
+                enemies[i].y = (BUFFER_H - enemies[i].height);
+                enemies[i].dy *= (-1);
+            }
+
+        } else {
+            if((enemies[i].y + (enemies[i].height / 2) - 1) > (player->y + (PLAYER_H >> 1))) 
+                enemies[i].y -= (enemies[i].dy * mult);
+            else if ((enemies[i].y + (enemies[i].height / 2) + 1) < (player->y + (PLAYER_H >> 1))) 
+                enemies[i].y += (enemies[i].dy * mult);
+        }
 
         // Tiro do inimigo
         if(enemies[i].delay != 0) {
@@ -152,12 +169,18 @@ void enemies_update(Player *player) {
     }
 }
 
-void enemies_draw() {
+void enemies_draw(bool debug, ALLEGRO_FONT* font) {
     for(size_t i = 0; i < MAX_ENEMIE_IN_SCREEN; i++) {
         if(!enemies[i].actived) continue;
         al_draw_bitmap(enemy_sprite[(enemies[i].sprite)], 
                 enemies[i].x, enemies[i].y, 
                 0);
+        if(debug) 
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                        (enemies[i].x + (enemies[i].width / 2)), 
+                        (enemies[i].y + enemies[i].height), 
+                        ALLEGRO_ALIGN_CENTER,
+                        "%d", enemies[i].hp);
     }
 }
 

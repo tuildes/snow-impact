@@ -57,14 +57,14 @@ void update_status() {
     frames++; // Atualizar o valor dos frames
 
     // A cada X frames atualiza a velocidade do jogo
-    if((mult <= 2.0) && (frames % 50 == 0)) mult += (float)0.01; 
+    if((mult <= 2.0) && (frames % 25 == 0)) mult += (float)0.01; 
 
 }
 
 void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
 
     #define MARGIN_BORDER 10 
-    #define DEBUG_COLOR al_map_rgb(150, 150, 150)
+    #define DEBUG_COLOR al_map_rgb(200, 200, 200)
 
     // Vida
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
