@@ -2,6 +2,7 @@
 #define __PLAYER_H__
 
 #include "init.h"
+#include "bullet.h"
 
 // Variaveis de ambiente
 #define PLAYER_DEFAULT_SPEED 2
@@ -24,7 +25,7 @@ typedef struct {
 Player create_player(float x, float y);
 
 // Atualiza as variaveis do jogador e sua movimentacao
-void update_player(Player *player, unsigned char *key);
+void update_player(Player *player, unsigned char *key, Bullet *bplayer);
 
 // Desenha o jogador na tela
 void draw_player(Player player);

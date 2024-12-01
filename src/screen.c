@@ -60,7 +60,7 @@ void update_status() {
 void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
 
     #define MARGIN_BORDER 4 
-    #define DEBUG_COLOR al_map_rgb(200, 200, 200)
+    #define DEBUG_COLOR al_map_rgb(100, 100, 100)
 
     // Tempo de jogo
     al_draw_textf(font, al_map_rgb(255, 255, 255), 

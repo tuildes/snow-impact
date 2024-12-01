@@ -1,6 +1,5 @@
 #include "player.h"
 #include "screen.h"
-// #include "bullet.h"
 
 Player create_player(float x, float y) {
     Player p;
@@ -11,7 +10,7 @@ Player create_player(float x, float y) {
     p.lifes = 3;
     p.kills = 0;
     p.time = 0;
-    
+    p.delay = BULLET_DELAY;
     // Criar e guardar imagens
     p.sprite = NULL;
     p.sprite = init_bitmap("assets/sprite/player/default.png");
@@ -39,7 +38,7 @@ void __movement_player(Player *p, float x, float y) {
     if(p->y >= down_collision) p->y = down_collision;
 }
 
-void update_player(Player *player, unsigned char *key) {
+void update_player(Player *player, unsigned char *key, Bullet *bplayer) {
     if (player->lifes == 0) return; // Jogador sem vidas
 
     // Atualizar o tempo de jogo
@@ -54,17 +53,17 @@ void update_player(Player *player, unsigned char *key) {
         __movement_player(player, 0.0, 1.0);
     if(key[ALLEGRO_KEY_LEFT])
         __movement_player(player, -1.0, 0.0);
-    // if(key[ALLEGRO_KEY_SPACE]) {
-    //     if(delay >= BULLET_DELAY) {
-    //         add_bullet(player->x, player->y, sample_shot, 0, false);
-    //         delay = 0;
-    //     }
-    // }    
+    if(key[ALLEGRO_KEY_SPACE]) {
+        if(player->delay >= BULLET_DELAY) {
+            add_bullet(player->x, player->y, bplayer, 0);
+            player->delay = 0;
+        }
+    }    
 
     // Invencibilidade do personagem
     if(player->invincibility > 0) (player->invincibility)--;
 
-    // if (delay < BULLET_DELAY) delay++;
+    if (player->delay < BULLET_DELAY) player->delay++;
 }
 
 void draw_player(Player player) { 

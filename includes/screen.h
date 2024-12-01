@@ -4,9 +4,6 @@
 #include "init.h"
 #include "player.h"
 
-#define BUFFER_W 320
-#define BUFFER_H 180
-
 #define DISP_SCALE  4                       // Escala da janela pelo buffer
 #define DISP_W      (BUFFER_W * DISP_SCALE) // Largura da janela
 #define DISP_H      (BUFFER_H * DISP_SCALE) // Altura da janela
