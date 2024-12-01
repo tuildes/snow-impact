@@ -81,7 +81,7 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
                 (MARGIN_BORDER), 
                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                 ALLEGRO_ALIGN_LEFT,
-                "teste");
+                "PLACEHOLDER");
 
     // Textos de depuracao
     if(debug) {
@@ -104,12 +104,12 @@ void draw_pause(ALLEGRO_FONT* font) {
 
     // Texto
     al_draw_text(font, al_map_rgb(255, 255, 255), 
-            (BUFFER_W >> 1), ((BUFFER_H >> 1) - 20), 
+            (BUFFER_W >> 1), ((BUFFER_H >> 1) - 5), 
             ALLEGRO_ALIGN_CENTER,
             "SNOW IMPACT PAUSADO!");
 
     al_draw_text(font, al_map_rgb(255, 255, 255), 
-        (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE - 20), 
-        ALLEGRO_ALIGN_CENTER,
-        "Clique P ou ESC para retomar partida");
+            (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE), 
+            ALLEGRO_ALIGN_CENTER,
+            "Clique P ou ESC para retomar partida");
 }

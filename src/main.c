@@ -36,8 +36,10 @@ int main(void) {
             pre_draw_display();
             keyboard_options(key, &paused, &debug);
 
-            update_player(&player, key);
-            update_status();
+            if(!paused) {
+                update_player(&player, key);
+                update_status();
+            }
 
             draw_player(player);
             draw_status(player, font, debug);

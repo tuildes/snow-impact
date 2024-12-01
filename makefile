@@ -13,11 +13,9 @@ AFLAGS 	= -lallegro -lallegro_font -lallegro_image -lallegro_ttf -lallegro_audio
 SRC_FILES = $(wildcard $(SRCS)/*.c)
 OBJ_FILES = $(SRC_FILES:$(SRCS)/%.c=$(OBJS)/%.o)
 
-# Regra para compilar o programa final (executável)
 $(OUT): $(OBJ_FILES)
 	$(CC) $(OBJ_FILES) $(LFLAGS) $(AFLAGS) -o $(OUT)
 
-# Regra para compilar os arquivos .c em .o
 $(OBJS)/%.o: $(SRCS)/%.c
 	@mkdir -p $(OBJS) # Cria o diretório obj se não existir
 	$(CC) $(CFLAGS) $< -o $@ # Compila os arquivos .c em .o
