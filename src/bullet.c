@@ -41,8 +41,6 @@ void add_bullet(float x, float y, Bullet *bullets, size_t sprite) {
     //     al_play_sample(sample_shot, (float)0.3, 0, (float)1.5, 
     //                 ALLEGRO_PLAYMODE_ONCE, NULL);
 
-    sprite++;
-
     Bullet *new;
     if((new = (Bullet *) malloc(sizeof(Bullet))) == NULL) return;
 
@@ -55,6 +53,12 @@ void add_bullet(float x, float y, Bullet *bullets, size_t sprite) {
     // Colocar na lista
     Bullet *temp = bullets;
     while(temp->next != NULL) temp = temp->next;
+
+    if(sprite >= 3) { // Aliado
+        new->dx = (-BULLET_SPEED);
+    }
+
+    sprite++;
     temp->next = new;
 
     // Tiro dos inimigos
