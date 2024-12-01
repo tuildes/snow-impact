@@ -1,34 +1,30 @@
 #include "player.h"
 #include "screen.h"
-#include "bullet.h"
+// #include "bullet.h"
 
 Player create_player(float x, float y) {
     Player p;
+
     p.x = x;
     p.y = y;
-    p.speed = PLAYER_DEFAULT_SPEED;
     p.invincibility = 0;
     p.lifes = 3;
-
     p.kills = 0;
     p.time = 0;
-
-    p.sprite = NULL;
-
+    
     // Criar e guardar imagens
+    p.sprite = NULL;
     p.sprite = init_bitmap("assets/sprite/player/default.png");
 
     return p;
 }
 
-void destroy_player(Player *p) {
-    al_destroy_bitmap(p->sprite);
-}
+void destroy_player(Player *p) { al_destroy_bitmap(p->sprite); }
 
 void __movement_player(Player *p, float x, float y) {
     // Fazer a movimentacao
-    p->x += (p->speed * x);
-    p->y += (p->speed * y);
+    p->x += (PLAYER_DEFAULT_SPEED * x);
+    p->y += (PLAYER_DEFAULT_SPEED * y);
 
     const float left_colission  = 0, 
                 right_colission = (BUFFER_W - PLAYER_W),
@@ -43,7 +39,7 @@ void __movement_player(Player *p, float x, float y) {
     if(p->y >= down_collision) p->y = down_collision;
 }
 
-void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_shot) {
+void update_player(Player *player, unsigned char *key) {
     if (player->lifes == 0) return; // Jogador sem vidas
 
     // Atualizar o tempo de jogo
@@ -58,17 +54,17 @@ void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_sh
         __movement_player(player, 0.0, 1.0);
     if(key[ALLEGRO_KEY_LEFT])
         __movement_player(player, -1.0, 0.0);
-    if(key[ALLEGRO_KEY_SPACE]) {
-        if(delay >= BULLET_DELAY) {
-            add_bullet(player->x, player->y, sample_shot, 0, false);
-            delay = 0;
-        }
-    }    
+    // if(key[ALLEGRO_KEY_SPACE]) {
+    //     if(delay >= BULLET_DELAY) {
+    //         add_bullet(player->x, player->y, sample_shot, 0, false);
+    //         delay = 0;
+    //     }
+    // }    
 
     // Invencibilidade do personagem
     if(player->invincibility > 0) (player->invincibility)--;
 
-    if (delay < BULLET_DELAY) delay++;
+    // if (delay < BULLET_DELAY) delay++;
 }
 
 void draw_player(Player player) { 
@@ -83,7 +79,7 @@ void damage_player(Player *player) {
     (player->invincibility) = 60;
 
     // Volta o multiplicador
-    if(mult < 2.0) mult -= (float)0.1;
+    // if(mult < 2.0) mult -= (float)0.1;
 }
 
 bool collide(float ax1, float ay1, float ax2, float ay2,

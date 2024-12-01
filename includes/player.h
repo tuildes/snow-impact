@@ -4,31 +4,38 @@
 #include "init.h"
 
 // Variaveis de ambiente
-#define PLAYER_DEFAULT_SPEED 3
+#define PLAYER_DEFAULT_SPEED 1
 
 // Sprites do jogador
-#define PLAYER_W 24
-#define PLAYER_H 56
+#define PLAYER_W 6
+#define PLAYER_H 14
 
 typedef struct {
-    float x, y, speed;
-    unsigned int lifes:2;
+    float x, y;
+    unsigned int lifes:2,
+                 delay;
     long invincibility;
     double time;
     unsigned int kills;
     ALLEGRO_BITMAP *sprite;
 } Player;
 
+// Inicializa o PLAYER e gera um EXIT em caso de erro
 Player create_player(float x, float y);
 
-void update_player(Player *player, unsigned char *key, ALLEGRO_SAMPLE* sample_shot);
+// Atualiza as variaveis do jogador e sua movimentacao
+void update_player(Player *player, unsigned char *key);
 
+// Desenha o jogador na tela
 void draw_player(Player player);
 
+// Destroi e desaloca o jogador
 void destroy_player(Player *p);
 
+// Atualiza o jogador em caso de dano
 void damage_player(Player *player);
 
+// Funcao generica de colisao
 bool collide(float ax1, float ay1, float ax2, float ay2,
              float bx1, float by1, float bx2, float by2);
 

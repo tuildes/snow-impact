@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define FRAMERATE 15
+#define FRAMERATE 30
 #define FONT_SIZE 8
 
 // Função que inicializa todos os componentes do ALLEGRO

@@ -1,6 +1,7 @@
 #include "init.h"
 #include "keyboard.h"
 #include "screen.h"
+#include "player.h"
 
 int main(void) {
 
@@ -16,12 +17,13 @@ int main(void) {
     // ALLEGRO_SAMPLE* sample_shot;        // Sons
     // ALLEGRO_AUDIO_STREAM* music;        // Musica de fundo
     // ALLEGRO_FONT *font;                 // Fonte do jogo
-    // Player player;                   // Jogador
+    Player player;                      // Jogador
 
     /* Inicializaoes do projeto */
     init_all();
     queue = al_create_event_queue(); 
     timer = init_timer(FRAMERATE, queue);
+    player = create_player(50, (BUFFER_H >> 1));
     init_display(queue);
     init_keyboard(key, queue);
 
@@ -32,6 +34,9 @@ int main(void) {
         if(event.type == ALLEGRO_EVENT_TIMER) {
             pre_draw_display();
             // keyboard_options(key, &paused, &debug, &choose);
+
+            update_player(&player, key);
+            draw_player(player);
 
             // switch(actualScreen) {
             //     // Tela de inicio
