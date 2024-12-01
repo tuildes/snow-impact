@@ -4,11 +4,11 @@
 #include "init.h"
 
 // Variaveis de ambiente
-#define PLAYER_DEFAULT_SPEED 1
+#define PLAYER_DEFAULT_SPEED 2
 
 // Sprites do jogador
-#define PLAYER_W 6
-#define PLAYER_H 14
+#define PLAYER_W 12
+#define PLAYER_H 28
 
 typedef struct {
     float x, y;

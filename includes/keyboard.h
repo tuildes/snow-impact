@@ -18,7 +18,6 @@ void update_keyboard(unsigned char *key, ALLEGRO_EVENT event, bool *finished);
 // Mapeamento de teclas clicadas
 void keyboard_mapping(unsigned char *key);
 
-// void keyboard_options(unsigned char *key, bool *pause, bool *debug,
-//                      unsigned char *choose);
+void keyboard_options(unsigned char *key, bool *pause, bool *debug);
 
 #endif // __KEYBOARD_H__

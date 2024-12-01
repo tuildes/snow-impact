@@ -10,20 +10,21 @@ int main(void) {
     ALLEGRO_EVENT_QUEUE* queue;         // Fila de ações do jogo
     ALLEGRO_EVENT event;                // Evento atual
     unsigned char key[ALLEGRO_KEY_MAX]; // Teclado e inputs
-    //              choose = 0;           // Opcao de MENU INICIAL
-    bool finished = false;              // Status da execucao do jogo
-    //     paused = false,                // Status de pause do jogo
-    //     debug  = false;                // Status de debug do jogo
+    //              choose = 0;         // Opcao de MENU INICIAL
+    bool finished = false,              // Status da execucao do jogo
+        paused = false,                 // Status de pause do jogo
+        debug  = false;                 // Status de debug do jogo
     // ALLEGRO_SAMPLE* sample_shot;        // Sons
     // ALLEGRO_AUDIO_STREAM* music;        // Musica de fundo
-    // ALLEGRO_FONT *font;                 // Fonte do jogo
+    ALLEGRO_FONT *font;                 // Fonte do jogo
     Player player;                      // Jogador
 
     /* Inicializaoes do projeto */
     init_all();
-    queue = al_create_event_queue(); 
-    timer = init_timer(FRAMERATE, queue);
-    player = create_player(50, (BUFFER_H >> 1));
+    queue   = al_create_event_queue(); 
+    timer   = init_timer(FRAMERATE, queue);
+    player  = create_player(50, (BUFFER_H >> 1));
+    font    = init_font("assets/font/average.ttf", FONT_SIZE);
     init_display(queue);
     init_keyboard(key, queue);
 
@@ -33,10 +34,15 @@ int main(void) {
 
         if(event.type == ALLEGRO_EVENT_TIMER) {
             pre_draw_display();
-            // keyboard_options(key, &paused, &debug, &choose);
+            keyboard_options(key, &paused, &debug);
 
             update_player(&player, key);
+            update_status();
+
             draw_player(player);
+            draw_status(player, font, debug);
+
+            if (paused) draw_pause(font);
 
             // switch(actualScreen) {
             //     // Tela de inicio
@@ -86,7 +92,7 @@ int main(void) {
     }
 
     // Destruir tudo alocado
-    // al_destroy_font(font);
+    al_destroy_font(font);
     // al_destroy_font(fontAlt);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);

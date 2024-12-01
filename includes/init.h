@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 #define FRAMERATE 30
-#define FONT_SIZE 8
+#define FONT_SIZE 5
 
 // Função que inicializa todos os componentes do ALLEGRO
 void init_all();

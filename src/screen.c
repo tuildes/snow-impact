@@ -57,58 +57,59 @@ void update_status() {
     if((mult <= 2.25) && (frames % 20 == 0)) mult += 0.01; 
 }
 
-// void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
+void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
 
-//     #define MARGIN_BORDER 10 
-//     #define DEBUG_COLOR al_map_rgb(200, 200, 200)
+    #define MARGIN_BORDER 4 
+    #define DEBUG_COLOR al_map_rgb(200, 200, 200)
 
-//     // Vida
-//     al_draw_textf(font, al_map_rgb(255, 255, 255), 
-//                 (MARGIN_BORDER), 
-//                 (MARGIN_BORDER), 
-//                 ALLEGRO_ALIGN_LEFT,
-//                 "Vidas: %1hd", player.lifes);
+    // Tempo de jogo
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                (MARGIN_BORDER), 
+                (MARGIN_BORDER), 
+                ALLEGRO_ALIGN_LEFT,
+                "Tempo: %.0lfs", floor(player.time));
 
-//     // Pontos
-//     al_draw_textf(font, al_map_rgb(255, 255, 255), 
-//                 (MARGIN_BORDER), 
-//                 (MARGIN_BORDER + FONT_SIZE), 
-//                 ALLEGRO_ALIGN_LEFT,
-//                 "Tempo: %.0lfs", floor(player.time));
+    // Vidas do jogador
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                (MARGIN_BORDER), 
+                (MARGIN_BORDER + FONT_SIZE + 2), 
+                ALLEGRO_ALIGN_LEFT,
+                "Vidas: %1hd", player.lifes);
 
-//     // Nome da fase
-//     al_draw_textf(font, al_map_rgb(255, 255, 255), 
-//                 (MARGIN_BORDER), 
-//                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
-//                 ALLEGRO_ALIGN_LEFT,
-//                 "teste");
+    // Nome da fase
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                (MARGIN_BORDER), 
+                (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                ALLEGRO_ALIGN_LEFT,
+                "teste");
 
-//     // Textos de depuracao
-//     if(debug) {
-//         // Frames e posicao do player
-//         al_draw_textf(font, DEBUG_COLOR, 
-//                     (BUFFER_W - MARGIN_BORDER), MARGIN_BORDER, 
-//                     ALLEGRO_ALIGN_RIGHT,
-//                     "x: %.0f, Y: %.0f, frames: %06ld, mult: %.2f", player.x, player.y, frames, mult);
-//     }
-// }
+    // Textos de depuracao
+    if(debug) {
+        // Posicao do player e multiplicador
+        al_draw_textf(font, DEBUG_COLOR, 
+                    (BUFFER_W - MARGIN_BORDER), MARGIN_BORDER, 
+                    ALLEGRO_ALIGN_RIGHT,
+                    "frames: %ld, mult: %.2f", 
+                    frames, mult);
+    }
+}
 
-// void draw_pause(ALLEGRO_FONT* font) {
-//     // Fundo preto
-//     al_draw_filled_rectangle(0, 0, 
-//                         BUFFER_W, BUFFER_H, 
-//                         al_map_rgba_f((float)0.015, 
-//                                     (float)0.015, 
-//                                     (float)0.015, 0.75));
+void draw_pause(ALLEGRO_FONT* font) {
+    // Fundo preto
+    al_draw_filled_rectangle(0, 0, 
+                        BUFFER_W, BUFFER_H, 
+                        al_map_rgba_f((float)0.015, 
+                                    (float)0.015, 
+                                    (float)0.015, 0.75));
 
-//     // Texto
-//     al_draw_text(font, al_map_rgb(255, 255, 255), 
-//             (BUFFER_W >> 1), ((BUFFER_H >> 1) - 20), 
-//             ALLEGRO_ALIGN_CENTER,
-//             "SNOW IMPACT PAUSADO!");
+    // Texto
+    al_draw_text(font, al_map_rgb(255, 255, 255), 
+            (BUFFER_W >> 1), ((BUFFER_H >> 1) - 20), 
+            ALLEGRO_ALIGN_CENTER,
+            "SNOW IMPACT PAUSADO!");
 
-//     al_draw_text(font, al_map_rgb(255, 255, 255), 
-//         (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE_TITLE - 20), 
-//         ALLEGRO_ALIGN_CENTER,
-//         "Clique P ou ESC para retomar partida");
-// }
+    al_draw_text(font, al_map_rgb(255, 255, 255), 
+        (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE - 20), 
+        ALLEGRO_ALIGN_CENTER,
+        "Clique P ou ESC para retomar partida");
+}

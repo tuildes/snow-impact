@@ -24,40 +24,41 @@ void update_keyboard(unsigned char *key, ALLEGRO_EVENT event, bool *finished) {
     }
 }
 
-// void keyboard_options(unsigned char *key, bool *pause, bool *debug,
-//                       unsigned char *choose) {
-//     if(keyboardDelay < KEYBOARD_DELAY) { 
-//         keyboardDelay++;
-//         return;
-//     }
+void keyboard_options(unsigned char *key, bool *pause, bool *debug) {
+    if(keyboardDelay < KEYBOARD_DELAY) { 
+        keyboardDelay++;
+        return;
+    }
 
-//     switch(actualScreen) {
-//         case 0:
-//             if((*choose != 0) && key[ALLEGRO_KEY_UP]) {
-//                 keyboardDelay = 0;
-//                 (*choose)--;
-//             }
-//             else if((*choose != 2) && key[ALLEGRO_KEY_DOWN]) {
-//                 keyboardDelay = 0;
-//                 (*choose)++;
-//             } 
-//             break;
-//         case 2:
-//         case 4:
-//             if(key[ALLEGRO_KEY_P] || (key[ALLEGRO_KEY_ESCAPE])) {
-//                 keyboardDelay = 0;
-//                 *pause = (!(*pause));
-//             }
-//             else if ((key[ALLEGRO_KEY_D])) {
-//                 keyboardDelay = 0;
-//                 *debug = (!(*debug));
-//             }
-//             break;
-//         default:
-//             printf("Tela nao encontrada!\n");
-//             break;
-//     }
-// }
+    // switch(actualScreen) {
+    //     case 0:
+    //         if((*choose != 0) && key[ALLEGRO_KEY_UP]) {
+    //             keyboardDelay = 0;
+    //             (*choose)--;
+    //         }
+    //         else if((*choose != 2) && key[ALLEGRO_KEY_DOWN]) {
+    //             keyboardDelay = 0;
+    //             (*choose)++;
+    //         } 
+    //         break;
+    //     case 2:
+    //     case 4:
+
+    if(key[ALLEGRO_KEY_P] || (key[ALLEGRO_KEY_ESCAPE])) {
+        keyboardDelay = 0;
+        *pause = (!(*pause));
+    }
+    else if ((key[ALLEGRO_KEY_D])) {
+        keyboardDelay = 0;
+        *debug = (!(*debug));
+    }
+    
+    //         break;
+    //     default:
+    //         printf("Tela nao encontrada!\n");
+    //         break;
+    // }
+}
 
 void keyboard_mapping(unsigned char *key) {
     for(int i = 0; i < ALLEGRO_KEY_MAX; i++) key[i] &= KEY_SEEN;
