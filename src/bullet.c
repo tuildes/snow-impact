@@ -10,16 +10,15 @@ Bullet init_bullets() {
     const char *paths[] = {
         // Tiros do proprio jogador
         "assets/sprite/player/shot.png",
-        // "assets/sprite/bullet/player_explosion.png",
-        // "assets/sprite/bullet/player_ice.png",
+        "assets/sprite/player/explosion.png",
+        "assets/sprite/player/ice.png",
 
-        // // Tiros do inimigo
-        // "assets/sprite/bullet/enemy_snowball_01.png",
-        // "assets/sprite/bullet/enemy_snowball_02.png"
+        // Tiros do inimigo
+        "assets/sprite/enemy/snowball.png",
     };
 
     // Inicializar os bitmaps dos tiros
-    for(size_t i = 0; i < 1; i++) bullet_sprite[i] = init_bitmap(paths[i]);
+    for(size_t i = 0; i < 4; i++) bullet_sprite[i] = init_bitmap(paths[i]);
     
     Bullet bullets;
     bullets.next = NULL;
@@ -45,20 +44,21 @@ void add_bullet(float x, float y, Bullet *bullets, size_t sprite) {
     if((new = (Bullet *) malloc(sizeof(Bullet))) == NULL) return;
 
     new->next   = NULL;
-    new->x      = (x + (PLAYER_W >> 1) - (BULLET_W >> 2));
-    new->y      = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
-    new->dx     = (BULLET_SPEED);
-    new->sprite = 0;
+    new->sprite = sprite;
+
+    if(sprite < 3) { // Jogador
+        new->dx = (BULLET_SPEED);
+        new->x  = (x + (PLAYER_W >> 1) - (BULLET_W >> 2));
+        new->y  = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
+    } else { // Inimigo
+        new->dx = (-BULLET_SPEED);
+        new->x  = (x  - (ENEMY_BULLET_W >> 2));
+        new->y  = (y  - (ENEMY_BULLET_H >> 1));
+    }
 
     // Colocar na lista
     Bullet *temp = bullets;
     while(temp->next != NULL) temp = temp->next;
-
-    if(sprite >= 3) { // Aliado
-        new->dx = (-BULLET_SPEED);
-    }
-
-    sprite++;
     temp->next = new;
 
     // Tiro dos inimigos
@@ -106,6 +106,10 @@ void update_bullets(Bullet *bplayer) {
 
         // Colisao com as paredes
         if(temp->next->x >= BUFFER_W) {
+            destroy_bullet(temp);
+            if(temp->next == NULL) break;
+            continue;
+        } else if (temp->next->x <= 0) {
             destroy_bullet(temp);
             if(temp->next == NULL) break;
             continue;
@@ -193,7 +197,7 @@ void draw_bullets(Bullet *bplayer) {
                         temp->next->x, temp->next->y, 0);
 }
 void destroy_bullets(Bullet *bplayer) {
-    for(size_t i = 0; i < 1; i++) al_destroy_bitmap(bullet_sprite[i]);
+    for(size_t i = 0; i < 4; i++) al_destroy_bitmap(bullet_sprite[i]);
     while(bplayer->next != NULL) destroy_bullet(bplayer);
 }
 

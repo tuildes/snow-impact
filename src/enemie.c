@@ -1,20 +1,21 @@
 #include "enemie.h"
 
-ALLEGRO_BITMAP *enemy_sprite[6];
+ALLEGRO_BITMAP *enemy_sprite[7];
 
 Enemy init_enemies() {
 
-    const char *paths[6] = {
+    const char *paths[7] = {
         "assets/sprite/enemy/01.png",
+        "assets/sprite/enemy/02.png",
+        "assets/sprite/enemy/03.png",
+        "assets/sprite/enemy/02.png",
         "assets/sprite/enemy/01.png",
-        "assets/sprite/enemy/01.png",
-        "assets/sprite/enemy/01.png",
-        "assets/sprite/enemy/01.png",
-        "assets/sprite/enemy/01.png"
+        "assets/sprite/enemy/03.png",
+        "assets/sprite/enemy/07.png"
     };
 
     // Inicializar sprites
-    for(size_t i = 0; i < 6; i++)  enemy_sprite[i] = init_bitmap(paths[i]);
+    for(size_t i = 0; i < 7; i++)  enemy_sprite[i] = init_bitmap(paths[i]);
 
     Enemy e;
     e.next = NULL;
@@ -48,7 +49,7 @@ bool add_enemy(Enemy *enemies, int e) {
             new->delay = 0;
             new->sprite = 1;
             new->width = 30;
-            new->height = 28;
+            new->height = 30;
             break;
         case 3:
             new->dx = 1.0;
@@ -56,7 +57,7 @@ bool add_enemy(Enemy *enemies, int e) {
             new->hp = (ENEMIE_HP << 1);
             new->sprite = 2;
             new->width = 30;
-            new->height = 28;
+            new->height = 24;
             break;
         case 4: // Inimigo: Tank
             new->dx = 0.75;
@@ -78,11 +79,20 @@ bool add_enemy(Enemy *enemies, int e) {
             break;
         case 6: // Inimigo: Scrap
             new->dx = (float)0.1;
-            new->dy = (float)(3 + rand() % 2);
+            new->dy = (float)(1 + rand() % 2);
             new->hp = (ENEMIE_HP - 2);
             new->delay = 30;
             new->sprite = 5;
             new->width = 30;
+            new->height = 28;
+            break;
+        case 7: // Inimigo: Puffle
+            new->dx = 4;
+            new->dy = 0;
+            new->hp = (ENEMIE_HP);
+            new->delay = 0;
+            new->sprite = 6;
+            new->width = 20;
             new->height = 28;
             break;
         default:
@@ -93,7 +103,6 @@ bool add_enemy(Enemy *enemies, int e) {
     new->y = (float)(rand() % (int)(BUFFER_H - new->height));
     new->iced = false;
     new->time = 0;
-    new->actived = true;
     new->next = NULL;
 
     temp->next = new;
@@ -119,6 +128,9 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
     //     // APenas coloca em frames e tempos especificos
     if((mult < 2.0) && ((frames % EMEMY_FRAMES_DELAY) == 0))
         add_enemy(enemies, (4 + (rand() % 3)));
+
+    if((mult < 2.0) && (frames % 333 == 0)) add_enemy(enemies, 7);
+
     // }
 
     Enemy *temp = enemies;
@@ -130,6 +142,14 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
             (player->kills)++; 
             enemie = temp;
             continue;
+        }
+
+        if(enemie->sprite == 6) {
+            if((enemie->x + enemie->width) <= 0) {
+                __destroy_enemie(temp); 
+                enemie = temp;
+                continue;
+            }
         }
 
         // Dano ao jogador (contato)
@@ -146,13 +166,17 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
         }
 
         // Movimentacao do inimigo
-        if((enemie->x + (enemie->width / 2)) > (player->x + (PLAYER_W >> 1))) {
-            // Entrada com velocidade dobrada
-            if((enemie->x + enemie->width) >= BUFFER_W)
-                enemie->x -= 8;
-            else enemie->x -= (enemie->dx * mult);
+        if(enemie->sprite != 6) {
+            if((enemie->x + (enemie->width / 2)) > (player->x + (PLAYER_W >> 1))) {
+                // Entrada com velocidade dobrada
+                if((enemie->x + enemie->width) >= BUFFER_W)
+                    enemie->x -= 8;
+                else enemie->x -= (enemie->dx * mult);
+            }
+            else enemie->x += (enemie->dx * mult);
+        } else {
+            enemie->x -= (enemie->dx * mult);
         }
-        else enemie->x += (enemie->dx * mult);
 
         // Tipo especial de movimentacao
         if(enemie->sprite == 5) { 
@@ -177,10 +201,7 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
         if(enemie->delay != 0) {
             if(enemie->time < enemie->delay) enemie->time++;
             else {
-                if(enemie->sprite == 5)
-                    add_bullet(enemie->x, enemie->y, b, 3);
-                else
-                    add_bullet(enemie->x, enemie->y, b, 4);
+                add_bullet(enemie->x, enemie->y, b, 3);
                 enemie->time = 0;
             }
         }
@@ -204,6 +225,6 @@ void draw_enemies(Enemy *enemies, bool debug, ALLEGRO_FONT* font) {
 }
 
 void destroy_enemies(Enemy *e) {
-    for(size_t i = 0; i < 6; i++) al_destroy_bitmap(enemy_sprite[i]);
+    for(size_t i = 0; i < 7; i++) al_destroy_bitmap(enemy_sprite[i]);
     while(e->next != NULL) __destroy_enemie(e);
 }

@@ -24,15 +24,8 @@ typedef struct {
 #define BULLET_H 4
 #define BULLET_W 12
 
-
-
-
-
-
-#define ENEMY_BULLET_H 20
-#define ENEMY_BULLET_W 20
-
-#define SHOTS_MAX 128
+#define ENEMY_BULLET_H 6
+#define ENEMY_BULLET_W 6
 
 #define SPECIAL_DELAY 500 // A cada X frames, um especial aparece na tela.
 

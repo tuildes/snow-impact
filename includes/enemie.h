@@ -24,7 +24,7 @@ typedef struct Enemy {
       struct Enemy *next;
 } Enemy;
 
-extern ALLEGRO_BITMAP *enemy_sprite[6];
+extern ALLEGRO_BITMAP *enemy_sprite[7];
 
 Enemy init_enemies();
 
