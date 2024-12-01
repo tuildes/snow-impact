@@ -1,36 +1,33 @@
 #include "init.h"
 
 void init_all() {
-    srand((unsigned int)time(NULL));
+    srand(time(NULL)); // Seede aleatoria
 
-    init_test(al_init(), "Allegro");
-    init_test(al_install_keyboard(), "teclado");
-    init_test(al_init_font_addon(), "addon de font");
-    init_test(al_init_ttf_addon(), "addon de ttf");
-    init_test(al_init_image_addon(), "addon de imagens");
-    init_test(al_install_audio(), "audio");
-    init_test(al_init_acodec_addon(), "codecs de audio");
-    init_test(al_reserve_samples(16), "reserve samples");
-    init_test(al_init_primitives_addon(), "primitives");
-    init_test(al_reserve_samples(128), "reservas de samples");
+    initialize_or_exit(al_init(), "Allegro");
+    initialize_or_exit(al_install_keyboard(), "teclado");
+    initialize_or_exit(al_init_font_addon(), "addon de font");
+    initialize_or_exit(al_init_ttf_addon(), "addon de ttf");
+    initialize_or_exit(al_init_image_addon(), "addon de imagens");
+    initialize_or_exit(al_install_audio(), "audio");
+    initialize_or_exit(al_init_acodec_addon(), "codecs de audio");
+    initialize_or_exit(al_reserve_samples(16), "reserve samples");
+    initialize_or_exit(al_init_primitives_addon(), "primitives");
+    initialize_or_exit(al_reserve_samples(128), "reservas de samples");
 }
 
-void init_test(bool b, const char *n) {
-    if(b) return;
+void initialize_or_exit(bool fc, const char *n) {
+    if(fc) return;
 
     printf("Não foi possivel inicializar %s.\n", n);
     exit(1);
 }
 
 ALLEGRO_BITMAP* init_bitmap(const char *local) {
-
     ALLEGRO_BITMAP* bm = al_load_bitmap(local);
-
     if(!bm) {
         printf("Não foi possível inicializar imagem: (%s)\n", local);
         exit(1);
     }
-
     return bm;
 }
 
@@ -57,7 +54,7 @@ ALLEGRO_AUDIO_STREAM* init_music() {
 
     ALLEGRO_AUDIO_STREAM* music;
     music = al_load_audio_stream(MUSIC_PATH, 2, 2048);
-    init_test(music, "musica de fundo");
+    initialize_or_exit(music, "musica de fundo");
     al_set_audio_stream_playmode(music, ALLEGRO_PLAYMODE_LOOP);
     al_set_audio_stream_gain(music, ((float) 0.1)); // Volume da musica
     al_attach_audio_stream_to_mixer(music, al_get_default_mixer());
