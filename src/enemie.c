@@ -1,4 +1,5 @@
 #include "enemie.h"
+#include "bullet.h"
 
 ALLEGRO_BITMAP *enemy_sprite[7];
 
@@ -60,7 +61,7 @@ bool add_enemy(Enemy *enemies, int e) {
             new->height = 24;
             break;
         case 4: // Inimigo: Tank
-            new->dx = 0.75;
+            new->dx = 0.5;
             new->dy = 0.25;
             new->hp = (ENEMIE_HP + 2);
             new->delay = 0;
@@ -70,7 +71,7 @@ bool add_enemy(Enemy *enemies, int e) {
             break;
         case 5: // Inimigo: Sly
             new->dx = 0.5;
-            new->dy = 1.5;
+            new->dy = 1;
             new->hp = (ENEMIE_HP);
             new->delay = 50;
             new->sprite = 4;
@@ -124,14 +125,10 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
     unsigned int EMEMY_FRAMES_DELAY = (unsigned int)(150 / mult);
 
     // Colocar mais inimigos na tela
-    // if(actualScreen == 4) {
-    //     // APenas coloca em frames e tempos especificos
     if((mult < 2.0) && ((frames % EMEMY_FRAMES_DELAY) == 0))
         add_enemy(enemies, (4 + (rand() % 3)));
 
     if((mult < 2.0) && (frames % 333 == 0)) add_enemy(enemies, 7);
-
-    // }
 
     Enemy *temp = enemies;
     for(Enemy *enemie = enemies->next; enemie != NULL; enemie = enemie->next) {
@@ -201,7 +198,7 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
         if(enemie->delay != 0) {
             if(enemie->time < enemie->delay) enemie->time++;
             else {
-                add_bullet(enemie->x, enemie->y, b, 3);
+                add_bullet(enemie->x, (enemie->y + (enemie->height / 2)), b, 3);
                 enemie->time = 0;
             }
         }

@@ -2,21 +2,8 @@
 #define __BULLET_H__
 
 #include "init.h"
-// #include "enemie.h"
-// #include "boss.h"
-
-typedef struct Bullet {
-    size_t sprite;
-    float x, y, dx, dy;
-    struct Bullet *next;
-} Bullet;
-
-typedef struct {
-    bool actived, get;
-    float time;
-    float x, y, dx, width, height;
-    unsigned int sprite:1;
-} Special;
+#include "enemie.h"
+#include "structs.h"
 
 #define BULLET_SPEED (PLAYER_DEFAULT_SPEED << 1)  // Velocidade dos tiros na tela
 #define BULLET_DELAY 25 // Delay entre cada tiro do jogador
@@ -35,7 +22,8 @@ extern Special special;
 Bullet init_bullets();
 
 void add_bullet(float x, float y, Bullet *bullets, size_t sprite);
-void update_bullets(Bullet *bplayer);
+void update_bullets(Bullet *bplayer, bool enemy, Player *player, 
+                    Enemy *enemies);
 
 void draw_bullets(Bullet *bplayer);
 void destroy_bullets(Bullet *bplayer);

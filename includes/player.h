@@ -2,7 +2,7 @@
 #define __PLAYER_H__
 
 #include "init.h"
-#include "bullet.h"
+#include "structs.h"
 
 // Variaveis de ambiente
 #define PLAYER_DEFAULT_SPEED 2
@@ -10,16 +10,6 @@
 // Sprites do jogador
 #define PLAYER_W 12
 #define PLAYER_H 28
-
-typedef struct {
-    float x, y;
-    unsigned int lifes:2,
-                 delay;
-    long invincibility;
-    double time;
-    unsigned int kills;
-    ALLEGRO_BITMAP *sprite;
-} Player;
 
 // Inicializa o PLAYER e gera um EXIT em caso de erro
 Player create_player(float x, float y);

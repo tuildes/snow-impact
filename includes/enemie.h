@@ -3,13 +3,13 @@
 
 #include "init.h"
 #include "screen.h"
+#include "structs.h"
 #include "player.h"
-#include "bullet.h"
 #include "levels.h"
 
 #define MAX_ENEMIE_IN_SCREEN 20
 
-#define ENEMIE_HP       6
+#define ENEMIE_HP       4
 #define PLAYER_DAMAGE   1
 
 typedef struct Enemy {
@@ -19,8 +19,8 @@ typedef struct Enemy {
       int hp;
       bool iced;
       unsigned int sprite:3,  // Valor do sprite no array
-                  delay,     // Valor de delay para cada tiro
-                  time;      // Valor de delay para o tiro
+                   delay,      // Valor de delay para cada tiro
+                   time;       // Valor de delay para o tiro
       struct Enemy *next;
 } Enemy;
 

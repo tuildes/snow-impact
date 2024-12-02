@@ -1,5 +1,4 @@
 #include "bullet.h"
-#include "player.h"
 
 ALLEGRO_BITMAP *bullet_sprite[5];
 Special special;
@@ -23,28 +22,19 @@ Bullet init_bullets() {
     Bullet bullets;
     bullets.next = NULL;
 
-    // Inicializar poderes e valores padrao
-    // special.actived = false;
-    // special.get = false;
-    // special.dx = 4;
-    // special.height = 30;
-    // special.width = 30;
-
     return bullets;
 }
 
 void add_bullet(float x, float y, Bullet *bullets, size_t sprite) {
 
     // Tocar som de tiro
-    // if(sample_shot != NULL)
-    //     al_play_sample(sample_shot, (float)0.3, 0, (float)1.5, 
-    //                 ALLEGRO_PLAYMODE_ONCE, NULL);
 
     Bullet *new;
     if((new = (Bullet *) malloc(sizeof(Bullet))) == NULL) return;
 
     new->next   = NULL;
     new->sprite = sprite;
+    new->dy = 0;
 
     if(sprite < 3) { // Jogador
         new->dx = (BULLET_SPEED);
@@ -60,32 +50,6 @@ void add_bullet(float x, float y, Bullet *bullets, size_t sprite) {
     Bullet *temp = bullets;
     while(temp->next != NULL) temp = temp->next;
     temp->next = new;
-
-    // Tiro dos inimigos
-    // if(enemy) {
-    //     // Colocar o tiro na nave
-    //     shots[newBullet].x = (x + (ENEMY_BULLET_W >> 1));
-    //     shots[newBullet].y = (y + (ENEMY_BULLET_H >> 1));
-
-    //     shots[newBullet].sprite = sprite;
-
-    //     shots[newBullet].enemy = true;
-    //     shots[newBullet].dx = (-BULLET_SPEED);
-
-    // // Tiro do jogador
-    // } else {
-
-    // // Colocar o tiro na nave
-    // shots[newBullet].x = (x + (PLAYER_W >> 1) - (BULLET_W >> 1));
-    // shots[newBullet].y = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
-    // shots[newBullet].dx = (BULLET_SPEED);
-
-    // if(special.get) shots[newBullet].sprite = (special.sprite + 1);
-    // else shots[newBullet].sprite = 0;
-
-    // shots[newBullet].enemy = false;
-
-    // }
 }
 
 void destroy_bullet(Bullet *b) {
@@ -97,49 +61,65 @@ void destroy_bullet(Bullet *b) {
     free(temp);
 }
 
-void update_bullets(Bullet *bplayer) {
+void update_bullets(Bullet *bplayer, bool enemy, Player *player, 
+                    Enemy *enemies) {
 
     for(Bullet *temp = bplayer; temp->next != NULL; temp = temp->next) {
         // Arrumar posicao do tiro
         temp->next->x += temp->next->dx;
         temp->next->y += temp->next->dy;
 
-        // Colisao com as paredes
-        if(temp->next->x >= BUFFER_W) {
-            destroy_bullet(temp);
-            if(temp->next == NULL) break;
-            continue;
-        } else if (temp->next->x <= 0) {
-            destroy_bullet(temp);
-            if(temp->next == NULL) break;
-            continue;
+        // Tiro do inimigo
+        if(enemy) {
+            if(temp->next->x >= BUFFER_W) {
+                destroy_bullet(temp);
+                if(temp->next == NULL) break;
+                continue;
+            }
+
+            if((player->invincibility == 0) && 
+                collide (temp->next->x, temp->next->y, 
+                        (temp->next->x + ENEMY_BULLET_W), (temp->next->y + ENEMY_BULLET_H),
+                        player->x, player->y, 
+                        (player->x + PLAYER_W), (player->y + PLAYER_H))) {
+                    damage_player(player);
+                    destroy_bullet(temp);
+                    if(temp->next == NULL) break;
+                    continue;
+            }
+
+        // Tiro do jogador
+        } else {
+            if (temp->next->x <= 0) {
+                destroy_bullet(temp);
+                if(temp->next == NULL) break;
+                continue;
+            }
+
+            for(Enemy *enemie = enemies->next; enemie != NULL; enemie = enemie->next) {
+                if(collide( temp->next->x, temp->next->y, 
+                            (temp->next->x + BULLET_W), (temp->next->y + BULLET_H),
+                            enemie->x, enemie->y,
+                            (enemie->x + enemie->width), 
+                            (enemie->y + enemie->height))) {
+                    
+                    if (temp->next->sprite == 1)
+                        enemie->hp -= (PLAYER_DAMAGE << 1);
+                    else if ((!enemie->iced) && (temp->next->sprite == 2)) {
+                        enemie->iced = true;
+                        enemie->dx /= 2;
+                        enemie->dy /= 2;
+                        enemie->delay *= 2;
+                        enemie->hp -= (PLAYER_DAMAGE);
+                    }
+                    else enemie->hp -= (PLAYER_DAMAGE);
+
+                    destroy_bullet(temp);
+                    if(temp->next == NULL) return;            
+                }  
+            }
         }
     }
-
-
-    // for(size_t i = 0; i < SHOTS_MAX; i++) {
-    //     if(!shots[i].used) continue; // Se nao usado, nao renderiza
-        
-    //     // Arrumar posicao do tiro
-    //     shots[i].x += shots[i].dx;
-    //     shots[i].y += shots[i].dy;
-
-    //     // Tiro de inimigo
-    //     if(shots[i].enemy) {
-    //         // Se chegar ao fim da tela (some)
-    //         if(shots[i].x <= (-ENEMY_BULLET_W)) { 
-    //             shots[i].used = false; 
-    //             continue;
-    //         }
-
-    //         if((player->invincibility == 0) && 
-    //             collide(shots[i].x, shots[i].y, 
-    //                     (shots[i].x + ENEMY_BULLET_W), (shots[i].y + ENEMY_BULLET_H),
-    //                     player->x, player->y, 
-    //                     (player->x + PLAYER_W), (player->y + PLAYER_H))) {
-    //             damage_player(player);
-    //             shots[i].used = false;
-    //         }
 
     //     // Tiro do jogador
     //     } else {

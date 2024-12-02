@@ -66,8 +66,8 @@ int main(void) {
                 case 4:
                     // Apenas atualiza o jogo quando nao tiver pausado
                     if(!paused) {
-                        update_bullets(&bulletsPlayer);
-                        update_bullets(&bulletsEnemy);
+                        update_bullets(&bulletsPlayer, false, &player, &enemies);
+                        update_bullets(&bulletsEnemy, true, &player, &enemies);
                         update_player(&player, key, &bulletsPlayer);
                         update_background(bg);
                         update_enemies(&enemies, &player, &bulletsEnemy);
