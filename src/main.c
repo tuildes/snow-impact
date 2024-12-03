@@ -105,6 +105,7 @@ int main(void) {
     destroy_background(bg);
     destroy_player(&player);
     destroy_bullets(&bulletsPlayer);
+    destroy_bullets(&bulletsEnemy);
     destroy_enemies(&enemies);
 
     return 0;

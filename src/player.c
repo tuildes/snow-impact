@@ -1,5 +1,6 @@
 #include "player.h"
 #include "screen.h"
+#include "bullet.h"
 
 Player create_player(float x, float y) {
     Player p;
