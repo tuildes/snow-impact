@@ -27,6 +27,7 @@ void update_bullets(Bullet *bplayer, bool enemy, Player *player,
 
 void draw_bullets(Bullet *bplayer);
 void destroy_bullets(Bullet *bplayer);
+void destroy_sprites_bullets();
 
 // void update_special_bullets(Player player);
 // void draw_special();

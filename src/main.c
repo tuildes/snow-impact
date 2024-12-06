@@ -32,6 +32,8 @@ int main(void) {
     init_all();
     queue           = al_create_event_queue(); 
     timer           = init_timer(FRAMERATE, queue);
+    init_keyboard(key, queue);
+    init_display(queue);
     player          = create_player(50, (BUFFER_H >> 1));
     font            = init_font("assets/font/average.ttf", FONT_SIZE);
     bulletsPlayer   = init_bullets();
@@ -39,8 +41,6 @@ int main(void) {
     bulletsEnemy    = init_bullets(); 
     crtFilter       = init_bitmap("assets/background/crtFilter.png");
     init_background(bg);
-    init_display(queue);
-    init_keyboard(key, queue);
 
     /* Snow Impact propriamento dito */
     while(!finished) { // Loop de jogo
@@ -97,16 +97,17 @@ int main(void) {
     }
 
     /* Desalocar tudo e destruir para finalizar o jogo */
-    al_destroy_font(font);
+    destroy_display();
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
+    al_destroy_font(font);
     al_destroy_bitmap(crtFilter);
-    destroy_display();
     destroy_background(bg);
     destroy_player(&player);
     destroy_bullets(&bulletsPlayer);
-    destroy_bullets(&bulletsEnemy);
     destroy_enemies(&enemies);
+    destroy_sprites_bullets();
+    destroy_bullets(&bulletsEnemy);
 
     return 0;
 }

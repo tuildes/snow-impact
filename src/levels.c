@@ -43,8 +43,7 @@ void draw_background(Background *b) {
 }
 
 void destroy_background(Background *b) {
-    for(size_t i = 0; i < PARALLAX_SIZE; i++)
-        al_destroy_bitmap(b[i].image);
+    for(size_t i = 0; i < PARALLAX_SIZE; i++) al_destroy_bitmap(b[i].image);
 }
 
 // void init_select_level(ALLEGRO_BITMAP **temp, ALLEGRO_BITMAP **temp2) {

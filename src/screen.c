@@ -33,6 +33,7 @@ void init_display(ALLEGRO_EVENT_QUEUE* queue) {
 
 void destroy_display() {
     al_destroy_bitmap(icon);
+    al_destroy_bitmap(buffer);
     al_destroy_display(disp);
 }
 

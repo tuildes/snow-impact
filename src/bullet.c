@@ -58,6 +58,7 @@ void destroy_bullet(Bullet *b) {
     if(b->next == NULL) return;
 
     b->next = b->next->next;
+    
     free(temp);
 }
 
@@ -177,8 +178,11 @@ void draw_bullets(Bullet *bplayer) {
                         temp->next->x, temp->next->y, 0);
 }
 void destroy_bullets(Bullet *bplayer) {
-    for(size_t i = 0; i < 4; i++) al_destroy_bitmap(bullet_sprite[i]);
     while(bplayer->next != NULL) destroy_bullet(bplayer);
+}
+
+void destroy_sprites_bullets() {
+    for(size_t i = 0; i < 4; i++) al_destroy_bitmap(bullet_sprite[i]);
 }
 
 // void update_special_bullets(Player player) {
