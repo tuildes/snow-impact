@@ -8,11 +8,11 @@ void init_all() {
     initialize_or_exit(al_init_font_addon(), "addon de font");
     initialize_or_exit(al_init_ttf_addon(), "addon de ttf");
     initialize_or_exit(al_init_image_addon(), "addon de imagens");
-    initialize_or_exit(al_install_audio(), "audio");
+    // initialize_or_exit(al_install_audio(), "audio");
     initialize_or_exit(al_init_acodec_addon(), "codecs de audio");
-    initialize_or_exit(al_reserve_samples(16), "reserve samples");
+    // initialize_or_exit(al_reserve_samples(16), "reserve samples");
     initialize_or_exit(al_init_primitives_addon(), "primitives");
-    initialize_or_exit(al_reserve_samples(128), "reservas de samples");
+    // initialize_or_exit(al_reserve_samples(128), "reservas de samples");
 }
 
 void initialize_or_exit(bool fc, const char *n) {
