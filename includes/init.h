@@ -5,8 +5,6 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-// #include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_primitives.h>
 
 #include <time.h>
@@ -32,12 +30,6 @@ ALLEGRO_BITMAP* init_bitmap(const char *local);
 
 // Inicializa a FONTE e gera um EXIT em caso de erro
 ALLEGRO_FONT* init_font(const char *local, int fontSize);
-
-// Inicializa um SAMPLE e gera um EXIT em caso de erro
-ALLEGRO_SAMPLE* init_sample(const char *local);
-
-// Inicializa a MUSICA e gera um EXIT em caso de erro
-ALLEGRO_AUDIO_STREAM* init_music();
 
 // Inicializa o TIMER e gera um EXIT em caso de erro
 ALLEGRO_TIMER* init_timer(float framerate, ALLEGRO_EVENT_QUEUE* queue);
