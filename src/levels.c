@@ -275,11 +275,12 @@ int draw_history_level(size_t max, float *y,
                         ALLEGRO_FONT *font) {
 
     for(size_t i = 0; i < max; i++)
-        al_draw_text(font, al_map_rgb(255, 255, ((i < 2) ? 255 : 0)), 
-                    (BUFFER_W >> 1), 
-                    (BUFFER_H - (*y) + ((FONT_SIZE << 1) * i)), 
-                    ALLEGRO_ALIGN_CENTER,
-                    texts[i]);
+        if(texts[i]) 
+            al_draw_text(font, al_map_rgb(255, 255, ((i < 2) ? 255 : 0)), 
+                        (BUFFER_W >> 1), 
+                        (BUFFER_H - (*y) + ((FONT_SIZE << 1) * i)), 
+                        ALLEGRO_ALIGN_CENTER,
+                        texts[i]);
 
     (*y) += 0.5;
 
