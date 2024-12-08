@@ -6,13 +6,13 @@ ALLEGRO_BITMAP *enemy_sprite[9];
 Enemy init_enemies() {
 
     const char *paths[9] = {
-        "assets/sprite/enemy/01.png",
-        "assets/sprite/enemy/02.png",
-        "assets/sprite/enemy/03.png",
-        "assets/sprite/enemy/02.png",
-        "assets/sprite/enemy/01.png",
-        "assets/sprite/enemy/03.png",
-        "assets/sprite/enemy/07.png",
+        "assets/sprite/enemy/enemy_01.png",
+        "assets/sprite/enemy/enemy_02.png",
+        "assets/sprite/enemy/enemy_03.png",
+        "assets/sprite/enemy/enemy_04.png",
+        "assets/sprite/enemy/enemy_05.png",
+        "assets/sprite/enemy/enemy_06.png",
+        "assets/sprite/enemy/enemy_07.png",
         "assets/sprite/boss/herbert_mini_klutzy.png",
         "assets/sprite/boss/herbert_snowballed.png"
     };
@@ -37,7 +37,7 @@ bool add_enemy(Enemy *enemies, int e) {
 
     switch(e) {
         case 1:
-            new->dx = 1.5;
+            new->dx = 2;
             new->dy = 1.0;
             new->hp = ENEMY_HP;
             new->delay = 0;
@@ -46,10 +46,10 @@ bool add_enemy(Enemy *enemies, int e) {
             new->height = 28;
             break;
         case 2:
-            new->dx = 1.0;
+            new->dx = 0.25;
             new->dy = 0.5;
             new->hp = ENEMY_HP;
-            new->delay = 0;
+            new->delay = ENEMY_DELAY;
             new->sprite = 1;
             new->width = 30;
             new->height = 30;
@@ -57,16 +57,16 @@ bool add_enemy(Enemy *enemies, int e) {
         case 3:
             new->dx = 1.0;
             new->dy = 0.5;
-            new->hp = (ENEMY_HP << 1);
-            new->delay = ENEMY_DELAY;
+            new->hp = ENEMY_HP;
+            new->delay = (ENEMY_DELAY << 1);
             new->sprite = 2;
             new->width = 30;
             new->height = 24;
             break;
         case 4: // Inimigo: Tank
-            new->dx = 0.5;
-            new->dy = 0.5;
-            new->hp = (ENEMY_HP + 1);
+            new->dx = 1;
+            new->dy = 0.25;
+            new->hp = ENEMY_HP;
             new->delay = 0;
             new->sprite = 3;
             new->width = 30;
@@ -91,7 +91,7 @@ bool add_enemy(Enemy *enemies, int e) {
             new->height = 28;
             break;
         case 7: // Inimigo: Puffle
-            new->dx = 4;
+            new->dx = 5;
             new->dy = 0;
             new->hp = (ENEMY_HP);
             new->delay = 0;
@@ -102,7 +102,7 @@ bool add_enemy(Enemy *enemies, int e) {
         case 8: // Inimigo: Klutzy
             new->dx = 2.5;
             new->dy = 0.1;
-            new->hp = 2;
+            new->hp = (ENEMY_HP >> 1);
             new->delay = 0;
             new->sprite = 7;
             new->width = 30;
@@ -140,16 +140,16 @@ void __destroy_enemy(Enemy *e) {
     free(temp);
 }
 
-void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
+void update_enemies(Enemy *enemies, Player *player, Bullet *b, 
+                    unsigned int actualScreen) {
 
     unsigned int EMEMY_FRAMES_DELAY = (unsigned int)(ENEMY_SPAWN / mult);
 
     // Colocar mais inimigos na tela
-    if((mult < 2.0) && ((frames % EMEMY_FRAMES_DELAY) == 0))
-        add_enemy(enemies, (4 + (rand() % 3)));
-
-    // Colocar o puffle que voa como um meteoro
-    if((mult < 2.0) && (frames % 333 == 0)) add_enemy(enemies, 7);
+    if((mult < 2.0) && ((frames % EMEMY_FRAMES_DELAY) == 0)) {
+        if((actualScreen == 2)) add_enemy(enemies, (1 + (rand() % 3)));
+        else add_enemy(enemies, (4 + (rand() % 4)));
+    }
 
     Enemy *temp = enemies;
     for(Enemy *enemie = enemies->next; enemie != NULL; enemie = enemie->next) {

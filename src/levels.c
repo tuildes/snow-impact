@@ -4,8 +4,12 @@
 
 void init_select_level(unsigned int *actualScreen);
 void init_stats_level(Background *b);
-void init_level_one(Player *player, Background *b);
-void init_two_one(Player *player, Background *b);
+void init_level_one(Player *player, Background *b, Boss *boss, 
+                    Bullet *bulletsPlayer, Bullet *bulletsEnemy,
+                    Enemy *enemies);
+void init_level_two(Player *player, Background *b, Boss *boss, 
+                    Bullet *bulletsPlayer, Bullet *bulletsEnemy,
+                    Enemy *enemies);
 
 void init_background(Background *b) {
 
@@ -150,8 +154,9 @@ void destroy_select_level(Background *b) {
     destroy_background(b); // Desalocar memoria
 }
 
-void init_level_one(Player *player, Background *b) {
-    destroy_background(b); // Desalocar memoria
+void init_level_one(Player *player, Background *b, Boss *boss, 
+                    Bullet *bulletsPlayer, Bullet *bulletsEnemy,
+                    Enemy *enemies) {
 
     // Trocar background
     b[0].image = init_bitmap("assets/background/level1-1.png");
@@ -162,6 +167,12 @@ void init_level_one(Player *player, Background *b) {
 
     b[2].image = init_bitmap("assets/background/level1-3.png");
     b[2].velX = 1;
+
+    // Inicializar variaveis
+    *boss           = init_boss(1);
+    *bulletsPlayer  = init_bullets();
+    *bulletsEnemy   = init_bullets(); 
+    *enemies        = init_enemies();
 
     // Setar posicao do jogador
     player->x = 50;
@@ -176,15 +187,16 @@ void init_level_two(Player *player, Background *b, Boss *boss,
                     Enemy *enemies) {
     
     // Trocar background
-    b[0].image = init_bitmap("assets/background/level1-1.png");
+    b[0].image = init_bitmap("assets/background/level2-1.png");
     b[0].velX = 0.25;
 
-    b[1].image = init_bitmap("assets/background/level1-2.png");
+    b[1].image = init_bitmap("assets/background/level2-2.png");
     b[1].velX = 0.5;
 
-    b[2].image = init_bitmap("assets/background/level1-3.png");
+    b[2].image = init_bitmap("assets/background/level2-3.png");
     b[2].velX = 1;
 
+    // Inicializar variaveis
     *boss           = init_boss(0);
     *bulletsPlayer  = init_bullets();
     *bulletsEnemy   = init_bullets(); 
@@ -217,15 +229,18 @@ void switch_level(unsigned int l, Player *player, Background *b,
     if(l == *actualScreen) return; // Evitar trocas desnecessarias
 
     // Destruir tela anterior
-    destroy_actual_level(*actualScreen, b, boss, bulletsPlayer, bulletsEnemy, enemies);
+    destroy_actual_level(*actualScreen, b, boss, 
+                         bulletsPlayer, bulletsEnemy, enemies);
 
     // Carregar a proxima tela
     switch(l) {
         case 2: 
-            init_level_one(player, b);
+            init_level_one(player, b, boss, 
+                           bulletsPlayer, bulletsEnemy, enemies);
             break;
         case 4:
-            init_level_two(player, b, boss, bulletsPlayer, bulletsEnemy, enemies);
+            init_level_two(player, b, boss, 
+                           bulletsPlayer, bulletsEnemy, enemies);
             break;
         case 6:
             init_stats_level(b);
@@ -246,6 +261,7 @@ void destroy_actual_level(unsigned int actualScreen, Background *b,
         case 0: 
             destroy_select_level(b);
             break;
+        case 2:
         case 4:
             destroy_level_two(b, boss, bulletsPlayer, bulletsEnemy, enemies);
         default:

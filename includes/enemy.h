@@ -11,15 +11,16 @@
 
 #define ENEMY_HP       3
 #define ENEMY_DELAY    50
-#define ENEMY_SPAWN    120
+#define ENEMY_SPAWN    70
 
-#define PLAYER_DAMAGE  10
+#define PLAYER_DAMAGE  1
 
 Enemy init_enemies();
 
 bool add_enemy(Enemy *enemies, int e);
 
-void update_enemies(Enemy *enemies, Player *player, Bullet *b);
+void update_enemies(Enemy *enemies, Player *player, Bullet *b, 
+                    unsigned int actualScreen);
 
 void draw_enemies(Enemy *enemies, bool debug, ALLEGRO_FONT* font);
 

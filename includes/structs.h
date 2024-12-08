@@ -31,7 +31,7 @@ typedef struct {
     unsigned int hp, delay;
     int actualHp;
     ALLEGRO_BITMAP *sprite[3];
-    float x, y, dy, 
+    float x, y, dy, dx, 
           width, height;
 } Boss;
 

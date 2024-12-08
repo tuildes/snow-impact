@@ -78,7 +78,30 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug,
                 "Vidas: %1hd", player.lifes);
 
     // Fala do personagem
-    if(actualScreen == 4) {
+    if(actualScreen == 2) {
+        if(mult < 1.2) {
+            al_draw_text(font, al_map_rgb(255, 255, 255), 
+                    (MARGIN_BORDER), 
+                    (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                    ALLEGRO_ALIGN_LEFT,
+                    "[NAVE]: KLUTZY FAZENDO ROBOS? HORA DE DESTRUIR.");
+        } else if ((mult > 1.8) && (mult < 2)) {
+            al_draw_text(font, al_map_rgb(255, 255, 255), 
+                                (MARGIN_BORDER), 
+                                (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                                ALLEGRO_ALIGN_LEFT,
+                                "[NAVE]: KLUTZY ESTA CHEGANDO!");
+        } else if (boss.actualHp == 0) {
+             al_draw_text(font, al_map_rgb(255, 255, 255), 
+                                (MARGIN_BORDER), 
+                                (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                                ALLEGRO_ALIGN_LEFT,
+                                "[KLUTZY]: Clickity click click"
+                                " (voce me pegou)");
+        }
+
+    // Fala personagem (fase 02)
+    } else {
         if(mult < 1.2) {
             al_draw_text(font, al_map_rgb(255, 255, 255), 
                     (MARGIN_BORDER), 

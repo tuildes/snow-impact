@@ -8,7 +8,8 @@
 
 Boss init_boss(unsigned int type);
 
-void update_boss(Boss *boss, Bullet *b, Enemy *enemies, Player *player);
+void update_boss(Boss *boss, Bullet *b, Enemy *enemies, Player *player, 
+                 bool level);
 
 void draw_boss(Boss boss);
 

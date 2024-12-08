@@ -57,7 +57,10 @@ void update_player(Player *player, unsigned char *key, Bullet *bplayer) {
         __movement_player(player, -1.0, 0.0);
     if(key[ALLEGRO_KEY_SPACE]) {
         if(player->delay >= BULLET_DELAY) {
-            add_bullet(player->x, player->y, bplayer, 0);
+            if(special.get)
+                add_bullet(player->x, player->y, bplayer, (special.sprite + 1));
+            else
+                add_bullet(player->x, player->y, bplayer, 0);
             player->delay = 0;
             player->bullets += 1;
         }

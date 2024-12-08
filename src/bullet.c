@@ -14,13 +14,21 @@ Bullet init_bullets() {
 
         // Tiros do inimigo
         "assets/sprite/enemy/snowball.png",
+        "assets/sprite/boss/redball.png",
     };
 
     // Inicializar os bitmaps dos tiros
-    for(size_t i = 0; i < 4; i++) bullet_sprite[i] = init_bitmap(paths[i]);
+    for(size_t i = 0; i < 5; i++) bullet_sprite[i] = init_bitmap(paths[i]);
     
     Bullet bullets;
     bullets.next = NULL;
+
+    // Inicializar poderes
+    special.actived = false;
+    special.get = false;
+    special.dx = 4;
+    special.height = 12;
+    special.width = 12;
 
     return bullets;
 }
@@ -151,62 +159,62 @@ void destroy_bullets(Bullet *bplayer) {
 }
 
 void destroy_sprites_bullets() {
-    for(size_t i = 0; i < 4; i++) al_destroy_bitmap(bullet_sprite[i]);
+    for(size_t i = 0; i < 5; i++) al_destroy_bitmap(bullet_sprite[i]);
 }
 
-// void update_special_bullets(Player player) {
+void update_special_bullets(Player player) {
 
-//     // Especial no mapa
-//     if(special.actived) {
-//         special.x -= special.dx;
-//         if((special.x + special.width) <= 0) special.actived = false;
+    // Especial no mapa
+    if(special.actived) {
+        special.x -= special.dx;
+        if((special.x + special.width) <= 0) special.actived = false;
 
-//         if(collide( special.x, special.y, 
-//                     (special.x + special.width), (special.y + special.height),
-//                     player.x, player.y,
-//                     (player.x + PLAYER_W), (player.y + PLAYER_H))) {
-//             special.get = true;
-//             special.actived = false;
-//         }
+        if(collide( special.x, special.y, 
+                    (special.x + special.width), (special.y + special.height),
+                    player.x, player.y,
+                    (player.x + PLAYER_W), (player.y + PLAYER_H))) {
+            special.get = true;
+            special.actived = false;
+        }
 
-//         return;
-//     }
+        return;
+    }
 
-//     // Especial coletado
-//     if(special.get) {
-//         special.time -= (float)(1.0 / FRAMERATE);
+    // Especial coletado
+    if(special.get) {
+        special.time -= (float)(1.0 / FRAMERATE);
 
-//         if(special.time <= 0) special.get = false;
+        if(special.time <= 0) special.get = false;
 
-//         return;
-//     }
+        return;
+    }
 
-//     // Especial para ser colocado no mapa
+    if((frames % SPECIAL_DELAY) != 0) return;
 
-//     if((frames % SPECIAL_DELAY) != 0) return;
+    special.actived = true;
+    special.get = false;
 
-//     special.actived = true;
-//     special.get = false;
+    special.x = (BUFFER_W);
+    special.y = (float)(20 + (rand() % (BUFFER_H - 20)));
 
-//     special.x = (BUFFER_W);
-//     special.y = (float)(20 + (rand() % (BUFFER_H - 20)));
+    if((rand() % 2) == 0) { // Explosivo
+        special.sprite = 0;
+        special.time = 4.0;
+    }
 
-//     if((rand() % 2) == 0) { // Explosivo
-//         special.sprite = 0;
-//         special.time = 2.0;
-//     }
-//     else {
-//         special.sprite = 1;
-//         special.time = 3.0;
-//     }
+    else { // Gelinho
+        special.sprite = 1;
+        special.time = 5.0;
+    }
 
-//     special.sprite = (unsigned char)((unsigned char)rand() % 2);
-// }
+    special.sprite = (unsigned char)((unsigned char)rand() % 2);
+}
 
-// void draw_special() {
-//     if(!special.actived) return;
-//     al_draw_filled_rectangle(special.x, special.y, 
-//                             (special.x + special.width),
-//                             (special.y + special.height),
-//                             al_map_rgb(0, 0, 255));
-// }
+void draw_special() {
+    if(!special.actived) return;
+
+    al_draw_circle((special.x + (special.width / 2)), (special.y + (special.width / 2)), 
+                   (special.width / 2), 
+                   (special.sprite == 0) ? (al_map_rgb(255, 150, 0)) : (al_map_rgb(100, 100, 255)), 
+                   0);
+}

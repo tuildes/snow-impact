@@ -50,7 +50,7 @@ int main(void) {
         "",
         "VOCE SEGUIU ELE",
         "MAS ELE ESTAVA MUITO RAPIDO NA SUA FUGA",
-        "POR ISSO VOCE TEVE QUE PEGAR A SUA ANTIGA COMPANHEIRA",
+        "POR ISSO VOCE PEGOU A SUA ANTIGA COMPANHEIRA",
         "A NAVE DO ASTRO BARRIER",
         "",
         "MISSAO: CAPTURE E INTERROGUE KLUTZY, O CARANGUEIJO"
@@ -130,13 +130,38 @@ int main(void) {
 
                 // Level 01 do jogo
                 case 2:   
+                    // Apenas atualiza o jogo quando nao tiver pausado
                     if(!paused) {
+                        update_bullets(&bulletsPlayer, false, &player, &enemies, &boss);
+                        update_bullets(&bulletsEnemy, true, &player, &enemies, &boss);
+                        update_player(&player, key, &bulletsPlayer);
+                        update_boss(&boss, &bulletsEnemy, &enemies, &player, 1);
+                        update_background(bg);
+                        update_enemies(&enemies, &player, &bulletsEnemy, actualScreen);
                         update_status();
+                        update_special_bullets(player);
+
+                        if(player.lifes == 0) finished = true;
                     }
 
-                    check_boss_death(boss, &fade, font, 
-                                    "Klutzy derrotado. Prosseguindo.", 
-                                    &player);
+                    draw_background(bg);
+                    draw_bullets(&bulletsEnemy);
+                    draw_enemies(&enemies, debug, font);
+                    draw_boss(boss);
+                    draw_bullets(&bulletsPlayer);
+                    draw_special();
+                    draw_player(player);
+                    draw_status(player, font, debug, actualScreen, boss);
+
+                    if (check_boss_death(boss, &fade, font, 
+                                        "Klutzy derrotado. Prosseguindo.", 
+                                        &player)) {
+                        switch_level(3, &player, bg, &actualScreen, 
+                                    &boss, 
+                                    &bulletsPlayer, &bulletsEnemy, 
+                                    &enemies);
+                        fade = 0;
+                    }
 
                     if (paused) draw_pause(font);
 
@@ -159,9 +184,9 @@ int main(void) {
                         update_bullets(&bulletsPlayer, false, &player, &enemies, &boss);
                         update_bullets(&bulletsEnemy, true, &player, &enemies, &boss);
                         update_player(&player, key, &bulletsPlayer);
-                        update_boss(&boss, &bulletsEnemy, &enemies, &player);
+                        update_boss(&boss, &bulletsEnemy, &enemies, &player, 0);
                         update_background(bg);
-                        update_enemies(&enemies, &player, &bulletsEnemy);
+                        update_enemies(&enemies, &player, &bulletsEnemy, actualScreen);
                         update_status();
 
                         if(player.lifes == 0) finished = true;
@@ -177,11 +202,13 @@ int main(void) {
 
                     if (check_boss_death(boss, &fade, font, 
                                         "HERBERT FOI DERROTADO!!!", 
-                                        &player))
+                                        &player)) {
                         switch_level(5, &player, bg, &actualScreen, 
                                     &boss, 
                                     &bulletsPlayer, &bulletsEnemy, 
                                     &enemies);
+                        fade = 0;
+                    }
 
                     if (paused) draw_pause(font);
 
@@ -196,6 +223,7 @@ int main(void) {
                                     &bulletsPlayer, &bulletsEnemy, 
                                     &enemies);
                     break;
+
                 // Tela de estatisticas
                 case 6:
                     draw_stats_level(font, fontAlt, bg, player);
