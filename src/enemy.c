@@ -1,11 +1,11 @@
 #include "enemy.h"
 #include "bullet.h"
 
-ALLEGRO_BITMAP *enemy_sprite[8];
+ALLEGRO_BITMAP *enemy_sprite[9];
 
 Enemy init_enemies() {
 
-    const char *paths[8] = {
+    const char *paths[9] = {
         "assets/sprite/enemy/01.png",
         "assets/sprite/enemy/02.png",
         "assets/sprite/enemy/03.png",
@@ -13,11 +13,12 @@ Enemy init_enemies() {
         "assets/sprite/enemy/01.png",
         "assets/sprite/enemy/03.png",
         "assets/sprite/enemy/07.png",
+        "assets/sprite/boss/herbert_mini_klutzy.png",
         "assets/sprite/boss/herbert_snowballed.png"
     };
 
     // Inicializar sprites
-    for(size_t i = 0; i < 8; i++)  enemy_sprite[i] = init_bitmap(paths[i]);
+    for(size_t i = 0; i < 9; i++)  enemy_sprite[i] = init_bitmap(paths[i]);
 
     Enemy e;
     e.next = NULL;
@@ -90,21 +91,29 @@ bool add_enemy(Enemy *enemies, int e) {
             new->height = 28;
             break;
         case 7: // Inimigo: Puffle
-        case 8:
             new->dx = 4;
             new->dy = 0;
             new->hp = (ENEMY_HP);
             new->delay = 0;
             new->sprite = 6;
             new->width = 20;
-            new->height = 28;
+            new->height = 18;
+            break;
+        case 8: // Inimigo: Klutzy
+            new->dx = 2.5;
+            new->dy = 0.1;
+            new->hp = 2;
+            new->delay = 0;
+            new->sprite = 7;
+            new->width = 30;
+            new->height = 30;
             break;
         case 9:
             new->dx = 2;
             new->dy = 0;
             new->hp = 1; // Nao importa a vida, ele eh indestrutivel
             new->delay = 0;
-            new->sprite = 7;
+            new->sprite = 8;
             new->width = 58;
             new->height = 65;
             break;
@@ -117,13 +126,6 @@ bool add_enemy(Enemy *enemies, int e) {
     new->iced = false;
     new->time = 0;
     new->next = NULL;
-
-    // Caso especial para o puffle de boss
-    if(e == 8) {
-        new->dx = 2.5;
-        new->dy = 0.1;
-    }
-
     temp->next = new;
 
     return 0;
@@ -231,16 +233,16 @@ void draw_enemies(Enemy *enemies, bool debug, ALLEGRO_FONT* font) {
         al_draw_bitmap(enemy_sprite[(enemie->sprite)], 
                 enemie->x, enemie->y, 
                 0);
-        if(debug) 
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 
+        if(debug)
+            al_draw_textf(font, al_map_rgb(255, 255, 0), 
                         (enemie->x + (enemie->width / 2)), 
-                        (enemie->y + enemie->height), 
+                        (enemie->y + enemie->height + 5), 
                         ALLEGRO_ALIGN_CENTER,
                         "%d", enemie->hp);
     }
 }
 
 void destroy_enemies(Enemy *e) {
-    for(size_t i = 0; i < 7; i++) al_destroy_bitmap(enemy_sprite[i]);
+    for(size_t i = 0; i < 9; i++) al_destroy_bitmap(enemy_sprite[i]);
     while(e->next != NULL) __destroy_enemy(e);
 }

@@ -114,7 +114,7 @@ void update_bullets(Bullet *bplayer, bool enemy, Player *player,
             }
 
             for(Enemy *enemie = enemies->next; enemie != NULL; enemie = enemie->next) {
-                if(enemie->sprite == 7) continue;
+                if(enemie->sprite == 8) continue;
 
                 if(collide( temp->next->x, temp->next->y, 
                             (temp->next->x + BULLET_W), (temp->next->y + BULLET_H),

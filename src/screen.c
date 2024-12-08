@@ -54,10 +54,11 @@ void update_status() {
     frames++; // Atualizar o valor dos frames
 
     // A cada X frames atualiza a velocidade do jogo
-    if((mult <= 2.25) && (frames % 20 == 0)) mult += 0.01; 
+    if((mult <= 2.25) && (frames % 20 == 0)) mult += 0.02; 
 }
 
-void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
+void draw_status(Player player, ALLEGRO_FONT* font, bool debug, 
+                 unsigned int actualScreen, Boss boss) {
 
     #define MARGIN_BORDER 4 
     #define DEBUG_COLOR al_map_rgb(100, 100, 100)
@@ -76,12 +77,29 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug) {
                 ALLEGRO_ALIGN_LEFT,
                 "Vidas: %1hd", player.lifes);
 
-    // Nome da fase
-    al_draw_textf(font, al_map_rgb(255, 255, 255), 
-                (MARGIN_BORDER), 
-                (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
-                ALLEGRO_ALIGN_LEFT,
-                "PLACEHOLDER");
+    // Fala do personagem
+    if(actualScreen == 4) {
+        if(mult < 1.2) {
+            al_draw_text(font, al_map_rgb(255, 255, 255), 
+                    (MARGIN_BORDER), 
+                    (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                    ALLEGRO_ALIGN_LEFT,
+                    "[NAVE]: CAPANGAS DA NEVE? HORA DE ATIRAR!");
+        } else if ((mult > 1.8) && (mult < 2)) {
+            al_draw_text(font, al_map_rgb(255, 255, 255), 
+                                (MARGIN_BORDER), 
+                                (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                                ALLEGRO_ALIGN_LEFT,
+                                "[NAVE]: HEBERT ESTA CHEGANDO!");
+        } else if (boss.actualHp == 0) {
+             al_draw_text(font, al_map_rgb(255, 255, 255), 
+                                (MARGIN_BORDER), 
+                                (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                                ALLEGRO_ALIGN_LEFT,
+                                "[HERBERT]: VOCE EH MUITO FORTE."
+                                "CONSEGUIU ME CAPTURAR");
+        }
+    }
 
     // Textos de depuracao
     if(debug) {

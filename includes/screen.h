@@ -25,7 +25,8 @@ void pre_draw_display();
 void post_draw_display();
 
 void update_status();
-void draw_status(Player player, ALLEGRO_FONT* font, bool debug);
+void draw_status(Player player, ALLEGRO_FONT* font, bool debug, 
+                 unsigned int actualScreen, Boss boss);
 void draw_pause(ALLEGRO_FONT* font);
 
 #endif // __SCREEN_H__

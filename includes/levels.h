@@ -7,6 +7,8 @@
 #include "enemy.h"
 #include "structs.h"
 
+#include <math.h>
+
 #define LEVEL_01_INTRODUCTION_TEXT "Fase 1: resolvendo problemas de carangueijo"
 #define LEVEL_02_INTRODUCTION_TEXT "Fase 2: capturando Herbert"
 
@@ -48,5 +50,12 @@ void destroy_actual_level(unsigned int actualScreen, Background *b,
                           Boss *boss, 
                           Bullet *bulletsPlayer, Bullet *bulletsEnemy,
                           Enemy *enemies);
+                          
+int draw_history_level(size_t max, float *y, 
+                        const char *texts[], 
+                        ALLEGRO_FONT *font);
+
+void draw_stats_level(ALLEGRO_FONT* font, ALLEGRO_FONT* title, 
+                      Background *b, Player player);
 
 #endif // __LEVELS_H__

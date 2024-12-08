@@ -19,6 +19,7 @@ void update_keyboard(unsigned char *key, ALLEGRO_EVENT event, bool *finished);
 void keyboard_mapping(unsigned char *key);
 
 void keyboard_options(unsigned char *key, bool *pause, bool *debug, 
-                      unsigned int actualScreen, unsigned char *choose);
+                      unsigned int actualScreen, unsigned char *choose,
+                      float *textY);
 
 #endif // __KEYBOARD_H__

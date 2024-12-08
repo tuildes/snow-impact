@@ -11,6 +11,7 @@ Player create_player(float x, float y) {
     p.lifes = 3;
     p.kills = 0;
     p.time = 0;
+    p.bullets = 0;
     p.delay = BULLET_DELAY;
     // Criar e guardar imagens
     p.sprite = NULL;
@@ -58,6 +59,7 @@ void update_player(Player *player, unsigned char *key, Bullet *bplayer) {
         if(player->delay >= BULLET_DELAY) {
             add_bullet(player->x, player->y, bplayer, 0);
             player->delay = 0;
+            player->bullets += 1;
         }
     }    
 
@@ -70,8 +72,7 @@ void update_player(Player *player, unsigned char *key, Bullet *bplayer) {
 void draw_player(Player player) { 
     if (player.lifes == 0) return; // Jogador sem vidas
     if ((player.invincibility) % 10 <= 5) // Frames de invencibilidade
-
-    al_draw_bitmap(player.sprite, player.x, player.y, 0); 
+        al_draw_bitmap(player.sprite, player.x, player.y, 0); 
 }
 
 void damage_player(Player *player) {

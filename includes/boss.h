@@ -8,13 +8,13 @@
 
 Boss init_boss(unsigned int type);
 
-void update_boss(Boss *boss, Bullet *b, Enemy *enemies);
+void update_boss(Boss *boss, Bullet *b, Enemy *enemies, Player *player);
 
 void draw_boss(Boss boss);
 
 void destroy_boss(Boss *boss);
 
-void check_boss_death(Boss boss, float *fade, ALLEGRO_FONT* font, 
+int check_boss_death(Boss boss, float *fade, ALLEGRO_FONT* font, 
                       const char *victoryText, Player *p);
 
 #endif // __BOSS_H__

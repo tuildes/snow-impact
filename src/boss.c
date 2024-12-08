@@ -1,5 +1,6 @@
 #include "boss.h"
 #include "bullet.h"
+#include "player.h"
 
 Boss init_boss(unsigned int type) {
     Boss b;
@@ -8,8 +9,8 @@ Boss init_boss(unsigned int type) {
     const char *paths[] = {
         // Herbert
         "assets/sprite/boss/boss_02_default.png",
-        "assets/sprite/boss/boss_02_default.png",
-        "assets/sprite/boss/boss_02_default.png",
+        "assets/sprite/boss/boss_02_bullet.png",
+        "assets/sprite/boss/boss_02_damaged.png",
     };
 
     // Herbert
@@ -30,13 +31,22 @@ Boss init_boss(unsigned int type) {
     return b;
 }
 
-void update_boss(Boss *boss, Bullet *b, Enemy *enemies) {
+void update_boss(Boss *boss, Bullet *b, Enemy *enemies, Player *player) {
     if((mult >= 2.0) && (!boss->active)) boss->active = true; 
     if(!boss->active) return;
     if(boss->actualHp <= 0) return;  // Chefe morto
 
     // Se ele nao estiver na tela, o coloque
     if(boss->x >= (BUFFER_W - boss->width - 10)) (boss->x) -= 20;
+
+    // Dano ao jogador (contato)
+    if( (player->invincibility == 0) &&
+        collide (player->x, player->y, 
+                (player->x + PLAYER_W), (player->y + PLAYER_H),
+                boss->x, boss->y,
+                (boss->x + boss->width), 
+                (boss->y + boss->height)))
+        damage_player(player);
 
     // Ataques
     if((frames % boss->delay) == 0) {
@@ -107,14 +117,9 @@ void destroy_boss(Boss *boss) {
         for(size_t i = 0; i < 3; i++) al_destroy_bitmap(boss->sprite[i]);
 }
 
-void check_boss_death(Boss boss, float *fade, ALLEGRO_FONT* font, 
+int check_boss_death(Boss boss, float *fade, ALLEGRO_FONT* font, 
                       const char *victoryText, Player *p) {
-    if((!boss.active) || (boss.actualHp > 0)) return;
-
-    if(*fade < 1.0) (*fade)  += 0.005;
-    else {
-        p->invincibility = 100;
-    }
+    if((!boss.active) || (boss.actualHp > 0)) return 0;
 
     // Fundo de fade (para transicao)
     al_draw_filled_rectangle(0, 0, BUFFER_W, BUFFER_H, 
@@ -124,4 +129,11 @@ void check_boss_death(Boss boss, float *fade, ALLEGRO_FONT* font,
                 (BUFFER_W >> 1), (BUFFER_H >> 1), 
                 ALLEGRO_ALIGN_CENTER,
                 "%s", victoryText);
+
+    if(*fade < 1.0) {
+        (*fade) += 0.005;
+        p->invincibility = 91;
+    }
+    else return 1; // Declarar que eh para fazer a transicao de fases
+    return 0;
 }

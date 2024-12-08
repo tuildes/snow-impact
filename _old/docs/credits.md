@@ -1,3 +1,0 @@
-- club penguin
-- background clouds: https://free-game-assets.itch.io/free-sky-with-clouds-background-pixel-art-set
-- title: https://en.logotextom.com/3d-adventure-text.php

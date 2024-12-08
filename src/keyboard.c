@@ -25,14 +25,15 @@ void update_keyboard(unsigned char *key, ALLEGRO_EVENT event, bool *finished) {
 }
 
 void keyboard_options(unsigned char *key, bool *pause, bool *debug, 
-                      unsigned int actualScreen, unsigned char *choose) {
+                      unsigned int actualScreen, unsigned char *choose,
+                      float *textY) {
     if(keyboardDelay < KEYBOARD_DELAY) { 
         keyboardDelay++;
         return;
     }
 
     switch(actualScreen) {
-        case 0:
+        case 0: // Menu
             if((*choose != 0) && key[ALLEGRO_KEY_UP]) {
                 keyboardDelay = 0;
                 (*choose)--;
@@ -41,6 +42,13 @@ void keyboard_options(unsigned char *key, bool *pause, bool *debug,
                 keyboardDelay = 0;
                 (*choose)++;
             } 
+            break;
+        case 1:
+        case 3:
+        case 5: // Telas de historia
+            if(key[ALLEGRO_KEY_SPACE]) (*textY) += 4;
+            break;
+        case 6: // Estatisticas
             break;
         case 2:
         case 4:

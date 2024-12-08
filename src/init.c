@@ -1,7 +1,7 @@
 #include "init.h"
 
 void init_all() {
-    srand(time(NULL)); // Seede aleatoria
+    srand(time(NULL)); // Seed aleatoria
 
     initialize_or_exit(al_init(), "Allegro");
     initialize_or_exit(al_install_keyboard(), "teclado");

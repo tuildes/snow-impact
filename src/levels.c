@@ -2,6 +2,11 @@
 #include "boss.h"
 #include "bullet.h"
 
+void init_select_level(unsigned int *actualScreen);
+void init_stats_level(Background *b);
+void init_level_one(Player *player, Background *b);
+void init_two_one(Player *player, Background *b);
+
 void init_background(Background *b) {
 
     b[0].image = init_bitmap("assets/background/menu-1.png");
@@ -63,10 +68,10 @@ void update_select_level(unsigned char *key, bool *finished,
 
     switch (choose){
         case 0:
-            switch_level(2, player, background, actualScreen, boss, bulletsPlayer, bulletsEnemy, enemies);
+            switch_level(1, player, background, actualScreen, boss, bulletsPlayer, bulletsEnemy, enemies);
             break;
         case 1:
-            switch_level(4, player, background, actualScreen, boss, bulletsPlayer, bulletsEnemy, enemies);
+            switch_level(3, player, background, actualScreen, boss, bulletsPlayer, bulletsEnemy, enemies);
             break;
         case 2:
             *finished = true;
@@ -123,7 +128,7 @@ void draw_select_level( ALLEGRO_FONT* font, ALLEGRO_FONT* title,
     al_draw_text(font, al_map_rgb(actual, actual, actual), 
                 (BUFFER_W >> 1), ((BUFFER_H >> 1) + 25), 
                 ALLEGRO_ALIGN_CENTER,
-                "PRENDENDO HERBERT");
+                "CAPTURANDO HERBERT");
 
     // Botao de sair
     if (choose == 2) actual = 255;
@@ -169,10 +174,16 @@ void init_level_one(Player *player, Background *b) {
 void init_level_two(Player *player, Background *b, Boss *boss, 
                     Bullet *bulletsPlayer, Bullet *bulletsEnemy,
                     Enemy *enemies) {
+    
     // Trocar background
     b[0].image = init_bitmap("assets/background/level1-1.png");
+    b[0].velX = 0.25;
+
     b[1].image = init_bitmap("assets/background/level1-2.png");
+    b[1].velX = 0.5;
+
     b[2].image = init_bitmap("assets/background/level1-3.png");
+    b[2].velX = 1;
 
     *boss           = init_boss(0);
     *bulletsPlayer  = init_bullets();
@@ -193,9 +204,9 @@ void destroy_level_two(Background *b, Boss *boss,
 
     destroy_background(b);
     destroy_bullets(bulletsPlayer);
+    destroy_bullets(bulletsEnemy);
     destroy_enemies(enemies);
     destroy_boss(boss);
-    destroy_bullets(bulletsEnemy);
 }
 
 void switch_level(unsigned int l, Player *player, Background *b, 
@@ -216,6 +227,8 @@ void switch_level(unsigned int l, Player *player, Background *b,
         case 4:
             init_level_two(player, b, boss, bulletsPlayer, bulletsEnemy, enemies);
             break;
+        case 6:
+            init_stats_level(b);
         default:
             break;
     }
@@ -239,4 +252,87 @@ void destroy_actual_level(unsigned int actualScreen, Background *b,
             break;
     }
 
+}
+
+int draw_history_level(size_t max, float *y, 
+                        const char *texts[], 
+                        ALLEGRO_FONT *font) {
+
+    for(size_t i = 0; i < max; i++)
+        al_draw_text(font, al_map_rgb(255, 255, ((i < 2) ? 255 : 0)), 
+                    (BUFFER_W >> 1), 
+                    (BUFFER_H - (*y) + ((FONT_SIZE << 1) * i)), 
+                    ALLEGRO_ALIGN_CENTER,
+                    texts[i]);
+
+    (*y) += 0.5;
+
+    if((BUFFER_H - (*y) + ((FONT_SIZE << 1) * max)) < 0) {
+        (*y) = 0;
+        return 1;
+    }
+    return 0;
+}
+
+void init_stats_level(Background *b) {
+    // Trocar background
+    b[0].image = init_bitmap("assets/background/stats-1.png");
+    b[0].velX = 0.1;
+
+    b[1].image = init_bitmap("assets/background/stats-2.png");
+    b[1].velX = 0.2;
+
+    b[2].image = init_bitmap("assets/background/stats-3.png");
+    b[2].velX = 0.3;
+}
+
+void draw_stats_level(ALLEGRO_FONT* font, ALLEGRO_FONT* title, 
+                      Background *b, Player player) {
+    #define MARGIN_BORDER 5
+
+    // Background
+    update_background(b);
+    draw_background(b);
+
+    al_draw_filled_rectangle(0, 0, 
+                        BUFFER_W, BUFFER_H, 
+                        al_map_rgba_f((float)0.015, 
+                                    (float)0.015, 
+                                    (float)0.015, 0.25));
+
+    al_draw_text(title, al_map_rgb(255, 200, 255), 
+                (BUFFER_W >> 1), 30, 
+                ALLEGRO_ALIGN_CENTER,
+                "SNOW IMPACT");
+    al_draw_text(font, al_map_rgb(255, 235, 255), 
+                (BUFFER_W >> 1), (57), 
+                ALLEGRO_ALIGN_CENTER,
+                "INSPIRADO EM SPACE IMPACT E CLUB PENGUIN");
+
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                (BUFFER_W >> 1), (BUFFER_H >> 1), 
+                ALLEGRO_ALIGN_CENTER,
+                "Tempo: %.0lfs", floor(player.time));
+    
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                (BUFFER_W >> 1), ((BUFFER_H >> 1) + 10), 
+                ALLEGRO_ALIGN_CENTER,
+                "Inimigos derrotados: %d (+ 2 chefes)", player.kills);
+
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                (BUFFER_W >> 1), ((BUFFER_H >> 1) + 20), 
+                ALLEGRO_ALIGN_CENTER,
+                "Tiros dados: %d", player.bullets);
+
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 
+                (BUFFER_W >> 1), ((BUFFER_H >> 1) + 30), 
+                ALLEGRO_ALIGN_CENTER,
+                "Pontos: %d", (5000 - (int)(player.time) + (5 * player.kills)));
+
+    // Creditos
+    al_draw_text(font, al_map_rgb(255, 255, 255), 
+                (MARGIN_BORDER), 
+                (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
+                ALLEGRO_ALIGN_LEFT,
+                "Feito por tuildes");
 }

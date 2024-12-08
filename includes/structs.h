@@ -9,7 +9,7 @@ typedef struct {
                  delay;
     long invincibility;
     double time;
-    unsigned int kills;
+    unsigned int kills, bullets;
     ALLEGRO_BITMAP *sprite;
 } Player;
 
@@ -41,9 +41,9 @@ typedef struct Enemy {
             width, height;
       int hp;
       bool iced;
-      unsigned int sprite:3,  // Valor do sprite no array
-                   delay,      // Valor de delay para cada tiro
-                   time;       // Valor de delay para o tiro
+      unsigned int sprite:4,  // Valor do sprite no array
+                   delay,     // Valor de delay para cada tiro
+                   time;      // Valor de delay para o tiro
       struct Enemy *next;
 } Enemy;
 
