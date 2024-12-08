@@ -2,7 +2,8 @@
 #define __BULLET_H__
 
 #include "init.h"
-#include "enemie.h"
+#include "enemy.h"
+#include "boss.h"
 #include "structs.h"
 
 #define BULLET_SPEED (PLAYER_DEFAULT_SPEED << 1)  // Velocidade dos tiros na tela
@@ -23,7 +24,7 @@ Bullet init_bullets();
 
 void add_bullet(float x, float y, Bullet *bullets, size_t sprite);
 void update_bullets(Bullet *bplayer, bool enemy, Player *player, 
-                    Enemy *enemies);
+                    Enemy *enemies, Boss *boss);
 
 void draw_bullets(Bullet *bplayer);
 void destroy_bullets(Bullet *bplayer);

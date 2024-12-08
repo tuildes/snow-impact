@@ -28,7 +28,7 @@ void init_display(ALLEGRO_EVENT_QUEUE* queue) {
     al_register_event_source(queue, al_get_display_event_source(disp));
 
     frames = 0;
-    mult = 1.0;
+    mult = MULT_START_VALUE;
 }
 
 void destroy_display() {

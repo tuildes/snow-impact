@@ -41,7 +41,7 @@ void add_bullet(float x, float y, Bullet *bullets, size_t sprite) {
         new->x  = (x + (PLAYER_W >> 1) - (BULLET_W >> 2));
         new->y  = (y + (PLAYER_H >> 1) - (BULLET_H >> 1));
     } else { // Inimigo
-        new->dx = (-BULLET_SPEED);
+        new->dx = -(BULLET_SPEED - 1);
         new->x  = (x  - (ENEMY_BULLET_W >> 2));
         new->y  = (y  - (ENEMY_BULLET_H >> 1));
     }
@@ -63,7 +63,7 @@ void destroy_bullet(Bullet *b) {
 }
 
 void update_bullets(Bullet *bplayer, bool enemy, Player *player, 
-                    Enemy *enemies) {
+                    Enemy *enemies, Boss *boss) {
 
     for(Bullet *temp = bplayer; temp->next != NULL; temp = temp->next) {
         // Arrumar posicao do tiro
@@ -97,7 +97,25 @@ void update_bullets(Bullet *bplayer, bool enemy, Player *player,
                 continue;
             }
 
+            if(boss->active && (boss->actualHp > 0)) {
+                if(collide( temp->next->x, temp->next->y, 
+                            (temp->next->x + BULLET_W), (temp->next->y + BULLET_H),
+                            boss->x, boss->y,
+                            (boss->x + boss->width), 
+                            (boss->y + boss->height))) {
+                    if (temp->next->sprite)
+                        boss->actualHp -= (PLAYER_DAMAGE << 1);
+                    else
+                        boss->actualHp -= PLAYER_DAMAGE;
+                    destroy_bullet(temp);
+                    if(temp->next == NULL) break;
+                    continue;
+                }
+            }
+
             for(Enemy *enemie = enemies->next; enemie != NULL; enemie = enemie->next) {
+                if(enemie->sprite == 7) continue;
+
                 if(collide( temp->next->x, temp->next->y, 
                             (temp->next->x + BULLET_W), (temp->next->y + BULLET_H),
                             enemie->x, enemie->y,
@@ -121,55 +139,6 @@ void update_bullets(Bullet *bplayer, bool enemy, Player *player,
             }
         }
     }
-
-    //     // Tiro do jogador
-    //     } else {
-    //         // Se chegar ao fim da tela (some)
-    //         if(shots[i].x >= BUFFER_W) { 
-    //             shots[i].used = false; 
-    //             continue;
-    //         }
-
-    //         // Colisao com inimigos
-    //         for(size_t j = 0; j < MAX_ENEMIE_IN_SCREEN; j++) {
-    //             if(!enemies[j].actived) continue;
-
-    //             if(collide( shots[i].x, shots[i].y, 
-    //                         (shots[i].x + BULLET_W), (shots[i].y + BULLET_H),
-    //                         enemies[j].x, enemies[j].y,
-    //                         (enemies[j].x + enemies[j].width), 
-    //                         (enemies[j].y + enemies[j].height))) {
-                    
-    //                 if (shots[i].sprite == 1)
-    //                     enemies[j].hp -= (PLAYER_DAMAGE << 1);
-    //                 else if ((!enemies[j].iced) && (shots[i].sprite == 2)) {
-    //                     enemies[j].iced = true;
-    //                     enemies[j].dx /= 2;
-    //                     enemies[j].dy /= 2;
-    //                     enemies[j].delay *= 2;
-    //                     enemies[j].hp -= (PLAYER_DAMAGE);
-    //                 }
-    //                 else
-    //                     enemies[j].hp -= (PLAYER_DAMAGE);
-    //                 shots[i].used = false;
-    //             }  
-    //         }
-
-    //         // Colisao com o chefe
-    //         // Tira PLAYER_DAMAGE da vida do chefe
-    //         if((boss->actualHp > 0) && 
-    //             collide( boss->x, boss->y, 
-    //                     (boss->x + boss->width), (boss->y + boss->height),
-    //                     shots[i].x, shots[i].y, 
-    //                     (shots[i].x + BULLET_W), (shots[i].y + BULLET_H))) {
-    //             shots[i].used = false;
-
-    //             if (shots[i].sprite == 1) 
-    //                 (boss->actualHp) -= (2 * PLAYER_DAMAGE);
-    //             else (boss->actualHp) -= PLAYER_DAMAGE;
-    //         }
-    //     }
-    // }
 }
 
 void draw_bullets(Bullet *bplayer) {

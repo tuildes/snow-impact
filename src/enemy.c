@@ -1,22 +1,23 @@
-#include "enemie.h"
+#include "enemy.h"
 #include "bullet.h"
 
-ALLEGRO_BITMAP *enemy_sprite[7];
+ALLEGRO_BITMAP *enemy_sprite[8];
 
 Enemy init_enemies() {
 
-    const char *paths[7] = {
+    const char *paths[8] = {
         "assets/sprite/enemy/01.png",
         "assets/sprite/enemy/02.png",
         "assets/sprite/enemy/03.png",
         "assets/sprite/enemy/02.png",
         "assets/sprite/enemy/01.png",
         "assets/sprite/enemy/03.png",
-        "assets/sprite/enemy/07.png"
+        "assets/sprite/enemy/07.png",
+        "assets/sprite/boss/herbert_snowballed.png"
     };
 
     // Inicializar sprites
-    for(size_t i = 0; i < 7; i++)  enemy_sprite[i] = init_bitmap(paths[i]);
+    for(size_t i = 0; i < 8; i++)  enemy_sprite[i] = init_bitmap(paths[i]);
 
     Enemy e;
     e.next = NULL;
@@ -37,7 +38,7 @@ bool add_enemy(Enemy *enemies, int e) {
         case 1:
             new->dx = 1.5;
             new->dy = 1.0;
-            new->hp = ENEMIE_HP;
+            new->hp = ENEMY_HP;
             new->delay = 0;
             new->sprite = 0;
             new->width = 30;
@@ -46,7 +47,7 @@ bool add_enemy(Enemy *enemies, int e) {
         case 2:
             new->dx = 1.0;
             new->dy = 0.5;
-            new->hp = ENEMIE_HP;
+            new->hp = ENEMY_HP;
             new->delay = 0;
             new->sprite = 1;
             new->width = 30;
@@ -55,15 +56,16 @@ bool add_enemy(Enemy *enemies, int e) {
         case 3:
             new->dx = 1.0;
             new->dy = 0.5;
-            new->hp = (ENEMIE_HP << 1);
+            new->hp = (ENEMY_HP << 1);
+            new->delay = ENEMY_DELAY;
             new->sprite = 2;
             new->width = 30;
             new->height = 24;
             break;
         case 4: // Inimigo: Tank
             new->dx = 0.5;
-            new->dy = 0.25;
-            new->hp = (ENEMIE_HP + 2);
+            new->dy = 0.5;
+            new->hp = (ENEMY_HP + 1);
             new->delay = 0;
             new->sprite = 3;
             new->width = 30;
@@ -71,30 +73,40 @@ bool add_enemy(Enemy *enemies, int e) {
             break;
         case 5: // Inimigo: Sly
             new->dx = 0.5;
-            new->dy = 1;
-            new->hp = (ENEMIE_HP);
-            new->delay = 50;
+            new->dy = 0.25;
+            new->hp = ENEMY_HP;
+            new->delay = ENEMY_DELAY;
             new->sprite = 4;
             new->width = 30;
             new->height = 28;
             break;
         case 6: // Inimigo: Scrap
-            new->dx = (float)0.1;
-            new->dy = (float)(1 + rand() % 2);
-            new->hp = (ENEMIE_HP - 2);
-            new->delay = 30;
+            new->dx = 0.1;
+            new->dy = (2 + rand() % 2);
+            new->hp = (ENEMY_HP - 2);
+            new->delay = (ENEMY_DELAY >> 1);
             new->sprite = 5;
             new->width = 30;
             new->height = 28;
             break;
         case 7: // Inimigo: Puffle
+        case 8:
             new->dx = 4;
             new->dy = 0;
-            new->hp = (ENEMIE_HP);
+            new->hp = (ENEMY_HP);
             new->delay = 0;
             new->sprite = 6;
             new->width = 20;
             new->height = 28;
+            break;
+        case 9:
+            new->dx = 2;
+            new->dy = 0;
+            new->hp = 1; // Nao importa a vida, ele eh indestrutivel
+            new->delay = 0;
+            new->sprite = 7;
+            new->width = 58;
+            new->height = 65;
             break;
         default:
             break;
@@ -106,12 +118,18 @@ bool add_enemy(Enemy *enemies, int e) {
     new->time = 0;
     new->next = NULL;
 
+    // Caso especial para o puffle de boss
+    if(e == 8) {
+        new->dx = 2.5;
+        new->dy = 0.1;
+    }
+
     temp->next = new;
 
     return 0;
 }
 
-void __destroy_enemie(Enemy *e) {
+void __destroy_enemy(Enemy *e) {
     Enemy *temp = e->next;
 
     if(e->next == NULL) return;
@@ -122,12 +140,13 @@ void __destroy_enemie(Enemy *e) {
 
 void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
 
-    unsigned int EMEMY_FRAMES_DELAY = (unsigned int)(150 / mult);
+    unsigned int EMEMY_FRAMES_DELAY = (unsigned int)(ENEMY_SPAWN / mult);
 
     // Colocar mais inimigos na tela
     if((mult < 2.0) && ((frames % EMEMY_FRAMES_DELAY) == 0))
         add_enemy(enemies, (4 + (rand() % 3)));
 
+    // Colocar o puffle que voa como um meteoro
     if((mult < 2.0) && (frames % 333 == 0)) add_enemy(enemies, 7);
 
     Enemy *temp = enemies;
@@ -135,7 +154,7 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
 
         // Verifica a vida do inimigo
         if(enemie->hp <= 0) {
-            __destroy_enemie(temp);
+            __destroy_enemy(temp);
             (player->kills)++; 
             enemie = temp;
             continue;
@@ -143,7 +162,7 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
 
         if(enemie->sprite == 6) {
             if((enemie->x + enemie->width) <= 0) {
-                __destroy_enemie(temp); 
+                __destroy_enemy(temp); 
                 enemie = temp;
                 continue;
             }
@@ -157,13 +176,13 @@ void update_enemies(Enemy *enemies, Player *player, Bullet *b) {
                     (enemie->x + enemie->width), 
                     (enemie->y + enemie->height))) {
             damage_player(player);
-            __destroy_enemie(temp);
+            __destroy_enemy(temp);
             enemie = temp;
             continue;
         }
 
         // Movimentacao do inimigo
-        if(enemie->sprite != 6) {
+        if(enemie->sprite < 6) {
             if((enemie->x + (enemie->width / 2)) > (player->x + (PLAYER_W >> 1))) {
                 // Entrada com velocidade dobrada
                 if((enemie->x + enemie->width) >= BUFFER_W)
@@ -223,5 +242,5 @@ void draw_enemies(Enemy *enemies, bool debug, ALLEGRO_FONT* font) {
 
 void destroy_enemies(Enemy *e) {
     for(size_t i = 0; i < 7; i++) al_destroy_bitmap(enemy_sprite[i]);
-    while(e->next != NULL) __destroy_enemie(e);
+    while(e->next != NULL) __destroy_enemy(e);
 }

@@ -77,9 +77,6 @@ void draw_player(Player player) {
 void damage_player(Player *player) {
     (player->lifes)--;
     (player->invincibility) = 60;
-
-    // Volta o multiplicador
-    // if(mult < 2.0) mult -= (float)0.1;
 }
 
 bool collide(float ax1, float ay1, float ax2, float ay2,

@@ -26,4 +26,25 @@ typedef struct {
     unsigned int sprite:1;
 } Special;
 
+typedef struct {
+    bool active;
+    unsigned int hp, delay;
+    int actualHp;
+    ALLEGRO_BITMAP *sprite[3];
+    float x, y, dy, 
+          width, height;
+} Boss;
+
+typedef struct Enemy {
+      bool actived;
+      float x, y, dx, dy,
+            width, height;
+      int hp;
+      bool iced;
+      unsigned int sprite:3,  // Valor do sprite no array
+                   delay,      // Valor de delay para cada tiro
+                   time;       // Valor de delay para o tiro
+      struct Enemy *next;
+} Enemy;
+
 #endif // __PLAYER_STRUCT_H__
