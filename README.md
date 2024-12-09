@@ -12,9 +12,9 @@ The "Snow Impact" project consists of a reimagining of the classic game Space Im
 
 The Game has:
 * Home screen
-* 2 stages with iconic bosses from the Club Penguin universe
-* A captivating story
-* 9 different enemies
+* **2 stages with iconic bosses** from the Club Penguin universe
+* A **captivating story**
+* **9 different enemies**
 * A statistics screen
 * *And more...*
 
@@ -47,6 +47,7 @@ The Game has:
 ## How to change difficulty and other parameters
 
 Just go to the `includes/env.h` file and edit your information and definitions to adapt the game to your difficulty and needs.
+
 For example, to change the game screen size:
 
 ```c
