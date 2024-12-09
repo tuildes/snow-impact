@@ -37,7 +37,7 @@ bool add_enemy(Enemy *enemies, int e) {
 
     switch(e) {
         case 1:
-            new->dx = 2;
+            new->dx = 1;
             new->dy = 1.0;
             new->hp = ENEMY_HP;
             new->delay = 0;

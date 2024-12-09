@@ -65,7 +65,7 @@ int main(void) {
         "\"MAS PARECE QUE ELE JA TINHA FUGIDO A HORAS\"",
         "",
         "\"MAS EU ACHO QUE SEI ONDE ELE ESTA!\"",
-        "\"ELE PARECE ESTAR NOS CEUS DO POLO NORTE\""
+        "\"ELE PARECE ESTAR NOS CEUS DO POLO NORTE\"",
         "",
         "\"NEM QUERO PENSAR O FRIO QUE DEVE ESTAR FAZENDO LA!\"",
         "",
@@ -188,6 +188,7 @@ int main(void) {
                         update_background(bg);
                         update_enemies(&enemies, &player, &bulletsEnemy, actualScreen);
                         update_status();
+                        update_special_bullets(player);
 
                         if(player.lifes == 0) finished = true;
                     }
@@ -197,6 +198,7 @@ int main(void) {
                     draw_enemies(&enemies, debug, font);
                     draw_boss(boss);
                     draw_bullets(&bulletsPlayer);
+                    draw_special();
                     draw_player(player);
                     draw_status(player, font, debug, actualScreen, boss);
 

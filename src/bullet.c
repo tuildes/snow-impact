@@ -207,7 +207,8 @@ void update_special_bullets(Player player) {
         special.time = 5.0;
     }
 
-    special.sprite = (unsigned char)((unsigned char)rand() % 2);
+    special.sprite = (unsigned char)((unsigned char)rand() % 3);
+    if(special.sprite == 2) special.sprite = 0;
 }
 
 void draw_special() {
