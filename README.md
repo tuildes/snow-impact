@@ -8,7 +8,7 @@
 
 ## Sobre
 
-The "Snow Impact" project consists of a reimagining of the classic game Space Impact, but made entirely in C and Allegro5, now with a Club Penguin theme.
+The "Snow Impact" project consists of a reimagining of the classic game Space Impact, but made entirely in `C` and `Allegro5`, now with a Club Penguin theme.
 
 The Game has:
 * Home screen
