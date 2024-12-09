@@ -2,56 +2,57 @@
 <p align="center">
   <img alt="Image in picture" src="https://github.com/user-attachments/assets/5449d970-b87b-467a-94ed-c4761ff358d4" height="120">
   <h3 align="center">Snow Impact</h3>
-  <p align="center">Jogo de navinha inspirado em Space Impact e Club Penguin</p>
+  <p align="center">Spaceship game inspired by Space Impact and Club Penguin</p>
 </p>
 <!-- HEADER -->
 
 ## Sobre
 
-O projeto "Snow Impact" consiste em uma reimaginação do clássico jogo Space Impact, mas feito totalemente em C e Allegro5, agora com temática de Club Penguin.
+The "Snow Impact" project consists of a reimagining of the classic game Space Impact, but made entirely in C and Allegro5, now with a Club Penguin theme.
 
-O Jogo conta com:
-* Tela de início
-* 2 fases com bosses icônicos do universo do Club Penguin
-* Uma história cativante
-* 9 diferentes inimigos
-* Uma tela de estatísticas
-* E mais...
+The Game has:
+* Home screen
+* 2 stages with iconic bosses from the Club Penguin universe
+* A captivating story
+* 9 different enemies
+* A statistics screen
+* *And more...*
 
 ## Screenshots do projeto
 
-* Tela de inicio:
-![Tela de inicio](.github/screenshots/start.png)
+* Home screen:
+![Start screen](.github/screenshots/start.png)
 
-* História:
-![História do jogo](.github/screenshots/history.png)
+* History:
+![Game history](.github/screenshots/history.png)
 
 * Gameplay:
-![Gameplay mostrando nave e inimigos](.github/screenshots/level2.png)
+![Gameplay showing ship and enemies](.github/screenshots/level2.png)
 
-* Boss:
+*Boss:
 ![Chefão herbert](.github/screenshots/herbert.png)
 
-* Tela de fim de jogo:
-![Tela de fim de jogo](.github/screenshots/end.png)
+* End of game screen:
+![Game end screen](.github/screenshots/end.png)
 
-## Como jogar
+## How to play
 
-* **[Setas do teclado]** para movimentação do jogo
-* **[Espaço]** para atirar e interagir
-* **[ESC]** ou **[P]** para pausar o jogo
-* **[D]** para habilitar informações de depuração
+* **[Arrow keys]** to move around the game
+* **[Space]** to shoot and interact
+* **[ESC]** or **[P]** to pause the game
+* **[D]** to enable debug information
 
-* **Botão de sair da tela** para sair
+* **Exit screen button** to exit
 
-## Como mudar a dificuldade e outros parâmetros
+## How to change difficulty and other parameters
 
-Basta ir no arquivo `includes/env.h` e editar suas informações e defines para adequar o jogo para sua dificuldade e necessidade.
-Por exemplo, para trocar o tamanho da tela do jogo:
+Just go to the `includes/env.h` file and edit your information and definitions to adapt the game to your difficulty and needs.
+For example, to change the game screen size:
+
 ```c
-#define DISP_SCALE  4 // Troque para o valor que preferir (inteiro como 1, 2, ...)
+#define DISP_SCALE 4 // Change it to the value you prefer (integer like 1, 2, ...)
 ```
 
 <br />
 
-<p align="center">Criado com 💙 por <a href="https://github.com/tuildes">tuildes</a></p>
+<p align="center">Created with 💙 by <a href="https://github.com/tuildes">tuildes</a></p>
