@@ -40,6 +40,9 @@ Boss init_boss(unsigned int type) {
         b.dy = 2;
         b.dx = 2;
 
+        if(rand() % 2) b.dy = -b.dy;
+        if(rand() % 2) b.dx = -b.dx;
+
         for(size_t i = 0; i < 3; i++) b.sprite[i] = init_bitmap(paths[(i + 3)]);
     }
 

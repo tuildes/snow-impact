@@ -17,10 +17,10 @@ void init_background(Background *b) {
     b[0].velX = 0.1;
 
     b[1].image = init_bitmap("assets/background/menu-2.png");
-    b[1].velX = 0.5;
+    b[1].velX = 0.25;
 
     b[2].image = init_bitmap("assets/background/menu-3.png");
-    b[2].velX = 0.15;
+    b[2].velX = 0.5;
 
     for(size_t i = 0; i < PARALLAX_SIZE; i++) {
         b[i].height = BUFFER_H;
@@ -101,14 +101,14 @@ void draw_select_level( ALLEGRO_FONT* font, ALLEGRO_FONT* title,
                                     (float)0.015, 
                                     (float)0.015, 0.25));
 
-    al_draw_text(title, al_map_rgb(255, 200, 255), 
+    al_draw_text(title, al_map_rgb(150, 230, 255), 
                 (BUFFER_W >> 1), 30, 
                 ALLEGRO_ALIGN_CENTER,
                 "SNOW IMPACT");
-    al_draw_text(font, al_map_rgb(255, 235, 255), 
+    al_draw_text(font, al_map_rgb(150, 200, 255), 
                 (BUFFER_W >> 1), (57), 
                 ALLEGRO_ALIGN_CENTER,
-                "INSPIRADO EM SPACE IMPACT E CLUB PENGUIN");
+                "INSPIRED BY SPACE IMPACT AND CLUB PENGUIN");
 
     // Botao de level 01
     if (choose == 0) actual = 255;
@@ -120,7 +120,7 @@ void draw_select_level( ALLEGRO_FONT* font, ALLEGRO_FONT* title,
     al_draw_text(font, al_map_rgb(actual, actual, actual), 
                 (BUFFER_W >> 1), (BUFFER_H >> 1), 
                 ALLEGRO_ALIGN_CENTER,
-                "PROCURANDO CARANGUEIJOS");
+                "LOOKING FOR CRABS");
 
     // Botao de level 02
     if (choose == 1) actual = 255;
@@ -132,7 +132,7 @@ void draw_select_level( ALLEGRO_FONT* font, ALLEGRO_FONT* title,
     al_draw_text(font, al_map_rgb(actual, actual, actual), 
                 (BUFFER_W >> 1), ((BUFFER_H >> 1) + 25), 
                 ALLEGRO_ALIGN_CENTER,
-                "CAPTURANDO HERBERT");
+                "CAPTURING HERBERT");
 
     // Botao de sair
     if (choose == 2) actual = 255;
@@ -140,14 +140,14 @@ void draw_select_level( ALLEGRO_FONT* font, ALLEGRO_FONT* title,
     al_draw_text(font, al_map_rgb(actual, actual, actual), 
                 (BUFFER_W >> 1), ((BUFFER_H >> 1) + 40), 
                 ALLEGRO_ALIGN_CENTER,
-                "SAIR");
+                "EXIT");
 
     // Creditos
     al_draw_text(font, al_map_rgb(255, 255, 255), 
                 (MARGIN_BORDER), 
                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                 ALLEGRO_ALIGN_LEFT,
-                "Feito por tuildes");
+                "Made by @tuildes");
 }
 
 void destroy_select_level(Background *b) {
@@ -324,32 +324,32 @@ void draw_stats_level(ALLEGRO_FONT* font, ALLEGRO_FONT* title,
     al_draw_text(font, al_map_rgb(255, 235, 255), 
                 (BUFFER_W >> 1), (57), 
                 ALLEGRO_ALIGN_CENTER,
-                "INSPIRADO EM SPACE IMPACT E CLUB PENGUIN");
+                "INSPIRED BY SPACE IMPACT AND CLUB PENGUIN");
 
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
                 (BUFFER_W >> 1), (BUFFER_H >> 1), 
                 ALLEGRO_ALIGN_CENTER,
-                "Tempo: %.0lfs", floor(player.time));
+                "Time: %.0lfs", floor(player.time));
     
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
                 (BUFFER_W >> 1), ((BUFFER_H >> 1) + 10), 
                 ALLEGRO_ALIGN_CENTER,
-                "Inimigos derrotados: %d (+ 2 chefes)", player.kills);
+                "Enemies defeated: %d (+ 2 bosses)", player.kills);
 
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
                 (BUFFER_W >> 1), ((BUFFER_H >> 1) + 20), 
                 ALLEGRO_ALIGN_CENTER,
-                "Tiros dados: %d", player.bullets);
+                "Shots taken: %d", player.bullets);
 
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
                 (BUFFER_W >> 1), ((BUFFER_H >> 1) + 30), 
                 ALLEGRO_ALIGN_CENTER,
-                "Pontos: %d", (5000 - (int)(player.time) + (5 * player.kills)));
+                "Points: %d", (5000 - (int)(player.time) + (5 * player.kills)));
 
     // Creditos
     al_draw_text(font, al_map_rgb(255, 255, 255), 
                 (MARGIN_BORDER), 
                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                 ALLEGRO_ALIGN_LEFT,
-                "Feito por tuildes");
+                "Made by @tuildes");
 }

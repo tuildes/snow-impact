@@ -11,7 +11,7 @@ int main(void) {
 
     /* Defines do tamanho da historia do jogo */
     #define TEXT_LEVEL01_SIZE 17
-    #define TEXT_LEVEL02_SIZE 14
+    #define TEXT_LEVEL02_SIZE 16
     #define TEXT_END_SIZE 14
 
     /* Variaveis do projeto */
@@ -38,54 +38,56 @@ int main(void) {
 
     const char *text_level01[TEXT_LEVEL01_SIZE] = {
         "Level 01",
-        "PROCURANDO CARANGUEIJOS",
+        "LOOKING FOR CRABS",
         "",
-        "A EPF (ELITE PENGUIM FORCE) FOI ATACADA",
-        "E DENTRE TODOS OS AGENTES SOBROU APENAS VOCE",
-        "PARA IR ATRAS DOS CULPADOS",
+        "THE EPF (ELITE PENGUIN FORCE) WAS ATTACKED",
+        "AND AMONG ALL THE AGENTS, ONLY YOU REMAINED",
+        "TO GO AFTER THE GUILTY ONES",
         "",
-        "AO ENTRAR NA AGENCIA DA EPF QUE FOI ATACADA",
-        "VOCE VIU UM CARANGUEIJO VERMELHO FUGINDO",
-        "E LOGO VOCE PERCEBEU QUE ERA KLUTZY",
+        "WHEN YOU ENTERED THE EPF AGENCY THAT WAS ATTACKED",
+        "YOU SAW A RED CRAB RUNNING AWAY",
+        "AND SOON YOU REALIZED IT WAS KLUTZY",
         "",
-        "VOCE SEGUIU ELE",
-        "MAS ELE ESTAVA MUITO RAPIDO NA SUA FUGA",
-        "POR ISSO VOCE PEGOU A SUA ANTIGA COMPANHEIRA",
-        "A NAVE DO ASTRO BARRIER",
+        "YOU FOLLOWED HIM",
+        "BUT HE WAS ESCAPING TOO FAST",
+        "THAT'S WHY YOU TOOK YOUR OLD PARTNER",
+        "THE ASTRO BARRIER SHIP",
         "",
-        "MISSAO: CAPTURE E INTERROGUE KLUTZY, O CARANGUEIJO"
+        "MISSION: CAPTURE AND INTERROGATE KLUTZY, THE CRAB"
     };
     const char *text_level02[TEXT_LEVEL02_SIZE] = {
         "Level 02",
-        "CAPTURANDO HERBERT",
+        "CAPTURING HERBERT",
         "",
-        "INTERROGANDO O CARANGUEIJO, ELE FALOU PARA VOCE",
-        "\"NAO FUI EU. FOI O HERBERT!\"",
-        "\"EU ESTAVA APENAS TENTANDO ENCONTRAR ELE NA EPF\"",
-        "\"MAS PARECE QUE ELE JA TINHA FUGIDO A HORAS\"",
+        "INTERROGATING THE CRAB, HE TOLD YOU",
+        "\"IT WASN'T ME. IT WAS HERBERT!\"",
+        "\"I WAS JUST TRYING TO FIND HIM AT THE EPF\"",
+        "\"BUT IT SEEMS LIKE HE HAD ALREADY ESCAPED\"",
+        "\"A FEW HOURS AGO\"",
         "",
-        "\"MAS EU ACHO QUE SEI ONDE ELE ESTA!\"",
-        "\"ELE PARECE ESTAR NOS CEUS DO POLO NORTE\"",
+        "\"BUT I THINK I KNOW WHERE HE IS!\"",
+        "\"HE SEEMS TO BE IN THE SKIES OF THE NORTH POLE\"",
         "",
-        "\"NEM QUERO PENSAR O FRIO QUE DEVE ESTAR FAZENDO LA!\"",
+        "\"I DON'T EVEN WANT TO THINK ABOUT\"",
+        "\"HOW COLD IT MUST BE THERE!\"",
         "",
-        "MISSAO: CAPTURE E PRENDA HERBERT, O URSO"
+        "MISSION: CAPTURE AND ARREST HERBERT, THE BEAR"
     };
     const char *text_end[TEXT_END_SIZE] = {
-        "PARABENS",
-        "VOCE FINALIZOU SNOW IMPACT",
+        "CONGRATULATIONS",
+        "YOU HAVE FINISHED SNOW IMPACT",
         "",
-        "COM HERBERT CAPTURADO.",
-        "A PAZ VOLTOU PARA A ILHA PENGUIM",
-        "A EPF COLOCOU HERBERT NA PRISAO",
+        "WITH HERBERT CAPTURED.",
+        "PEACE HAS RETURNED TO PENGUIN ISLAND",
+        "THE EPF HAS PUT HERBERT IN PRISON",
         "",
-        "E VOCE?",
-        "BOM, VOCE ESTA APROVEITANDO SUAS FERIAS",
-        "DEPOIS DE SALVAR O DIA, VOCE MERECE UM DESCANSO",
+        "AND YOU?",
+        "WELL, YOU'RE ENJOYING YOUR VACATION",
+        "AFTER SAVING THE DAY, YOU DESERVE A REST",
         "",
-        "OBRIGADO VOCE POR JOGAR",
-        "E SIGA PINGUINANDO...",
-        "ATE BREVE, JOGADOR."
+        "THANK YOU FOR PLAYING",
+        "AND KEEP PENGUINING...",
+        "SEE YOU SOON, PLAYER."
     };
 
     /* Inicializaoes do projeto */
@@ -154,7 +156,7 @@ int main(void) {
                     draw_status(player, font, debug, actualScreen, boss);
 
                     if (check_boss_death(boss, &fade, font, 
-                                        "Klutzy derrotado. Prosseguindo.", 
+                                        "Klutzy defeated. Moving on.", 
                                         &player)) {
                         switch_level(3, &player, bg, &actualScreen, 
                                     &boss, 
@@ -203,7 +205,7 @@ int main(void) {
                     draw_status(player, font, debug, actualScreen, boss);
 
                     if (check_boss_death(boss, &fade, font, 
-                                        "HERBERT FOI DERROTADO!!!", 
+                                        "HERBERT WAS DEFEATED!!!", 
                                         &player)) {
                         switch_level(5, &player, bg, &actualScreen, 
                                     &boss, 

@@ -64,7 +64,7 @@ void keyboard_options(unsigned char *key, bool *pause, bool *debug,
     
             break;
         default:
-            printf("Tela nao encontrada!\n");
+            printf("[ERROR] Screen not found!\n");
             break;
     }
 }

@@ -68,14 +68,14 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug,
                 (MARGIN_BORDER), 
                 (MARGIN_BORDER), 
                 ALLEGRO_ALIGN_LEFT,
-                "Tempo: %.0lfs", floor(player.time));
+                "Time: %.0lfs", floor(player.time));
 
     // Vidas do jogador
     al_draw_textf(font, al_map_rgb(255, 255, 255), 
                 (MARGIN_BORDER), 
                 (MARGIN_BORDER + FONT_SIZE + 2), 
                 ALLEGRO_ALIGN_LEFT,
-                "Vidas: %1hd", player.lifes);
+                "Lifes: %1hd", player.lifes);
 
     // Fala do personagem
     if(actualScreen == 2) {
@@ -84,20 +84,20 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug,
                     (MARGIN_BORDER), 
                     (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                     ALLEGRO_ALIGN_LEFT,
-                    "[NAVE]: KLUTZY FAZENDO ROBOS? HORA DE DESTRUIR.");
+                    "[SHIP]: KLUTZY MAKING ROBOTS? TIME TO DESTROY");
         } else if ((mult > 1.8) && (mult < 2)) {
             al_draw_text(font, al_map_rgb(255, 255, 255), 
                                 (MARGIN_BORDER), 
                                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                                 ALLEGRO_ALIGN_LEFT,
-                                "[NAVE]: KLUTZY ESTA CHEGANDO!");
+                                "[SHIP]: KLUTZY IS COMING!");
         } else if (boss.actualHp == 0) {
              al_draw_text(font, al_map_rgb(255, 255, 255), 
                                 (MARGIN_BORDER), 
                                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                                 ALLEGRO_ALIGN_LEFT,
                                 "[KLUTZY]: Clickity click click"
-                                " (voce me pegou)");
+                                " (you got me)");
         }
 
     // Fala personagem (fase 02)
@@ -107,20 +107,20 @@ void draw_status(Player player, ALLEGRO_FONT* font, bool debug,
                     (MARGIN_BORDER), 
                     (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                     ALLEGRO_ALIGN_LEFT,
-                    "[NAVE]: CAPANGAS DA NEVE? HORA DE ATIRAR!");
+                    "[SHIP]: SNOW THUGS? TIME TO SHOOT!");
         } else if ((mult > 1.8) && (mult < 2)) {
             al_draw_text(font, al_map_rgb(255, 255, 255), 
                                 (MARGIN_BORDER), 
                                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                                 ALLEGRO_ALIGN_LEFT,
-                                "[NAVE]: HEBERT ESTA CHEGANDO!");
+                                "[SHIP]: HEBERT IS COMING!");
         } else if (boss.actualHp == 0) {
              al_draw_text(font, al_map_rgb(255, 255, 255), 
                                 (MARGIN_BORDER), 
                                 (BUFFER_H - MARGIN_BORDER - FONT_SIZE), 
                                 ALLEGRO_ALIGN_LEFT,
-                                "[HERBERT]: VOCE EH MUITO FORTE."
-                                "CONSEGUIU ME CAPTURAR");
+                                "[HERBERT]: YOU ARE VERY STRONG."
+                                "MANAGED TO CAPTURE ME");
         }
     }
 
@@ -147,10 +147,10 @@ void draw_pause(ALLEGRO_FONT* font) {
     al_draw_text(font, al_map_rgb(255, 255, 255), 
             (BUFFER_W >> 1), ((BUFFER_H >> 1) - 5), 
             ALLEGRO_ALIGN_CENTER,
-            "SNOW IMPACT PAUSADO!");
+            "SNOW IMPACT PAUSED!");
 
     al_draw_text(font, al_map_rgb(255, 255, 255), 
             (BUFFER_W >> 1), ((BUFFER_H >> 1) + FONT_SIZE), 
             ALLEGRO_ALIGN_CENTER,
-            "Clique P ou ESC para retomar partida");
+            "Press P or ESC to resume play");
 }
