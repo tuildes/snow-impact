@@ -9,9 +9,6 @@
 
 #include <math.h>
 
-#define LEVEL_01_INTRODUCTION_TEXT "Fase 1: resolvendo problemas de carangueijo"
-#define LEVEL_02_INTRODUCTION_TEXT "Fase 2: capturando Herbert"
-
 #define PARALLAX_SIZE 3
 
 typedef struct {

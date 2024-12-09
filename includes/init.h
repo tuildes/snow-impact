@@ -11,13 +11,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define FRAMERATE 30
-#define FONT_SIZE 5
+#include "env.h"
 
+#define FONT_SIZE 5
 #define BUFFER_W 320
 #define BUFFER_H 180
-
-#define MULT_START_VALUE 2.1
 
 // Função que inicializa todos os componentes do ALLEGRO
 void init_all();

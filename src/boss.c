@@ -27,7 +27,7 @@ Boss init_boss(unsigned int type) {
         b.height = 140;
         b.dy = 1.0;
         b.dx = 1.0;
-        b.delay = (ENEMY_DELAY + 20);
+        b.delay = BOSS_DELAY;
 
         for(size_t i = 0; i < 3; i++) b.sprite[i] = init_bitmap(paths[i]);
 
@@ -36,7 +36,7 @@ Boss init_boss(unsigned int type) {
         b.hp = (15 * ENEMY_HP);
         b.width = 55;
         b.height = 55;
-        b.delay = (ENEMY_DELAY - 20);
+        b.delay = BOSS_DELAY - 20;
         b.dy = 2;
         b.dx = 2;
 

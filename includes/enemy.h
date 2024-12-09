@@ -6,14 +6,7 @@
 #include "structs.h"
 #include "player.h"
 #include "levels.h"
-
-#define MAX_ENEMIE_IN_SCREEN 20
-
-#define ENEMY_HP       3
-#define ENEMY_DELAY    50
-#define ENEMY_SPAWN    70
-
-#define PLAYER_DAMAGE  1
+#include "env.h"
 
 Enemy init_enemies();
 

@@ -3,9 +3,7 @@
 
 #include "init.h"
 #include "structs.h"
-
-// Variaveis de ambiente
-#define PLAYER_DEFAULT_SPEED 2
+#include "env.h"
 
 // Sprites do jogador
 #define PLAYER_W 12
